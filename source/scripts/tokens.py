@@ -53,6 +53,8 @@ class BasicTokens(object):
 			return 0x81
 		elif g == "CMD+":
 			return 0x82
+		elif g == "SYNTAX":
+			return 0x00
 		if g >= "0" and g <= "7" and len(g) == 1:
 			return int(g)+0x10
 		assert "Bad group "+g
@@ -76,7 +78,8 @@ class BasicTokens(object):
 [unary]	
 		len( 	rnd( 	asc( 	chr$(	val(	str$(	spc(
 		left$(	mid$(	right$(	abs(	sgn(	int(	
-		deek( 	peek(	vpeek(
+		deek( 	peek(	vpeek( 	
+		( % $
 //
 //		Structure Up/Down
 //		
@@ -86,7 +89,10 @@ class BasicTokens(object):
 		then endif until next endwhile endcase
 [cmd]
 		to step defproc endproc proc local let run stop end print input when default
-		option list load save new old poke doke vpoke
+		option list load save new old poke doke vpoke rem goto gosub
+[syntax]
+		)	:	
+
 """
 
 BasicTokens.TOKENS = None

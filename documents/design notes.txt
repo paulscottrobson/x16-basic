@@ -13,6 +13,8 @@ FD 			Reserved
 FE nn 		Integer constant (8 bit)
 FF ll hh	Integer constant (16 bit)
 
+Note, tokenising is done in chunks so FORI=1TO10 would be FORI = 1 TO10
+
 Token control bytes
 ===================
 $10-$17 	binary operator 0-7
