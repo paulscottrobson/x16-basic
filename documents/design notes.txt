@@ -1,0 +1,45 @@
+
+Tokenisation
+============
+00-2F		Terminator for identifiers
+30-5F		Body for identifiers
+60-7F 		Short constants 0-31
+80-F7		Tokens ($80 = EOL, also includes "")
+F8-F9		Token shifts (total possible tokens 358 ; following must be 81-F7, possible cascade)
+FA			Reserved
+FB nn		String, length nn (total data nn+2)
+FC nn		Arbitrary Data, size nn (total data nn+2)
+FD 			Reserved
+FE nn 		Integer constant (8 bit)
+FF ll hh	Integer constant (16 bit)
+
+Token control bytes
+===================
+$10-$17 	binary operator 0-7
+$40 		unary function
+$80 		command decrements structure count
+$81 		command
+$82 		command increments structure count
+
+Math stack (6 bytes/stack level)
+================================
+
+Status 	$80 	Integer (0) Float (1)
+		$40 	Number (0) String (1)
+		$01 	Reference
+
+1 byte status
+
+2 byte data address
+	OR
+2 byte string address
+	OR
+1 byte exponent 4 byte mantissa
+
+Program Storage
+===============
++00		Offset to next / 0 end of program
++01 	LSB line #
++02 	MSB line #
++03 	First token.
+
