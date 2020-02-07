@@ -1,0 +1,10 @@
+- expressions with integers and integer functions, hooks for floats.
+	- write add code with dispatcher, dereferencing, type conversion.
+	- write code to scan for keywords and check vector table.
+	- check operators work and the order is correct. 1+2+3 does (1+2)+3 
+	- write sub, binary operators, mul and check precedence works.
+	- complete arithmetic
+	- add in extended integers etc.	
+	- basic integer variables.
+- basic string expressions
+- unary functions etc.

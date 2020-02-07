@@ -48,4 +48,10 @@ h.close()
 #			  Scan source files for keyword markers and create jump tables
 # *************************************************************************************
 
-# TODO:
+tokenHandlers = {}
+
+h = open(genDir+"tokenvectors.inc","w")
+for k in keywords:
+	s = tokenHandlers[k] if k in tokenHandlers else "SyntaxError"
+	h.write("\t.word\t{0:16}\t\t; ${1:02x} : {2}\n".format(s,tokens[k]["id"],k.lower()))
+h.close()	
