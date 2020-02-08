@@ -48,3 +48,31 @@ advance	.macro
 		inc 	\1+1
 _NoCarryAdv:
 		.endm				
+
+; *****************************************************************************
+;
+;						TypeDereference and Number Check
+;
+; *****************************************************************************
+
+typederef .macro
+		jsr 	DeReferenceBinary 			; convert references to values
+		jsr 	NumberTypeCheck 			; check numeric, returns CC if both integer.
+		bcc 	_Integer
+		jmp 	\1
+_Integer:
+		.endm
+
+;
+;		This does the same but *converts* to integers, this is for binary operations.
+;		(there is no FP *and* routine)
+;
+intderef .macro		
+		jsr 	DeReferenceBinary 			; convert references to values
+		jsr 	NumberTypeCheck 			; check numeric. if float convert to integer
+		bcc 	_Integer
+		jsr 	FPFloatToInteger 	
+_Integer:
+		.endm
+
+		

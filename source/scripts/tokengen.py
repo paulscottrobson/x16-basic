@@ -9,7 +9,7 @@
 # *************************************************************************************
 # *************************************************************************************
 
-import sys,os
+import sys,os,re
 from tokens import *
 
 # *************************************************************************************
@@ -26,6 +26,7 @@ genDir = ".."+os.sep+"generated"+os.sep
 # *************************************************************************************
 
 h = open(genDir+"tokentext.inc","w")
+h.write(";\n;\tGenerated automatically.\n;\n")
 for k in keywords:
 	b = [ord(x) for x in k.upper()]												# name text
 	b[-1] |= 0x80																# last char has bit 7 set
@@ -40,6 +41,7 @@ h.close()
 # *************************************************************************************
 
 h = open(genDir+"tokencbyte.inc","w")
+h.write(";\n;\tGenerated automatically.\n;\n")
 for k in keywords:
 	h.write("\t.byte\t${0:02x}\t\t; ${1:02x} : {2}\n".format(tokens[k]["control"],tokens[k]["id"],k.lower()))
 h.close()
@@ -49,9 +51,19 @@ h.close()
 # *************************************************************************************
 
 tokenHandlers = {}
+for root,dirs,files in os.walk(".."):											# search for source files
+	for f in [x for x in files if x.endswith(".asm")]:
+		for l in open(root+os.sep+f).readlines():
+			if l.find(";;") >= 0:												# look for markers
+				m = re.match("^(.*?)\\:\\s*\\;\\;\\s*(.*?)\\s*$",l)				# extract
+				assert m is not None and len(m.group(2)) > 0,"Line "+l 			# validation
+				kwd = m.group(2).strip().upper()
+				assert kwd not in tokenHandlers,"Duplicate "+kwd
+				tokenHandlers[kwd] = m.group(1).strip()
 
 h = open(genDir+"tokenvectors.inc","w")
+h.write(";\n;\tGenerated automatically.\n;\n")
 for k in keywords:
 	s = tokenHandlers[k] if k in tokenHandlers else "SyntaxError"
-	h.write("\t.word\t{0:16}\t\t; ${1:02x} : {2}\n".format(s,tokens[k]["id"],k.lower()))
+	h.write("\t.word\t{0:24}\t\t; ${1:02x} : {2}\n".format(s,tokens[k]["id"],k.lower()))
 h.close()	

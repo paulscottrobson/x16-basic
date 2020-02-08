@@ -20,8 +20,8 @@ ColdStart:
 		txs
 		set16 	codePtr,TestProgram 		; set up.
 		ldy 	#0
-		.byte 	$FF
 		jsr 	EvaluateExpression 
+		stx 	zTemp1 						; save X in zTemp1 and dump/exit
 		jmp 	$FFFF
 		
 TestProgram:
@@ -31,3 +31,6 @@ TestProgram:
 SyntaxError:	
 		ldx 	#$5E			
 		.byte 	$FF
+ErrorHandler:	
+		ldx 	#$EE			
+		.byte 	$FF		

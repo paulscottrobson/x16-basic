@@ -1,3 +1,6 @@
+;
+;	Generated automatically.
+;
 	.byte	$00		; $80 : {eol}
 	.byte	$10		; $81 : and
 	.byte	$10		; $82 : or

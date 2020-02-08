@@ -1,3 +1,6 @@
+;
+;	Generated automatically.
+;
 	.byte	$05,$7b,$45,$4f,$4c,$fd                  ; $80 : {eol}
 	.byte	$03,$41,$4e,$c4                          ; $81 : and
 	.byte	$02,$4f,$d2                              ; $82 : or

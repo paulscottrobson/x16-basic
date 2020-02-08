@@ -18,3 +18,7 @@ TokenVectors:
 
 
 		.include 	"expression/evaluate.asm"
+		.include 	"expression/exprutils.asm"
+		.include 	"expression/integer/arithmetic.asm"
+
+		.include 	"expression/float/floatdummy.asm"
