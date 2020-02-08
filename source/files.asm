@@ -23,6 +23,7 @@ TokenVectors:
 
 		.include 	"code/error.asm"
 		.include 	"code/extern.asm"
+		.include 	"code/structstack.asm"
 		.include 	"code/syntax.asm"
 		
 		.include 	"commands/let.asm"

@@ -20,8 +20,13 @@
 codePtr:									; pointer to current line.
 		.word 	?
 
+structSP:									; structure stack pointer (index into structStack)
+		.byte 	?
+
 ; *****************************************************************************
-;				   Variables that can be shared with Kernel etc.
+;
+;	 	  Temp Zero Page Variables that can be shared with Kernel etc.
+;
 ; *****************************************************************************
 
 zTemp1:										; general usage zero page
@@ -70,6 +75,8 @@ xsMantissa0 = xsStatus+stackSize*4
 xsExponent = xsStatus+stackSize*5
 
 variables = $700							; 26 variables A-Z. Must be on a page boundary.
+
+structStack = $780 							; structure stack.
 
 textBuffer = $800							; text buffer for input command lines.
 

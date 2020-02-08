@@ -117,3 +117,17 @@ _NumericType:
 _Integer:
 		.endm
 		
+; *****************************************************************************
+;
+;			Check if top of structure stack is a value, error if not.
+;
+; *****************************************************************************
+
+checkStructureStack .macro
+		lda 	#\1 						; thing to check against
+		jsr 	StructureCheckTOS 			; is it on top ?
+		bcc 	_Ok
+		berror 	\2 							; if not display error message
+_Ok:
+		.endm		
+		

@@ -17,6 +17,7 @@
 
 Command_RUN: 	;; run
 		; TODO: Clear variable memory and initialise memory free pointers.
+		jsr 	StructReset 				; reset the structure stack.
 		set16 	codePtr,BasicProgram 		; reset the program memory pointer.
 		;
 		;		Run line at codePtr

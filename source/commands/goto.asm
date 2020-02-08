@@ -20,7 +20,6 @@ Command_GOTO:	;; goto
 		jsr 	TransferControlToStack		; branch to there
 		rts
 
-
 ; *****************************************************************************
 ;	
 ;						Goto the line number on the stack,x
@@ -56,7 +55,6 @@ _TCTGoNext:
 _TCTFound:
 		ldy 	#3 							; from start of the line
 		rts						
-
 
 _TCTBadLine:
 		jmp 	ParameterError
