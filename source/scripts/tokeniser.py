@@ -130,7 +130,7 @@ if __name__ == '__main__':
 		Tokeniser().test("ABC >= 4 > 2")
 		Tokeniser().test(" A FORT FOR A.9 ")
 	#
-	s = 'B+1000'
+	s = '42=21*2'
 	code = Tokeniser().tokenise(s)
 	h = open(".."+os.sep+"generated"+os.sep+"testcode.inc","w")
 	h.write("\t.byte\t{0}\n\n".format(",".join(["${0:02x}".format(c) for c in code])))

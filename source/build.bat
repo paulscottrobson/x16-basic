@@ -9,6 +9,7 @@ rem
 pushd scripts
 python tokengen.py
 python tokeniser.py
+python baspgm.py
 popd
 rem
 rem		Assemble BASIC

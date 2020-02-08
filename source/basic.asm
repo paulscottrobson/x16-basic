@@ -18,18 +18,19 @@
 ColdStart:		
 		ldx 	#$FF 						; reset the stack
 		txs
-		set16 	codePtr,TestProgram 		; set up.
-		ldy 	#0
-		jsr 	EvaluateExpression 
-		jmp 	$FFFF
+		jsr 	ExternInitialise		
+		lda 	#BootMessage & $FF
+		ldy 	#BootMessage >> 8
+		jsr 	EXPrintString
+		jmp 	Command_Run
 		
-TestProgram:
-		.include 	"generated/testcode.inc"	
-		.byte 	$80
+WarmStart:		
+		jmp 	$FFFF		
 
-SyntaxError:	
-		ldx 	#$5E			
-		.byte 	$FF
-ErrorHandler:	
-		.byte 	$FF		
-		ldx 	#$EE			
+BootMessage:
+		.text 	"**** Commander X16 Basic Alpha 1 ****",13,13
+		.text 	"512K High RAM",13,13,0
+
+BasicProgram:
+		.binary "generated/bascode.bin"
+		

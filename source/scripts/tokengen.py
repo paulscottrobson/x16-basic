@@ -52,6 +52,7 @@ h.close()
 
 h = open(genDir+"tokenconst.inc","w")
 h.write(";\n;\tGenerated automatically.\n;\n")
+h.write("TOK_LAST_TOKEN = ${0:02x}\n".format(len(keywords)+0x80))
 for k in keywords:
 	s = k.replace("(","LPAREN").replace(")","RPAREN").replace(":","COLON").replace("=","EQUAL")
 	s = s.replace(">","GREATER").replace("<","LESS").replace("+","PLUS").replace("-","MINUS")

@@ -64,3 +64,21 @@ xsMantissa0 = xsStatus+stackSize*4
 xsExponent = xsStatus+stackSize*5
 
 variables = $700							; 26 variables A-Z. Must be on a page boundary.
+
+textBuffer = $800							; text buffer for input command lines.
+
+; *****************************************************************************
+;
+;										Colours.
+;
+; *****************************************************************************
+
+COL_BLACK = 0 		
+COL_RED = 1
+COL_GREEN = 2
+COL_YELLOW = 3
+COL_BLUE = 4
+COL_MAGENTA = 5
+COL_CYAN = 6
+COL_WHITE = 7
+COL_RVS = 8

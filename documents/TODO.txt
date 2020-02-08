@@ -1,16 +1,24 @@
-Add to the dispatchers:
+Todo list (towards Alpha 1)
+===========================
+- Error Messages (line number out)
+- Do other commands REM LET GOTO GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM()
+- Test routines.
+
+Add:
+	- line number display on error.
 	- string concatenate
 	- string equality
 	- string magnitude
 	- other unary functions 
-		rnd( in integer and float mode ???? maybe have random() which returns 16 bit integer ?
+	- escape tests periodically.
 
 - int / int => float in floating point.
 
+=================================================================================================
 Alpha 1 should support :
 	Expressions (int only)
 	26 integer variables A-Z
-	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM
+	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM()
 	(Easy) Direct running.
 	Proper error messages. (END does dump/exit)
 	Some automatic testing of arithmetic/logical/etc. functionality.
@@ -31,3 +39,7 @@ Alpha 5 :
 
 Alpha 6:
 	Add program editing, escape functionality, keyboard I/O operations.
+	Basically programmable.
+
+Alpha 7:
+	Garbage collection.

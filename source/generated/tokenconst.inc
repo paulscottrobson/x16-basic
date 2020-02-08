@@ -1,6 +1,7 @@
 ;
 ;	Generated automatically.
 ;
+TOK_LAST_TOKEN = $d7
 TOK_LPARENEOLRPAREN = $80
 TOK_RPAREN = $81
 TOK_COLON = $82

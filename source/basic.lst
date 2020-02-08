@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.54.1900 listing file
 ; 64tass -q -c -o basic.prg -L basic.lst -l basic.lbl basic.asm
-; Sat Feb 08 11:37:47 2020
+; Sat Feb 08 14:22:41 2020
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -34,6 +34,16 @@
 =1664					xsMantissa0 = xsStatus+stackSize*4
 =1696					xsExponent = xsStatus+stackSize*5
 =$700					variables = $700							; 26 variables A-Z. Must be on a page boundary.
+=$800					textBuffer = $800							; text buffer for input command lines.
+=0					COL_BLACK = 0
+=1					COL_RED = 1
+=2					COL_GREEN = 2
+=3					COL_YELLOW = 3
+=4					COL_BLUE = 4
+=5					COL_MAGENTA = 5
+=6					COL_CYAN = 6
+=7					COL_WHITE = 7
+=8					COL_RVS = 8
 
 ;******  Return to file: basic.asm
 
@@ -43,7 +53,7 @@
 
 ;******  Return to file: basic.asm
 
-.1000	4c ed 16	jmp $16ed			jmp 	ColdStart
+.1000	4c ae 18	jmp $18ae			jmp 	ColdStart
 
 ;******  Processing file: files.asm
 
@@ -237,103 +247,105 @@
 
 ;******  Return to file: files.asm
 
+>11f4							.align 	2 				; defense against old 6502 bug may be present.
 .11f4					TokenVectors:
 
 ;******  Processing file: generated/tokenvectors.inc
 
->11f4	06 17					.word	SyntaxError             		; $80 : (eol)
->11f6	06 17					.word	SyntaxError             		; $81 : )
->11f8	06 17					.word	SyntaxError             		; $82 : :
->11fa	06 17					.word	SyntaxError             		; $83 : ,
->11fc	06 17					.word	SyntaxError             		; $84 : ;
->11fe	06 17					.word	SyntaxError             		; $85 : #
->1200	52 14					.word	BinaryAnd               		; $86 : and
->1202	70 14					.word	BinaryOr                		; $87 : or
->1204	8e 14					.word	BinaryXor               		; $88 : xor
->1206	b4 15					.word	Compare_Greater         		; $89 : >
->1208	a7 15					.word	Compare_GreaterEquals   		; $8a : >=
->120a	aa 15					.word	Compare_Less            		; $8b : <
->120c	b1 15					.word	Compare_LessEquals      		; $8c : <=
->120e	90 15					.word	Compare_Equals          		; $8d : =
->1210	93 15					.word	Compare_NotEquals       		; $8e : <>
->1212	0c 14					.word	BinaryAdd               		; $8f : +
->1214	33 14					.word	BinarySub               		; $90 : -
->1216	ac 14					.word	Multiply16x16           		; $91 : *
->1218	ed 14					.word	Divide16x16             		; $92 : /
->121a	fc 14					.word	Modulus16x16            		; $93 : mod
->121c	8b 16					.word	StringLength            		; $94 : len(
->121e	06 17					.word	SyntaxError             		; $95 : rnd(
->1220	06 17					.word	SyntaxError             		; $96 : asc(
->1222	06 17					.word	SyntaxError             		; $97 : chr$(
->1224	06 17					.word	SyntaxError             		; $98 : val(
->1226	06 17					.word	SyntaxError             		; $99 : str$(
->1228	06 17					.word	SyntaxError             		; $9a : spc(
->122a	06 17					.word	SyntaxError             		; $9b : left$(
->122c	06 17					.word	SyntaxError             		; $9c : mid$(
->122e	06 17					.word	SyntaxError             		; $9d : right$(
->1230	3a 16					.word	AbsoluteValue           		; $9e : abs(
->1232	56 16					.word	SignValue               		; $9f : sgn(
->1234	06 17					.word	SyntaxError             		; $a0 : int(
->1236	06 17					.word	SyntaxError             		; $a1 : deek(
->1238	06 17					.word	SyntaxError             		; $a2 : peek(
->123a	06 17					.word	SyntaxError             		; $a3 : vpeek(
->123c	33 16					.word	Parenthesis             		; $a4 : (
->123e	2f 16					.word	Dummy_Binary            		; $a5 : %
->1240	2f 16					.word	Dummy_Hex               		; $a6 : $
->1242	06 17					.word	SyntaxError             		; $a7 : if
->1244	06 17					.word	SyntaxError             		; $a8 : repeat
->1246	06 17					.word	SyntaxError             		; $a9 : for
->1248	06 17					.word	SyntaxError             		; $aa : while
->124a	06 17					.word	SyntaxError             		; $ab : case
->124c	06 17					.word	SyntaxError             		; $ac : then
->124e	06 17					.word	SyntaxError             		; $ad : endif
->1250	06 17					.word	SyntaxError             		; $ae : until
->1252	06 17					.word	SyntaxError             		; $af : next
->1254	06 17					.word	SyntaxError             		; $b0 : endwhile
->1256	06 17					.word	SyntaxError             		; $b1 : endcase
->1258	06 17					.word	SyntaxError             		; $b2 : to
->125a	06 17					.word	SyntaxError             		; $b3 : step
->125c	06 17					.word	SyntaxError             		; $b4 : proc
->125e	06 17					.word	SyntaxError             		; $b5 : endproc
->1260	06 17					.word	SyntaxError             		; $b6 : call
->1262	06 17					.word	SyntaxError             		; $b7 : local
->1264	06 17					.word	SyntaxError             		; $b8 : run
->1266	06 17					.word	SyntaxError             		; $b9 : stop
->1268	06 17					.word	SyntaxError             		; $ba : end
->126a	06 17					.word	SyntaxError             		; $bb : print
->126c	06 17					.word	SyntaxError             		; $bc : input
->126e	06 17					.word	SyntaxError             		; $bd : when
->1270	06 17					.word	SyntaxError             		; $be : default
->1272	06 17					.word	SyntaxError             		; $bf : let
->1274	06 17					.word	SyntaxError             		; $c0 : option
->1276	06 17					.word	SyntaxError             		; $c1 : list
->1278	06 17					.word	SyntaxError             		; $c2 : load
->127a	06 17					.word	SyntaxError             		; $c3 : save
->127c	06 17					.word	SyntaxError             		; $c4 : new
->127e	06 17					.word	SyntaxError             		; $c5 : old
->1280	06 17					.word	SyntaxError             		; $c6 : poke
->1282	06 17					.word	SyntaxError             		; $c7 : doke
->1284	06 17					.word	SyntaxError             		; $c8 : vpoke
->1286	06 17					.word	SyntaxError             		; $c9 : rem
->1288	06 17					.word	SyntaxError             		; $ca : goto
->128a	06 17					.word	SyntaxError             		; $cb : gosub
->128c	06 17					.word	SyntaxError             		; $cc : sys
->128e	06 17					.word	SyntaxError             		; $cd : return
->1290	06 17					.word	SyntaxError             		; $ce : assert
->1292	06 17					.word	SyntaxError             		; $cf : on
->1294	06 17					.word	SyntaxError             		; $d0 : open
->1296	06 17					.word	SyntaxError             		; $d1 : close
->1298	06 17					.word	SyntaxError             		; $d2 : dir
->129a	06 17					.word	SyntaxError             		; $d3 : dim
->129c	06 17					.word	SyntaxError             		; $d4 : read
->129e	06 17					.word	SyntaxError             		; $d5 : data
->12a0	06 17					.word	SyntaxError             		; $d6 : restore
+>11f4	a2 12					.word	SyntaxError             		; $80 : (eol)
+>11f6	a2 12					.word	SyntaxError             		; $81 : )
+>11f8	a2 12					.word	SyntaxError             		; $82 : :
+>11fa	a2 12					.word	SyntaxError             		; $83 : ,
+>11fc	a2 12					.word	SyntaxError             		; $84 : ;
+>11fe	a2 12					.word	SyntaxError             		; $85 : #
+>1200	13 16					.word	BinaryAnd               		; $86 : and
+>1202	31 16					.word	BinaryOr                		; $87 : or
+>1204	4f 16					.word	BinaryXor               		; $88 : xor
+>1206	75 17					.word	Compare_Greater         		; $89 : >
+>1208	68 17					.word	Compare_GreaterEquals   		; $8a : >=
+>120a	6b 17					.word	Compare_Less            		; $8b : <
+>120c	72 17					.word	Compare_LessEquals      		; $8c : <=
+>120e	51 17					.word	Compare_Equals          		; $8d : =
+>1210	54 17					.word	Compare_NotEquals       		; $8e : <>
+>1212	cd 15					.word	BinaryAdd               		; $8f : +
+>1214	f4 15					.word	BinarySub               		; $90 : -
+>1216	6d 16					.word	Multiply16x16           		; $91 : *
+>1218	ae 16					.word	Divide16x16             		; $92 : /
+>121a	bd 16					.word	Modulus16x16            		; $93 : mod
+>121c	4c 18					.word	StringLength            		; $94 : len(
+>121e	a2 12					.word	SyntaxError             		; $95 : rnd(
+>1220	a2 12					.word	SyntaxError             		; $96 : asc(
+>1222	a2 12					.word	SyntaxError             		; $97 : chr$(
+>1224	a2 12					.word	SyntaxError             		; $98 : val(
+>1226	a2 12					.word	SyntaxError             		; $99 : str$(
+>1228	a2 12					.word	SyntaxError             		; $9a : spc(
+>122a	a2 12					.word	SyntaxError             		; $9b : left$(
+>122c	a2 12					.word	SyntaxError             		; $9c : mid$(
+>122e	a2 12					.word	SyntaxError             		; $9d : right$(
+>1230	fb 17					.word	AbsoluteValue           		; $9e : abs(
+>1232	17 18					.word	SignValue               		; $9f : sgn(
+>1234	a2 12					.word	SyntaxError             		; $a0 : int(
+>1236	a2 12					.word	SyntaxError             		; $a1 : deek(
+>1238	a2 12					.word	SyntaxError             		; $a2 : peek(
+>123a	a2 12					.word	SyntaxError             		; $a3 : vpeek(
+>123c	f4 17					.word	Parenthesis             		; $a4 : (
+>123e	f0 17					.word	Dummy_Binary            		; $a5 : %
+>1240	f0 17					.word	Dummy_Hex               		; $a6 : $
+>1242	a2 12					.word	SyntaxError             		; $a7 : if
+>1244	a2 12					.word	SyntaxError             		; $a8 : repeat
+>1246	a2 12					.word	SyntaxError             		; $a9 : for
+>1248	a2 12					.word	SyntaxError             		; $aa : while
+>124a	a2 12					.word	SyntaxError             		; $ab : case
+>124c	a2 12					.word	SyntaxError             		; $ac : then
+>124e	a2 12					.word	SyntaxError             		; $ad : endif
+>1250	a2 12					.word	SyntaxError             		; $ae : until
+>1252	a2 12					.word	SyntaxError             		; $af : next
+>1254	a2 12					.word	SyntaxError             		; $b0 : endwhile
+>1256	a2 12					.word	SyntaxError             		; $b1 : endcase
+>1258	a2 12					.word	SyntaxError             		; $b2 : to
+>125a	a2 12					.word	SyntaxError             		; $b3 : step
+>125c	a2 12					.word	SyntaxError             		; $b4 : proc
+>125e	a2 12					.word	SyntaxError             		; $b5 : endproc
+>1260	a2 12					.word	SyntaxError             		; $b6 : call
+>1262	a2 12					.word	SyntaxError             		; $b7 : local
+>1264	32 14					.word	Command_RUN             		; $b8 : run
+>1266	70 14					.word	Command_STOP            		; $b9 : stop
+>1268	6d 14					.word	Command_END             		; $ba : end
+>126a	a2 12					.word	SyntaxError             		; $bb : print
+>126c	a2 12					.word	SyntaxError             		; $bc : input
+>126e	a2 12					.word	SyntaxError             		; $bd : when
+>1270	a2 12					.word	SyntaxError             		; $be : default
+>1272	a2 12					.word	SyntaxError             		; $bf : let
+>1274	a2 12					.word	SyntaxError             		; $c0 : option
+>1276	a2 12					.word	SyntaxError             		; $c1 : list
+>1278	a2 12					.word	SyntaxError             		; $c2 : load
+>127a	a2 12					.word	SyntaxError             		; $c3 : save
+>127c	a2 12					.word	SyntaxError             		; $c4 : new
+>127e	a2 12					.word	SyntaxError             		; $c5 : old
+>1280	a2 12					.word	SyntaxError             		; $c6 : poke
+>1282	a2 12					.word	SyntaxError             		; $c7 : doke
+>1284	a2 12					.word	SyntaxError             		; $c8 : vpoke
+>1286	a2 12					.word	SyntaxError             		; $c9 : rem
+>1288	a2 12					.word	SyntaxError             		; $ca : goto
+>128a	a2 12					.word	SyntaxError             		; $cb : gosub
+>128c	a2 12					.word	SyntaxError             		; $cc : sys
+>128e	a2 12					.word	SyntaxError             		; $cd : return
+>1290	0f 14					.word	Command_Assert          		; $ce : assert
+>1292	a2 12					.word	SyntaxError             		; $cf : on
+>1294	a2 12					.word	SyntaxError             		; $d0 : open
+>1296	a2 12					.word	SyntaxError             		; $d1 : close
+>1298	a2 12					.word	SyntaxError             		; $d2 : dir
+>129a	a2 12					.word	SyntaxError             		; $d3 : dim
+>129c	a2 12					.word	SyntaxError             		; $d4 : read
+>129e	a2 12					.word	SyntaxError             		; $d5 : data
+>12a0	a2 12					.word	SyntaxError             		; $d6 : restore
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: generated/tokenconst.inc
 
+=$d7					TOK_LAST_TOKEN = $d7
 =$80					TOK_LPARENEOLRPAREN = $80
 =$81					TOK_RPAREN = $81
 =$82					TOK_COLON = $82
@@ -425,664 +437,945 @@
 ;******  Return to file: files.asm
 
 
+;******  Processing file: code/error.asm
+
+.12a2					SyntaxError:
+.12a2	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>12a5	53 79 6e 74 61 78 20 45				.text 	"Syntax Error",0
+>12ad	72 72 6f 72 00
+.12b2					ErrorHandler:
+.12b2	68		pla				pla 								; get message address
+.12b3	7a		ply				ply
+.12b4	1a		inc a				inc 	a
+.12b5	d0 01		bne $12b8			bne 	_EHNoCarry
+.12b7	c8		iny				iny
+.12b8					_EHNoCarry:
+.12b8	20 d7 13	jsr $13d7			jsr 	EXPrintString
+.12bb	a0 01		ldy #$01			ldy 	#1 							; check if there is a line #
+.12bd	b1 00		lda ($00),y			lda 	(codePtr),y
+.12bf	c8		iny				iny
+.12c0	11 00		ora ($00),y			ora 	(codePtr),y
+.12c2	f0 11		beq $12d5			beq 	_EHNoLine
+.12c4	a9 df		lda #$df			lda 	#_EHMsg2 & $FF 				; print " at "
+.12c6	a0 12		ldy #$12			ldy 	#_EHMsg2 >> 8
+.12c8	20 d7 13	jsr $13d7			jsr 	EXPrintString
+.12cb	a0 02		ldy #$02			ldy 	#2 							; print line number
+.12cd	b1 00		lda ($00),y			lda 	(codePtr),y
+.12cf	48		pha				pha
+.12d0	88		dey				dey
+.12d1	b1 00		lda ($00),y			lda 	(codePtr),y
+.12d3	7a		ply				ply
+.12d4	18		clc				clc
+.12d5					_EHNoLine:
+.12d5	a9 0d		lda #$0d			lda 	#13
+.12d7	20 10 13	jsr $1310			jsr 	ExternPrint
+.12da	80 fe		bra $12da	_h1:	bra 	_h1
+.12dc	4c be 18	jmp $18be			jmp 	WarmStart
+.12df					_EHMsg2:
+>12df	20 61 74 20 00					.text 	" at ",0
+
+;******  Return to file: files.asm
+
+
+;******  Processing file: code/extern.asm
+
+.12e4					ExternInitialise:
+.12e4	a9 90		lda #$90			lda 	#144 						; set colour
+.12e6	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.12e9	a9 01		lda #$01			lda 	#$01
+.12eb	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.12ee	a9 0e		lda #$0e			lda 	#14							; lower case
+.12f0	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.12f3	a9 93		lda #$93			lda 	#147 						; clear screen
+.12f5	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.12f8	a9 07		lda #$07			lda 	#COL_WHITE 					; white text.
+.12fa	4c 1c 13	jmp $131c			jmp 	ExternColour
+.12fd					ExternCheckBreak:
+.12fd	da		phx				phx 								; make sure we keep XY
+.12fe	5a		phy				phy
+.12ff	20 e1 ff	jsr $ffe1			jsr 	$FFE1						; STOP check on CBM KERNAL
+.1302	f0 03		beq $1307			beq		_ECBExit 					; stopped
+.1304	7a		ply				ply 								; restore and exit.
+.1305	fa		plx				plx
+.1306	60		rts				rts
+.1307					_ECBExit:
+.1307	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>130a	42 72 65 61 6b 00				.text 	"Break",0
+.1310					ExternPrint:
+.1310	48		pha				pha
+.1311	da		phx				phx
+.1312	5a		phy				phy
+.1313	29 7f		and #$7f			and 	#$7F
+.1315	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.1318	7a		ply				ply
+.1319	fa		plx				plx
+.131a	68		pla				pla
+.131b	60		rts				rts
+.131c					ExternColour:
+.131c	48		pha				pha
+.131d	da		phx				phx
+.131e	48		pha				pha
+.131f	29 08		and #$08			and 	#8
+.1321	0a		asl a				asl 	a
+.1322	0a		asl a				asl 	a
+.1323	0a		asl a				asl 	a
+.1324	0a		asl a				asl 	a
+.1325	49 92		eor #$92			eor 	#$92
+.1327	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.132a	68		pla				pla
+.132b	29 07		and #$07			and 	#7
+.132d	aa		tax				tax
+.132e	bd 37 13	lda $1337,x			lda 	_ECTable,x
+.1331	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.1334	fa		plx				plx
+.1335	68		pla				pla
+.1336	60		rts				rts
+.1337					_ECTable:
+>1337	90						.byte 	144
+>1338	1c						.byte 	28
+>1339	1e						.byte 	30
+>133a	9e						.byte 	158
+>133b	1f						.byte 	31
+>133c	9c						.byte 	156
+>133d	9f						.byte 	159
+>133e	05						.byte 	5
+.133f					ExternInput:
+.133f	a9 00		lda #$00			lda 	#(textBuffer & $FF)
+.1341	85 06		sta $06				sta 	zTemp3
+.1343	a9 08		lda #$08			lda 	#(textBuffer >> 8)
+.1345	85 07		sta $07				sta 	zTemp3+1
+.1347	20 cf ff	jsr $ffcf	_EIRead:jsr 	$FFCF
+.134a	c9 0d		cmp #$0d			cmp 	#13
+.134c	f0 0c		beq $135a			beq 	_EIExit
+.134e	29 7f		and #$7f			and 	#$7F
+.1350	92 06		sta ($06)			sta 	(zTemp3)
+.1352	e6 06		inc $06				inc 	zTemp3
+.1354	d0 f1		bne $1347			bne 	_EIRead
+.1356	e6 07		inc $07				inc 	zTemp3+1
+.1358	80 ed		bra $1347			bra 	_EIRead
+.135a	a9 00		lda #$00	_EIExit:lda 	#0
+.135c	92 06		sta ($06)			sta 	(zTemp3)
+.135e	a9 0d		lda #$0d			lda 	#13
+.1360	20 10 13	jsr $1310			jsr 	ExternPrint
+.1363	60		rts				rts
+.1364					ExternSave:
+.1364	da		phx				phx
+.1365	5a		phy				phy
+.1366	85 04		sta $04				sta 	zTemp2 						; save start
+.1368	84 05		sty $05				sty 	zTemp2+1
+.136a	20 cc 13	jsr $13cc			jsr 	EXGetLength 				; get length of file into A
+.136d	a6 06		ldx $06				ldx 	zTemp3
+.136f	a4 07		ldy $07				ldy 	zTemp3+1
+.1371	20 bd ff	jsr $ffbd			jsr 	$FFBD 						; set name
+.1374	a9 01		lda #$01			lda 	#1
+.1376	a2 08		ldx #$08			ldx 	#8	 						; device #8
+.1378	a0 00		ldy #$00			ldy 	#0
+.137a	20 ba ff	jsr $ffba			jsr 	$FFBA 						; set LFS
+.137d	a6 02		ldx $02				ldx 	zTemp1 						; end address
+.137f	a4 03		ldy $03				ldy 	zTemp1+1
+.1381	a9 04		lda #$04			lda 	#zTemp2
+.1383	20 d8 ff	jsr $ffd8			jsr 	$FFD8 						; save
+.1386	b0 03		bcs $138b			bcs 	_ESSave
+.1388	7a		ply				ply
+.1389	fa		plx				plx
+.138a	60		rts				rts
+.138b					_ESSave:
+.138b	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>138e	4c 6f 61 64 20 46 61 69				.text 	"Load Failed",0
+>1396	6c 65 64 00
+.139a					ExternLoad:
+.139a	da		phx				phx 								; save XY
+.139b	5a		phy				phy
+.139c	48		pha				pha 								; save target
+.139d	5a		phy				phy
+.139e	20 cc 13	jsr $13cc			jsr 	EXGetLength 				; get length of file into A
+.13a1	a6 06		ldx $06				ldx 	zTemp3
+.13a3	a4 07		ldy $07				ldy 	zTemp3+1
+.13a5	20 bd ff	jsr $ffbd			jsr 	$FFBD 						; set name
+.13a8	a9 01		lda #$01			lda 	#1
+.13aa	a2 08		ldx #$08			ldx 	#8	 						; device #8
+.13ac	a0 00		ldy #$00			ldy 	#0
+.13ae	20 ba ff	jsr $ffba			jsr 	$FFBA 						; set LFS
+.13b1	7a		ply				ply 								; restore target to YX and call load
+.13b2	fa		plx				plx
+.13b3	a9 00		lda #$00			lda 	#0 							; load command
+.13b5	20 d5 ff	jsr $ffd5			jsr 	$FFD5
+.13b8	b0 03		bcs $13bd			bcs 	_ESLoad
+.13ba	7a		ply				ply
+.13bb	fa		plx				plx
+.13bc	60		rts				rts
+.13bd					_ESLoad:
+.13bd	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>13c0	4c 4f 41 44 20 46 41 49				.text 	"LOAD FAILED",0
+>13c8	4c 45 44 00
+.13cc					EXGetLength:
+.13cc	5a		phy				phy
+.13cd	a0 ff		ldy #$ff			ldy 	#255
+.13cf	c8		iny		_EXGL0:	iny
+.13d0	b1 06		lda ($06),y			lda 	(zTemp3),y
+.13d2	d0 fb		bne $13cf			bne 	_EXGL0
+.13d4	98		tya				tya
+.13d5	7a		ply				ply
+.13d6	60		rts				rts
+.13d7					EXPrintString:
+.13d7	48		pha				pha
+.13d8	5a		phy				phy
+.13d9	84 03		sty $03				sty 	zTemp1+1
+.13db	85 02		sta $02				sta 	zTemp1
+.13dd	a0 00		ldy #$00			ldy 	#0
+.13df					_EXPSLoop:
+.13df	b1 02		lda ($02),y			lda 	(zTemp1),y
+.13e1	f0 13		beq $13f6			beq 	_EXPSExit
+.13e3	29 7f		and #$7f			and 	#$7F
+.13e5	c9 61		cmp #$61			cmp 	#'a'
+.13e7	90 07		bcc $13f0			bcc 	_EXPSNoLC
+.13e9	c9 7b		cmp #$7b			cmp 	#'z'+1
+.13eb	b0 03		bcs $13f0			bcs 	_EXPSNoLC
+.13ed	38		sec				sec
+.13ee	e9 20		sbc #$20			sbc 	#32
+.13f0					_EXPSNoLC:
+.13f0	20 d2 ff	jsr $ffd2			jsr 	$FFD2
+.13f3	c8		iny				iny
+.13f4	80 e9		bra $13df			bra 	_EXPSLoop
+.13f6					_EXPSExit:
+.13f6	7a		ply				ply
+.13f7	68		pla				pla
+.13f8	60		rts				rts
+
+;******  Return to file: files.asm
+
+
 ;******  Processing file: code/syntax.asm
 
-.12a2					SyntaxCheckRightBracket:
-.12a2	b1 00		lda ($00),y			lda 	(codePtr),y
-.12a4	c8		iny				iny
-.12a5	c9 81		cmp #$81			cmp 	#TOK_RPAREN
-.12a7	d0 01		bne $12aa			bne 	_SCRBError
-.12a9	60		rts				rts
-.12aa					_SCRBError:
-.12aa	20 09 17	jsr $1709			jsr 	ErrorHandler
->12ad	4d 69 73 73 69 6e 67 20				.text 	"Missing )",0
->12b5	29 00
+.13f9					SyntaxCheckRightBracket:
+.13f9	b1 00		lda ($00),y			lda 	(codePtr),y
+.13fb	c8		iny				iny
+.13fc	c9 81		cmp #$81			cmp 	#TOK_RPAREN
+.13fe	d0 01		bne $1401			bne 	_SCRBError
+.1400	60		rts				rts
+.1401					_SCRBError:
+.1401	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>1404	4d 69 73 73 69 6e 67 20				.text 	"Missing )",0
+>140c	29 00
+
+;******  Return to file: files.asm
+
+
+;******  Processing file: commands/let.asm
+
+.140e					Command_LET:
+>140e	ff						.byte 	$FF
+
+;******  Return to file: files.asm
+
+
+;******  Processing file: commands/miscellany.asm
+
+.140f					Command_Assert:
+.140f	a2 00		ldx #$00			ldx 	#0 							; get a single parameter
+.1411	20 7a 14	jsr $147a			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.1414	20 53 15	jsr $1553			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.1417	20 8d 15	jsr $158d			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+.141a	90 03		bcc $141f			bcc 	_Integer
+.141c	4c a2 12	jmp $12a2			jmp 	SyntaxError
+.141f					_Integer:
+.141f	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; check it is non-zero
+.1422	1d 40 06	ora $0640,x			ora 	xsIntHigh,x
+.1425	f0 01		beq $1428			beq 	_CAFail
+.1427	60		rts				rts
+.1428					_CAFail:
+.1428	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>142b	41 73 73 65 72 74 00				.text 	"Assert",0
+
+;******  Return to file: files.asm
+
+
+;******  Processing file: commands/run.asm
+
+.1432					Command_RUN:
+.1432	a9 f8		lda #$f8			lda 	#(BasicProgram) & $FF
+.1434	85 00		sta $00				sta 	0+(codePtr)
+.1436	a9 18		lda #$18			lda 	#(BasicProgram) >> 8
+.1438	85 01		sta $01				sta 	1+(codePtr)
+.143a					_CRNewLine:
+.143a	b2 00		lda ($00)			lda 	(codePtr) 					; check not at the end of the program
+.143c	f0 2f		beq $146d			beq 	Command_END 				; reached the end of the program
+.143e	a0 02		ldy #$02			ldy 	#2 							; first token of program line -1 for the INY
+.1440					_CRNextToken:
+.1440	c8		iny				iny 								;
+.1441					_CRNextCommand:
+.1441	b1 00		lda ($00),y			lda 	(codePtr),y 				; look at token.
+.1443	10 25		bpl $146a			bpl 	_CRDefaultLet 				; is it a token, if not, try LET.
+.1445	c9 82		cmp #$82			cmp 	#TOK_COLON 					; skip colons
+.1447	f0 f7		beq $1440			beq 	_CRNextToken
+.1449	c9 d7		cmp #$d7			cmp 	#TOK_LAST_TOKEN				; token too high, probably $F8-$FF
+.144b	b0 1a		bcs $1467			bcs 	_CRSyntax
+.144d	0a		asl a				asl 	a 							; put token x 2 in X, clears bit 7.
+.144e	f0 07		beq $1457			beq 	_CRNextLine 				; if this is zero now it was $80, so end of line
+.1450	aa		tax				tax
+.1451	c8		iny				iny 								; advance over token.
+.1452	20 64 14	jsr $1464			jsr 	_CRCallRoutine 				; call that routine
+.1455	80 ea		bra $1441			bra 	_CRNextCommand 				; and carry on.
+.1457					_CRNextLine:
+.1457	18		clc				clc
+.1458	a5 00		lda $00				lda 	codePtr
+.145a	72 00		adc ($00)			adc 	(codePtr)
+.145c	85 00		sta $00				sta 	codePtr
+.145e	90 02		bcc $1462			bcc 	_NoCarryAdv
+.1460	e6 01		inc $01				inc 	codePtr+1
+.1462					_NoCarryAdv:
+.1462	80 d6		bra $143a			bra 	_CRNewLine 					; do new line code.
+.1464					_CRCallRoutine:
+.1464	7c f4 11	jmp ($11f4,x)			jmp 	(TokenVectors,x)
+.1467					_CRSyntax:
+.1467	4c a2 12	jmp $12a2			jmp 	SyntaxError
+.146a					_CRDefaultLet:
+.146a	4c 0e 14	jmp $140e			jmp 	Command_LET
+.146d					Command_END:
+.146d	4c be 18	jmp $18be			jmp 	WarmStart
+.1470					Command_STOP:
+.1470	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>1473	53 74 6f 70 00					.text 	"Stop",0
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/evaluate.asm
 
-.12b7					EvaluateExpression:
-.12b7	a2 00		ldx #$00			ldx 	#0 							; reset the evaluation stack pointer in X
-.12b9					EvaluateExpressionAtX:
-.12b9	a9 10		lda #$10			lda 	#$10 						; this is the lowest precedence.
-.12bb					EvaluateExpressionAtXPrecA:
-.12bb	48		pha				pha 								; save lowest stack level.
-.12bc	b1 00		lda ($00),y			lda 	(codePtr),y 				; get the first term.
-.12be	30 4f		bmi $130f			bmi 	_EXAKeywordData 			; is it keyword, or data.
-.12c0	c9 60		cmp #$60			cmp 	#$60 						; is it a variable
-.12c2	90 46		bcc $130a			bcc 	_EXAVariable
-.12c4	c8		iny				iny 								; skip over the short constant
-.12c5	29 1f		and #$1f			and 	#$1F 						; short constant $00-$1F
-.12c7	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; and put as an integer
-.12ca	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
-.12cd	9e 00 06	stz $0600,x			stz 	xsStatus,x 					; integer, number, not a reference.
-.12d0					_EXAHaveTerm:
-.12d0	68		pla				pla 	 							; restore current precedence and save in zTemp1
-.12d1	85 02		sta $02				sta 	zTemp1
-.12d3	b1 00		lda ($00),y			lda 	(codePtr),y 				; is it followed by a binary operation.
-.12d5	da		phx				phx
-.12d6	aa		tax				tax
-.12d7	bd 1d 11	lda $111d,x			lda 	TokenControlByteTable-$80,x ; get the control byte.
-.12da	fa		plx				plx
-.12db	c9 20		cmp #$20			cmp 	#$20 						; must be $10-$17 (or possibly $00, will be < precedence)
-.12dd	b0 06		bcs $12e5			bcs 	_EXAExit
-.12df	c5 02		cmp $02				cmp 	zTemp1 						; check against current precedence.
-.12e1	f0 02		beq $12e5			beq 	_EXAExit
-.12e3	b0 01		bcs $12e6			bcs		_EXABinaryOp 				; if >, do a binary operation.
-.12e5					_EXAExit:
-.12e5	60		rts				rts 								; exit expression evaluation.
-.12e6					_EXABinaryOp:
-.12e6	85 03		sta $03				sta 	zTemp1+1 					; save operator.
-.12e8	a5 02		lda $02				lda 	zTemp1 						; get and save current precedence
-.12ea	48		pha				pha
-.12eb	b1 00		lda ($00),y			lda 	(codePtr),y 				; push binary operator on stack
-.12ed	48		pha				pha
-.12ee	c8		iny				iny 								; and skip over it.
-.12ef	e8		inx				inx 								; calculate the RHS in the next slot up.
-.12f0	a5 03		lda $03				lda 	zTemp1+1 					; at operator precedence level.
-.12f2	20 bb 12	jsr $12bb			jsr 	EvaluateExpressionAtXPrecA
-.12f5	ca		dex				dex
-.12f6	68		pla				pla 								; get binary operator.
-.12f7	da		phx				phx 								; save stack depth.
-.12f8	0a		asl a				asl 	a 							; double binary operator and put into X, loses MSB
-.12f9	aa		tax				tax
-.12fa	bd f4 11	lda $11f4,x			lda 	TokenVectors,x 				; get address => zTemp2
-.12fd	85 04		sta $04				sta 	zTemp2
-.12ff	bd f5 11	lda $11f5,x			lda 	TokenVectors+1,x
-.1302	85 05		sta $05				sta 	zTemp2+1
-.1304	fa		plx				plx 								; restore stack depth.
-.1305	20 84 13	jsr $1384			jsr 	_EXACallZTemp2 				; call the routine
-.1308	80 c6		bra $12d0			bra 	_EXAHaveTerm 				; and loop round again.
-.130a					_EXAVariable:
-.130a	20 c6 16	jsr $16c6			jsr 	VariableLookup 				; look up the variable value perhaps creating it.
-.130d	80 c1		bra $12d0			bra 	_EXAHaveTerm 				; and carry on with the expression
-.130f					_EXAKeywordData:
-.130f	c9 90		cmp #$90			cmp 	#TOK_MINUS 					; special case as - is unary and binary operator.
-.1311	d0 09		bne $131c			bne 	_EXANotNegate
-.1313	c8		iny				iny
-.1314	20 87 13	jsr $1387			jsr 	EvaluateTermAtX 			; the term
-.1317	20 7c 15	jsr $157c			jsr 	IntegerNegate 				; negate it
-.131a	80 b4		bra $12d0			bra 	_EXAHaveTerm 				; and loop back.
-.131c					_EXANotNegate:
-.131c	c9 f8		cmp #$f8			cmp 	#$F8 						; $80-$F8 are unary functions
-.131e	90 45		bcc $1365			bcc 	_EXAUnaryFunction
-.1320	c9 fb		cmp #$fb			cmp 	#$FB 						; $FB is a string.
-.1322	f0 25		beq $1349			beq 	_EXAString
-.1324	9e 00 06	stz $0600,x			stz 	xsStatus,x 					; it is now either $FE (short int) or $FF (long int)
-.1327	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
-.132a	48		pha				pha 								; save identifier
-.132b	c8		iny				iny 								; do the low byte
-.132c	b1 00		lda ($00),y			lda 	(codePtr),y
-.132e	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1331	c8		iny				iny
-.1332	68		pla				pla 								; get identifier
-.1333	c9 fe		cmp #$fe			cmp 	#$FE  						; if short then done.
-.1335	f0 99		beq $12d0			beq 	_EXAHaveTerm
-.1337	c9 ff		cmp #$ff			cmp 	#$FF 						; should be $FF
-.1339	d0 08		bne $1343			bne 	_EXACrash
-.133b	b1 00		lda ($00),y			lda 	(codePtr),y 				; copy high byte
-.133d	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.1340	c8		iny				iny
-.1341	80 8d		bra $12d0			bra 	_EXAHaveTerm
-.1343					_EXACrash:
-.1343	20 09 17	jsr $1709			jsr 	ErrorHandler
->1346	23 58 00					.text 	"#X",0
-.1349					_EXAString:
-.1349	c8		iny				iny 								; point to string length, which is the string start.
-.134a	98		tya				tya 								; work out the physical address of the string
-.134b	18		clc				clc
-.134c	65 00		adc $00				adc 	codePtr
-.134e	9d 20 06	sta $0620,x			sta 	xsAddrLow,x
-.1351	a5 01		lda $01				lda 	codePtr+1
-.1353	69 00		adc #$00			adc 	#0
-.1355	9d 40 06	sta $0640,x			sta 	xsAddrHigh,x
-.1358	a9 40		lda #$40			lda 	#$40 						; set the type to string
-.135a	9d 00 06	sta $0600,x			sta 	xsStatus,x
-.135d	98		tya				tya 								; add the length to the current position
-.135e	38		sec				sec 								; +1 for the length byte itself.
-.135f	71 00		adc ($00),y			adc 	(codePtr),y
-.1361	a8		tay				tay
-.1362	4c d0 12	jmp $12d0			jmp 	_EXAHaveTerm
-.1365					_EXAUnaryFunction:
-.1365	da		phx				phx 								; get the table entry to check it is a unary function
-.1366	aa		tax				tax
-.1367	3c 1d 11	bit $111d,x			bit 	TokenControlByteTable-$80,x ; if bit 6 is not set, it's not a unary function.
-.136a	50 15		bvc $1381			bvc 	_EXANotUnaryFunction
-.136c	8a		txa				txa 								; now copy the routine address, put token x 2 in.
-.136d	0a		asl a				asl 	a
-.136e	aa		tax				tax
-.136f	bd f4 11	lda $11f4,x			lda 	TokenVectors,x 				; get address => zTemp2
-.1372	85 04		sta $04				sta 	zTemp2
-.1374	bd f5 11	lda $11f5,x			lda 	TokenVectors+1,x
-.1377	85 05		sta $05				sta 	zTemp2+1
-.1379	fa		plx				plx 								; restore stack depth.
-.137a	c8		iny				iny 								; skip unary function token.
-.137b	20 84 13	jsr $1384			jsr 	_EXACallZTemp2 				; call the routine
-.137e	4c d0 12	jmp $12d0			jmp 	_EXAHaveTerm 				; and loop round again.
-.1381					_EXANotUnaryFunction:
-.1381	4c 06 17	jmp $1706			jmp 	SyntaxError
-.1384					_EXACallZTemp2:
-.1384	6c 04 00	jmp ($0004)			jmp 	(zTemp2)
+.1478					EvaluateExpression:
+.1478	a2 00		ldx #$00			ldx 	#0 							; reset the evaluation stack pointer in X
+.147a					EvaluateExpressionAtX:
+.147a	a9 10		lda #$10			lda 	#$10 						; this is the lowest precedence.
+.147c					EvaluateExpressionAtXPrecA:
+.147c	48		pha				pha 								; save lowest stack level.
+.147d	b1 00		lda ($00),y			lda 	(codePtr),y 				; get the first term.
+.147f	30 4f		bmi $14d0			bmi 	_EXAKeywordData 			; is it keyword, or data.
+.1481	c9 60		cmp #$60			cmp 	#$60 						; is it a variable
+.1483	90 46		bcc $14cb			bcc 	_EXAVariable
+.1485	c8		iny				iny 								; skip over the short constant
+.1486	29 1f		and #$1f			and 	#$1F 						; short constant $00-$1F
+.1488	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; and put as an integer
+.148b	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.148e	9e 00 06	stz $0600,x			stz 	xsStatus,x 					; integer, number, not a reference.
+.1491					_EXAHaveTerm:
+.1491	68		pla				pla 	 							; restore current precedence and save in zTemp1
+.1492	85 02		sta $02				sta 	zTemp1
+.1494	b1 00		lda ($00),y			lda 	(codePtr),y 				; is it followed by a binary operation.
+.1496	da		phx				phx
+.1497	aa		tax				tax
+.1498	bd 1d 11	lda $111d,x			lda 	TokenControlByteTable-$80,x ; get the control byte.
+.149b	fa		plx				plx
+.149c	c9 20		cmp #$20			cmp 	#$20 						; must be $10-$17 (or possibly $00, will be < precedence)
+.149e	b0 06		bcs $14a6			bcs 	_EXAExit
+.14a0	c5 02		cmp $02				cmp 	zTemp1 						; check against current precedence.
+.14a2	f0 02		beq $14a6			beq 	_EXAExit
+.14a4	b0 01		bcs $14a7			bcs		_EXABinaryOp 				; if >, do a binary operation.
+.14a6					_EXAExit:
+.14a6	60		rts				rts 								; exit expression evaluation.
+.14a7					_EXABinaryOp:
+.14a7	85 03		sta $03				sta 	zTemp1+1 					; save operator.
+.14a9	a5 02		lda $02				lda 	zTemp1 						; get and save current precedence
+.14ab	48		pha				pha
+.14ac	b1 00		lda ($00),y			lda 	(codePtr),y 				; push binary operator on stack
+.14ae	48		pha				pha
+.14af	c8		iny				iny 								; and skip over it.
+.14b0	e8		inx				inx 								; calculate the RHS in the next slot up.
+.14b1	a5 03		lda $03				lda 	zTemp1+1 					; at operator precedence level.
+.14b3	20 7c 14	jsr $147c			jsr 	EvaluateExpressionAtXPrecA
+.14b6	ca		dex				dex
+.14b7	68		pla				pla 								; get binary operator.
+.14b8	da		phx				phx 								; save stack depth.
+.14b9	0a		asl a				asl 	a 							; double binary operator and put into X, loses MSB
+.14ba	aa		tax				tax
+.14bb	bd f4 11	lda $11f4,x			lda 	TokenVectors,x 				; get address => zTemp2
+.14be	85 04		sta $04				sta 	zTemp2
+.14c0	bd f5 11	lda $11f5,x			lda 	TokenVectors+1,x
+.14c3	85 05		sta $05				sta 	zTemp2+1
+.14c5	fa		plx				plx 								; restore stack depth.
+.14c6	20 45 15	jsr $1545			jsr 	_EXACallZTemp2 				; call the routine
+.14c9	80 c6		bra $1491			bra 	_EXAHaveTerm 				; and loop round again.
+.14cb					_EXAVariable:
+.14cb	20 6e 18	jsr $186e			jsr 	VariableLookup 				; look up the variable value perhaps creating it.
+.14ce	80 c1		bra $1491			bra 	_EXAHaveTerm 				; and carry on with the expression
+.14d0					_EXAKeywordData:
+.14d0	c9 90		cmp #$90			cmp 	#TOK_MINUS 					; special case as - is unary and binary operator.
+.14d2	d0 09		bne $14dd			bne 	_EXANotNegate
+.14d4	c8		iny				iny
+.14d5	20 48 15	jsr $1548			jsr 	EvaluateTermAtX 			; the term
+.14d8	20 3d 17	jsr $173d			jsr 	IntegerNegate 				; negate it
+.14db	80 b4		bra $1491			bra 	_EXAHaveTerm 				; and loop back.
+.14dd					_EXANotNegate:
+.14dd	c9 f8		cmp #$f8			cmp 	#$F8 						; $80-$F8 are unary functions
+.14df	90 45		bcc $1526			bcc 	_EXAUnaryFunction
+.14e1	c9 fb		cmp #$fb			cmp 	#$FB 						; $FB is a string.
+.14e3	f0 25		beq $150a			beq 	_EXAString
+.14e5	9e 00 06	stz $0600,x			stz 	xsStatus,x 					; it is now either $FE (short int) or $FF (long int)
+.14e8	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.14eb	48		pha				pha 								; save identifier
+.14ec	c8		iny				iny 								; do the low byte
+.14ed	b1 00		lda ($00),y			lda 	(codePtr),y
+.14ef	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.14f2	c8		iny				iny
+.14f3	68		pla				pla 								; get identifier
+.14f4	c9 fe		cmp #$fe			cmp 	#$FE  						; if short then done.
+.14f6	f0 99		beq $1491			beq 	_EXAHaveTerm
+.14f8	c9 ff		cmp #$ff			cmp 	#$FF 						; should be $FF
+.14fa	d0 08		bne $1504			bne 	_EXACrash
+.14fc	b1 00		lda ($00),y			lda 	(codePtr),y 				; copy high byte
+.14fe	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.1501	c8		iny				iny
+.1502	80 8d		bra $1491			bra 	_EXAHaveTerm
+.1504					_EXACrash:
+.1504	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>1507	23 58 00					.text 	"#X",0
+.150a					_EXAString:
+.150a	c8		iny				iny 								; point to string length, which is the string start.
+.150b	98		tya				tya 								; work out the physical address of the string
+.150c	18		clc				clc
+.150d	65 00		adc $00				adc 	codePtr
+.150f	9d 20 06	sta $0620,x			sta 	xsAddrLow,x
+.1512	a5 01		lda $01				lda 	codePtr+1
+.1514	69 00		adc #$00			adc 	#0
+.1516	9d 40 06	sta $0640,x			sta 	xsAddrHigh,x
+.1519	a9 40		lda #$40			lda 	#$40 						; set the type to string
+.151b	9d 00 06	sta $0600,x			sta 	xsStatus,x
+.151e	98		tya				tya 								; add the length to the current position
+.151f	38		sec				sec 								; +1 for the length byte itself.
+.1520	71 00		adc ($00),y			adc 	(codePtr),y
+.1522	a8		tay				tay
+.1523	4c 91 14	jmp $1491			jmp 	_EXAHaveTerm
+.1526					_EXAUnaryFunction:
+.1526	da		phx				phx 								; get the table entry to check it is a unary function
+.1527	aa		tax				tax
+.1528	3c 1d 11	bit $111d,x			bit 	TokenControlByteTable-$80,x ; if bit 6 is not set, it's not a unary function.
+.152b	50 15		bvc $1542			bvc 	_EXANotUnaryFunction
+.152d	8a		txa				txa 								; now copy the routine address, put token x 2 in.
+.152e	0a		asl a				asl 	a
+.152f	aa		tax				tax
+.1530	bd f4 11	lda $11f4,x			lda 	TokenVectors,x 				; get address => zTemp2
+.1533	85 04		sta $04				sta 	zTemp2
+.1535	bd f5 11	lda $11f5,x			lda 	TokenVectors+1,x
+.1538	85 05		sta $05				sta 	zTemp2+1
+.153a	fa		plx				plx 								; restore stack depth.
+.153b	c8		iny				iny 								; skip unary function token.
+.153c	20 45 15	jsr $1545			jsr 	_EXACallZTemp2 				; call the routine
+.153f	4c 91 14	jmp $1491			jmp 	_EXAHaveTerm 				; and loop round again.
+.1542					_EXANotUnaryFunction:
+.1542	4c a2 12	jmp $12a2			jmp 	SyntaxError
+.1545					_EXACallZTemp2:
+.1545	6c 04 00	jmp ($0004)			jmp 	(zTemp2)
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/exprutils.asm
 
-.1387					EvaluateTermAtX:
-.1387	a9 1f		lda #$1f			lda 	#$1F 						; too high precedence so just term
-.1389	20 bb 12	jsr $12bb			jsr 	EvaluateExpressionAtXPrecA
-.138c	60		rts				rts
-.138d					DeReferenceBinary:
-.138d	e8		inx				inx
-.138e	20 92 13	jsr $1392			jsr 	DeReferenceUnary
-.1391	ca		dex				dex
-.1392					DeReferenceUnary:
-.1392	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; the reference flag is in bit 0
-.1395	6a		ror a				ror 	a 							; shift into carry.
-.1396	90 33		bcc $13cb			bcc 	_DRNotReference 			; if clear, it's already a reference.
-.1398	0a		asl a				asl 	a 							; get back, but with bit 0 cleared
-.1399	9d 00 06	sta $0600,x			sta 	xsStatus,x
-.139c	bd 20 06	lda $0620,x			lda 	xsAddrLow,x 				; put the address to dereference into zTemp1
-.139f	85 02		sta $02				sta 	zTemp1
-.13a1	bd 40 06	lda $0640,x			lda 	xsAddrHigh,x
-.13a4	85 03		sta $03				sta 	zTemp1+1
-.13a6	5a		phy				phy 								; save position in code
-.13a7	b2 02		lda ($02)			lda 	(zTemp1) 					; dereference the first two bytes - this will be
-.13a9	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; for float, int and string, and will go in these
-.13ac	a0 01		ldy #$01			ldy 	#1 							; which are also the address, and mantissa3 & 2
-.13ae	b1 02		lda ($02),y			lda 	(zTemp1),y
-.13b0	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.13b3	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; check if it's a float (bit 7)
-.13b6	10 12		bpl $13ca			bpl 	_DRNotFloat 				; if not, we are complete
-.13b8	c8		iny				iny 								; if float, copy all five bytes of the floating point
-.13b9	b1 02		lda ($02),y			lda 	(zTemp1),y 					; number into the stack.
-.13bb	9d 60 06	sta $0660,x			sta 	xsMantissa1,x
-.13be	c8		iny				iny
-.13bf	b1 02		lda ($02),y			lda 	(zTemp1),y
-.13c1	9d 80 06	sta $0680,x			sta 	xsMantissa0,x
-.13c4	c8		iny				iny
-.13c5	b1 02		lda ($02),y			lda 	(zTemp1),y
-.13c7	9d a0 06	sta $06a0,x			sta 	xsExponent,x
-.13ca					_DRNotFloat:
-.13ca	7a		ply				ply 								; restore code position.
-.13cb					_DRNotReference:
-.13cb	60		rts				rts
-.13cc					UnaryNumberTypeCheck:
-.13cc	bd 00 06	lda $0600,x			lda 	xsStatus,x
-.13cf	80 06		bra $13d7			bra 	BNTCMain
-.13d1					BinaryNumberTypeCheck:
-.13d1	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; bit 7 set if either float, bit 6 set if either string.
-.13d4	1d 01 06	ora $0601,x			ora 	xsStatus+1,x
-.13d7					BNTCMain:
-.13d7	0a		asl a				asl 	a 							; carry set if either float, bit 7 set if either string
-.13d8	30 01		bmi $13db			bmi 	_NTCError 					; so fail if string, we want int
-.13da	60		rts				rts
-.13db					_NTCError:
-.13db	20 09 17	jsr $1709			jsr 	ErrorHandler
->13de	4e 75 6d 62 65 72 20 65				.text 	"Number expected",0
->13e6	78 70 65 63 74 65 64 00
-.13ee					BinaryStringTypeCheck:
-.13ee	3c 01 06	bit $0601,x			bit 	xsStatus+1,x
-.13f1	50 06		bvc $13f9			bvc 	STCError
-.13f3					UnaryStringTypeCheck:
-.13f3	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; check if string
-.13f6	50 01		bvc $13f9			bvc 	STCError
-.13f8	60		rts				rts
-.13f9					STCError:
-.13f9	20 09 17	jsr $1709			jsr 	ErrorHandler
->13fc	53 74 72 69 6e 67 20 65				.text 	"String expected",0
->1404	78 70 65 63 74 65 64 00
+.1548					EvaluateTermAtX:
+.1548	a9 1f		lda #$1f			lda 	#$1F 						; too high precedence so just term
+.154a	20 7c 14	jsr $147c			jsr 	EvaluateExpressionAtXPrecA
+.154d	60		rts				rts
+.154e					DeReferenceBinary:
+.154e	e8		inx				inx
+.154f	20 53 15	jsr $1553			jsr 	DeReferenceUnary
+.1552	ca		dex				dex
+.1553					DeReferenceUnary:
+.1553	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; the reference flag is in bit 0
+.1556	6a		ror a				ror 	a 							; shift into carry.
+.1557	90 33		bcc $158c			bcc 	_DRNotReference 			; if clear, it's already a reference.
+.1559	0a		asl a				asl 	a 							; get back, but with bit 0 cleared
+.155a	9d 00 06	sta $0600,x			sta 	xsStatus,x
+.155d	bd 20 06	lda $0620,x			lda 	xsAddrLow,x 				; put the address to dereference into zTemp1
+.1560	85 02		sta $02				sta 	zTemp1
+.1562	bd 40 06	lda $0640,x			lda 	xsAddrHigh,x
+.1565	85 03		sta $03				sta 	zTemp1+1
+.1567	5a		phy				phy 								; save position in code
+.1568	b2 02		lda ($02)			lda 	(zTemp1) 					; dereference the first two bytes - this will be
+.156a	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; for float, int and string, and will go in these
+.156d	a0 01		ldy #$01			ldy 	#1 							; which are also the address, and mantissa3 & 2
+.156f	b1 02		lda ($02),y			lda 	(zTemp1),y
+.1571	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.1574	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; check if it's a float (bit 7)
+.1577	10 12		bpl $158b			bpl 	_DRNotFloat 				; if not, we are complete
+.1579	c8		iny				iny 								; if float, copy all five bytes of the floating point
+.157a	b1 02		lda ($02),y			lda 	(zTemp1),y 					; number into the stack.
+.157c	9d 60 06	sta $0660,x			sta 	xsMantissa1,x
+.157f	c8		iny				iny
+.1580	b1 02		lda ($02),y			lda 	(zTemp1),y
+.1582	9d 80 06	sta $0680,x			sta 	xsMantissa0,x
+.1585	c8		iny				iny
+.1586	b1 02		lda ($02),y			lda 	(zTemp1),y
+.1588	9d a0 06	sta $06a0,x			sta 	xsExponent,x
+.158b					_DRNotFloat:
+.158b	7a		ply				ply 								; restore code position.
+.158c					_DRNotReference:
+.158c	60		rts				rts
+.158d					UnaryNumberTypeCheck:
+.158d	bd 00 06	lda $0600,x			lda 	xsStatus,x
+.1590	80 06		bra $1598			bra 	BNTCMain
+.1592					BinaryNumberTypeCheck:
+.1592	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; bit 7 set if either float, bit 6 set if either string.
+.1595	1d 01 06	ora $0601,x			ora 	xsStatus+1,x
+.1598					BNTCMain:
+.1598	0a		asl a				asl 	a 							; carry set if either float, bit 7 set if either string
+.1599	30 01		bmi $159c			bmi 	_NTCError 					; so fail if string, we want int
+.159b	60		rts				rts
+.159c					_NTCError:
+.159c	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>159f	4e 75 6d 62 65 72 20 65				.text 	"Number expected",0
+>15a7	78 70 65 63 74 65 64 00
+.15af					BinaryStringTypeCheck:
+.15af	3c 01 06	bit $0601,x			bit 	xsStatus+1,x
+.15b2	50 06		bvc $15ba			bvc 	STCError
+.15b4					UnaryStringTypeCheck:
+.15b4	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; check if string
+.15b7	50 01		bvc $15ba			bvc 	STCError
+.15b9	60		rts				rts
+.15ba					STCError:
+.15ba	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>15bd	53 74 72 69 6e 67 20 65				.text 	"String expected",0
+>15c5	78 70 65 63 74 65 64 00
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/integer/arithmetic.asm
 
-.140c					BinaryAdd:
-.140c	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.140f	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; is this a string ?
-.1412	50 06		bvc $141a			bvc 	_NumericType
-.1414	20 ee 13	jsr $13ee			jsr 	BinaryStringTypeCheck 		; check both are strings
-.1417	4c 06 17	jmp $1706			jmp 	SyntaxError 							; and do the string handler
-.141a					_NumericType:
-.141a	90 03		bcc $141f			bcc 	_Integer
-.141c	4c ad 16	jmp $16ad			jmp 	FPAdd
-.141f					_Integer:
-.141f	18		clc				clc
-.1420	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.1423	7d 21 06	adc $0621,x			adc 	xsIntLow+1,x
-.1426	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1429	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.142c	7d 41 06	adc $0641,x			adc 	xsIntHigh+1,x
-.142f	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.1432	60		rts				rts
-.1433					BinarySub:
-.1433	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.1436	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
-.1439	90 03		bcc $143e			bcc 	_Integer
-.143b	4c ad 16	jmp $16ad			jmp 	FPSub
-.143e					_Integer:
-.143e	38		sec				sec
-.143f	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.1442	fd 21 06	sbc $0621,x			sbc 	xsIntLow+1,x
-.1445	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1448	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.144b	fd 41 06	sbc $0641,x			sbc 	xsIntHigh+1,x
-.144e	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.1451	60		rts				rts
-.1452					BinaryAnd:
-.1452	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.1455	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
-.1458	90 03		bcc $145d			bcc 	_Integer
-.145a	20 ad 16	jsr $16ad			jsr 	FPFloatToInteger
-.145d					_Integer:
-.145d	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.1460	3d 21 06	and $0621,x			and 	xsIntLow+1,x
-.1463	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1466	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.1469	3d 41 06	and $0641,x			and 	xsIntHigh+1,x
-.146c	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.146f	60		rts				rts
-.1470					BinaryOr:
-.1470	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.1473	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
-.1476	90 03		bcc $147b			bcc 	_Integer
-.1478	20 ad 16	jsr $16ad			jsr 	FPFloatToInteger
-.147b					_Integer:
-.147b	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.147e	1d 21 06	ora $0621,x			ora 	xsIntLow+1,x
-.1481	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1484	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.1487	1d 41 06	ora $0641,x			ora 	xsIntHigh+1,x
-.148a	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.148d	60		rts				rts
-.148e					BinaryXor:
-.148e	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.1491	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
-.1494	90 03		bcc $1499			bcc 	_Integer
-.1496	20 ad 16	jsr $16ad			jsr 	FPFloatToInteger
-.1499					_Integer:
-.1499	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.149c	5d 21 06	eor $0621,x			eor 	xsIntLow+1,x
-.149f	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.14a2	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.14a5	5d 41 06	eor $0641,x			eor 	xsIntHigh+1,x
-.14a8	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.14ab	60		rts				rts
+.15cd					BinaryAdd:
+.15cd	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.15d0	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; is this a string ?
+.15d3	50 06		bvc $15db			bvc 	_NumericType
+.15d5	20 af 15	jsr $15af			jsr 	BinaryStringTypeCheck 		; check both are strings
+.15d8	4c a2 12	jmp $12a2			jmp 	SyntaxError 							; and do the string handler
+.15db					_NumericType:
+.15db	90 03		bcc $15e0			bcc 	_Integer
+.15dd	4c 95 18	jmp $1895			jmp 	FPAdd
+.15e0					_Integer:
+.15e0	18		clc				clc
+.15e1	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.15e4	7d 21 06	adc $0621,x			adc 	xsIntLow+1,x
+.15e7	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.15ea	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.15ed	7d 41 06	adc $0641,x			adc 	xsIntHigh+1,x
+.15f0	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.15f3	60		rts				rts
+.15f4					BinarySub:
+.15f4	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.15f7	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
+.15fa	90 03		bcc $15ff			bcc 	_Integer
+.15fc	4c 95 18	jmp $1895			jmp 	FPSub
+.15ff					_Integer:
+.15ff	38		sec				sec
+.1600	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.1603	fd 21 06	sbc $0621,x			sbc 	xsIntLow+1,x
+.1606	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1609	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.160c	fd 41 06	sbc $0641,x			sbc 	xsIntHigh+1,x
+.160f	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.1612	60		rts				rts
+.1613					BinaryAnd:
+.1613	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.1616	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
+.1619	90 03		bcc $161e			bcc 	_Integer
+.161b	20 95 18	jsr $1895			jsr 	FPFloatToInteger
+.161e					_Integer:
+.161e	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.1621	3d 21 06	and $0621,x			and 	xsIntLow+1,x
+.1624	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1627	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.162a	3d 41 06	and $0641,x			and 	xsIntHigh+1,x
+.162d	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.1630	60		rts				rts
+.1631					BinaryOr:
+.1631	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.1634	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
+.1637	90 03		bcc $163c			bcc 	_Integer
+.1639	20 95 18	jsr $1895			jsr 	FPFloatToInteger
+.163c					_Integer:
+.163c	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.163f	1d 21 06	ora $0621,x			ora 	xsIntLow+1,x
+.1642	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1645	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.1648	1d 41 06	ora $0641,x			ora 	xsIntHigh+1,x
+.164b	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.164e	60		rts				rts
+.164f					BinaryXor:
+.164f	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.1652	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
+.1655	90 03		bcc $165a			bcc 	_Integer
+.1657	20 95 18	jsr $1895			jsr 	FPFloatToInteger
+.165a					_Integer:
+.165a	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.165d	5d 21 06	eor $0621,x			eor 	xsIntLow+1,x
+.1660	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1663	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.1666	5d 41 06	eor $0641,x			eor 	xsIntHigh+1,x
+.1669	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.166c	60		rts				rts
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/integer/multiply.asm
 
-.14ac					Multiply16x16:
-.14ac	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.14af	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
-.14b2	90 03		bcc $14b7			bcc 	_Integer
-.14b4	4c ad 16	jmp $16ad			jmp 	FPMultiply
-.14b7					_Integer:
-.14b7	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; 1st value to zTemp1
-.14ba	85 04		sta $04				sta 	zTemp2
-.14bc	bd 40 06	lda $0640,x			lda		xsIntHigh,x
-.14bf	85 05		sta $05				sta 	zTemp2+1
-.14c1	9e 20 06	stz $0620,x			stz 	xsIntLow,x 					; zero 1st on stack
-.14c4	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
-.14c7					_MultLoop:
-.14c7	46 05		lsr $05				lsr 	zTemp2+1 					; ror zTemp2 into C
-.14c9	66 04		ror $04				ror 	zTemp2
-.14cb	90 13		bcc $14e0			bcc 	_MultNoAdd
-.14cd	18		clc				clc 								; add 2nd to 1st.
-.14ce	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.14d1	7d 21 06	adc $0621,x			adc 	xsIntLow+1,x
-.14d4	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.14d7	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.14da	7d 41 06	adc $0641,x			adc 	xsIntHigh+1,x
-.14dd	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.14e0					_MultNoAdd:
-.14e0	1e 21 06	asl $0621,x			asl 	xsIntLow+1,x 				; shift 2nd left
-.14e3	3e 41 06	rol $0641,x			rol 	xsIntHigh+1,x
-.14e6	a5 04		lda $04				lda 	zTemp2	 					; until multiplier is zero
-.14e8	05 05		ora $05				ora 	zTemp2+1
-.14ea	d0 db		bne $14c7			bne 	_MultLoop
-.14ec	60		rts				rts
+.166d					Multiply16x16:
+.166d	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.1670	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
+.1673	90 03		bcc $1678			bcc 	_Integer
+.1675	4c 95 18	jmp $1895			jmp 	FPMultiply
+.1678					_Integer:
+.1678	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; 1st value to zTemp1
+.167b	85 04		sta $04				sta 	zTemp2
+.167d	bd 40 06	lda $0640,x			lda		xsIntHigh,x
+.1680	85 05		sta $05				sta 	zTemp2+1
+.1682	9e 20 06	stz $0620,x			stz 	xsIntLow,x 					; zero 1st on stack
+.1685	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.1688					_MultLoop:
+.1688	46 05		lsr $05				lsr 	zTemp2+1 					; ror zTemp2 into C
+.168a	66 04		ror $04				ror 	zTemp2
+.168c	90 13		bcc $16a1			bcc 	_MultNoAdd
+.168e	18		clc				clc 								; add 2nd to 1st.
+.168f	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.1692	7d 21 06	adc $0621,x			adc 	xsIntLow+1,x
+.1695	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1698	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.169b	7d 41 06	adc $0641,x			adc 	xsIntHigh+1,x
+.169e	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.16a1					_MultNoAdd:
+.16a1	1e 21 06	asl $0621,x			asl 	xsIntLow+1,x 				; shift 2nd left
+.16a4	3e 41 06	rol $0641,x			rol 	xsIntHigh+1,x
+.16a7	a5 04		lda $04				lda 	zTemp2	 					; until multiplier is zero
+.16a9	05 05		ora $05				ora 	zTemp2+1
+.16ab	d0 db		bne $1688			bne 	_MultLoop
+.16ad	60		rts				rts
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/integer/divide.asm
 
-.14ed					Divide16x16:
-.14ed	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.14f0	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
-.14f3	90 03		bcc $14f8			bcc 	_Integer
-.14f5	4c ad 16	jmp $16ad			jmp 	FPDivide
-.14f8					_Integer:
-.14f8	20 15 15	jsr $1515			jsr 	IntegerDivide
-.14fb	60		rts				rts
-.14fc					Modulus16x16:
-.14fc	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.14ff	20 d1 13	jsr $13d1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
-.1502	90 03		bcc $1507			bcc 	_Integer
-.1504	4c ad 16	jmp $16ad			jmp 	FPModulus
-.1507					_Integer:
-.1507	20 15 15	jsr $1515			jsr 	IntegerDivide
-.150a	a5 02		lda $02				lda 	zTemp1
-.150c	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.150f	a5 03		lda $03				lda 	zTemp1+1
-.1511	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.1514	60		rts				rts
-.1515					IntegerDivide:
-.1515	bd 21 06	lda $0621,x			lda 	xsIntLow+1,x 				; check for division by zero.
-.1518	1d 41 06	ora $0641,x			ora 	xsIntHigh+1,x
-.151b	d0 14		bne $1531			bne 	_BFDOkay
-.151d	20 09 17	jsr $1709			jsr 	ErrorHandler
->1520	44 69 76 69 73 69 6f 6e				.text 	"Division by Zero",0
->1528	20 62 79 20 5a 65 72 6f 00
-.1531					_BFDOkay:
-.1531	64 02		stz $02				stz 	zTemp1 						; Q/Dividend/Left in +0
-.1533	64 03		stz $03				stz 	zTemp1+1 					; M/Divisor/Right in +1
-.1535	64 0a		stz $0a				stz 	SignCount 					; Count of signs.
-.1537	20 76 15	jsr $1576			jsr 	CheckIntegerNegate 			; negate 1st (and bump sign count)
-.153a	e8		inx				inx
-.153b	20 76 15	jsr $1576			jsr 	CheckIntegerNegate 			; negate 2nd (and bump sign count)
-.153e	ca		dex				dex
-.153f	5a		phy				phy 								; Y is the counter, save position
-.1540	a0 10		ldy #$10			ldy 	#16 						; 16 iterations of the loop.
-.1542					_BFDLoop:
-.1542	1e 20 06	asl $0620,x			asl 	xsIntLow,x 					; shift AQ left.
-.1545	3e 40 06	rol $0640,x			rol 	xsIntHigh,x
-.1548	26 02		rol $02				rol 	zTemp1
-.154a	26 03		rol $03				rol 	zTemp1+1
-.154c	38		sec				sec
-.154d	a5 02		lda $02				lda 	zTemp1+0 					; Calculate A-M on stack.
-.154f	fd 21 06	sbc $0621,x			sbc 	xsIntLow+1,x
-.1552	48		pha				pha
-.1553	a5 03		lda $03				lda 	zTemp1+1
-.1555	fd 41 06	sbc $0641,x			sbc 	xsIntHigh+1,x
-.1558	90 0f		bcc $1569			bcc 	_BFDNoAdd
-.155a	85 03		sta $03				sta 	zTemp1+1
-.155c	68		pla				pla
-.155d	85 02		sta $02				sta 	zTemp1+0
-.155f	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; set Q bit 1.
-.1562	09 01		ora #$01			ora 	#1
-.1564	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1567	80 01		bra $156a			bra 	_BFDNext
-.1569					_BFDNoAdd:
-.1569	68		pla				pla 								; Throw away the intermediate calculations
-.156a					_BFDNext:
-.156a	88		dey				dey
-.156b	d0 d5		bne $1542			bne 	_BFDLoop
-.156d	7a		ply				ply 								; restore Y
-.156e	46 0a		lsr $0a				lsr 	SignCount 					; if sign count odd,
-.1570	90 03		bcc $1575			bcc 	_BFDUnsigned 				; then the result is signed
-.1572	20 7c 15	jsr $157c			jsr		IntegerNegate 				; negate the result
-.1575					_BFDUnsigned:
-.1575	60		rts				rts
-.1576					CheckIntegerNegate:
-.1576	bd 40 06	lda $0640,x			lda 	xsIntHigh,x 				; is it -ve = MSB set ?
-.1579	30 01		bmi $157c			bmi 	IntegerNegate 				; if so negate it
-.157b	60		rts				rts
-.157c					IntegerNegate:
-.157c	e6 0a		inc $0a				inc 	SignCount 					; bump the count of signs
-.157e	38		sec				sec 								; negate
-.157f	a9 00		lda #$00			lda 	#0
-.1581	fd 20 06	sbc $0620,x			sbc 	xsIntLow,x
-.1584	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1587	a9 00		lda #$00			lda 	#0
-.1589	fd 40 06	sbc $0640,x			sbc 	xsIntHigh,x
-.158c	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.158f	60		rts				rts
+.16ae					Divide16x16:
+.16ae	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.16b1	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
+.16b4	90 03		bcc $16b9			bcc 	_Integer
+.16b6	4c 95 18	jmp $1895			jmp 	FPDivide
+.16b9					_Integer:
+.16b9	20 d6 16	jsr $16d6			jsr 	IntegerDivide
+.16bc	60		rts				rts
+.16bd					Modulus16x16:
+.16bd	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.16c0	20 92 15	jsr $1592			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
+.16c3	90 03		bcc $16c8			bcc 	_Integer
+.16c5	4c 95 18	jmp $1895			jmp 	FPModulus
+.16c8					_Integer:
+.16c8	20 d6 16	jsr $16d6			jsr 	IntegerDivide
+.16cb	a5 02		lda $02				lda 	zTemp1
+.16cd	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.16d0	a5 03		lda $03				lda 	zTemp1+1
+.16d2	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.16d5	60		rts				rts
+.16d6					IntegerDivide:
+.16d6	bd 21 06	lda $0621,x			lda 	xsIntLow+1,x 				; check for division by zero.
+.16d9	1d 41 06	ora $0641,x			ora 	xsIntHigh+1,x
+.16dc	d0 14		bne $16f2			bne 	_BFDOkay
+.16de	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>16e1	44 69 76 69 73 69 6f 6e				.text 	"Division by Zero",0
+>16e9	20 62 79 20 5a 65 72 6f 00
+.16f2					_BFDOkay:
+.16f2	64 02		stz $02				stz 	zTemp1 						; Q/Dividend/Left in +0
+.16f4	64 03		stz $03				stz 	zTemp1+1 					; M/Divisor/Right in +1
+.16f6	64 0a		stz $0a				stz 	SignCount 					; Count of signs.
+.16f8	20 37 17	jsr $1737			jsr 	CheckIntegerNegate 			; negate 1st (and bump sign count)
+.16fb	e8		inx				inx
+.16fc	20 37 17	jsr $1737			jsr 	CheckIntegerNegate 			; negate 2nd (and bump sign count)
+.16ff	ca		dex				dex
+.1700	5a		phy				phy 								; Y is the counter, save position
+.1701	a0 10		ldy #$10			ldy 	#16 						; 16 iterations of the loop.
+.1703					_BFDLoop:
+.1703	1e 20 06	asl $0620,x			asl 	xsIntLow,x 					; shift AQ left.
+.1706	3e 40 06	rol $0640,x			rol 	xsIntHigh,x
+.1709	26 02		rol $02				rol 	zTemp1
+.170b	26 03		rol $03				rol 	zTemp1+1
+.170d	38		sec				sec
+.170e	a5 02		lda $02				lda 	zTemp1+0 					; Calculate A-M on stack.
+.1710	fd 21 06	sbc $0621,x			sbc 	xsIntLow+1,x
+.1713	48		pha				pha
+.1714	a5 03		lda $03				lda 	zTemp1+1
+.1716	fd 41 06	sbc $0641,x			sbc 	xsIntHigh+1,x
+.1719	90 0f		bcc $172a			bcc 	_BFDNoAdd
+.171b	85 03		sta $03				sta 	zTemp1+1
+.171d	68		pla				pla
+.171e	85 02		sta $02				sta 	zTemp1+0
+.1720	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; set Q bit 1.
+.1723	09 01		ora #$01			ora 	#1
+.1725	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1728	80 01		bra $172b			bra 	_BFDNext
+.172a					_BFDNoAdd:
+.172a	68		pla				pla 								; Throw away the intermediate calculations
+.172b					_BFDNext:
+.172b	88		dey				dey
+.172c	d0 d5		bne $1703			bne 	_BFDLoop
+.172e	7a		ply				ply 								; restore Y
+.172f	46 0a		lsr $0a				lsr 	SignCount 					; if sign count odd,
+.1731	90 03		bcc $1736			bcc 	_BFDUnsigned 				; then the result is signed
+.1733	20 3d 17	jsr $173d			jsr		IntegerNegate 				; negate the result
+.1736					_BFDUnsigned:
+.1736	60		rts				rts
+.1737					CheckIntegerNegate:
+.1737	bd 40 06	lda $0640,x			lda 	xsIntHigh,x 				; is it -ve = MSB set ?
+.173a	30 01		bmi $173d			bmi 	IntegerNegate 				; if so negate it
+.173c	60		rts				rts
+.173d					IntegerNegate:
+.173d	e6 0a		inc $0a				inc 	SignCount 					; bump the count of signs
+.173f	38		sec				sec 								; negate
+.1740	a9 00		lda #$00			lda 	#0
+.1742	fd 20 06	sbc $0620,x			sbc 	xsIntLow,x
+.1745	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1748	a9 00		lda #$00			lda 	#0
+.174a	fd 40 06	sbc $0640,x			sbc 	xsIntHigh,x
+.174d	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.1750	60		rts				rts
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/integer/icompare.asm
 
-.1590					Compare_Equals:
-.1590	18		clc				clc
-.1591	80 01		bra $1594			bra 	CEMain
-.1593					Compare_NotEquals:
-.1593	38		sec				sec
-.1594					CEMain:
-.1594	08		php				php 								; carry set flips the result
-.1595	20 be 15	jsr $15be			jsr 	EqualityComparison
-.1598					CEWriteResult:
-.1598	28		plp				plp  								; get the flip flag
-.1599	90 02		bcc $159d			bcc 	_CENoFlip
-.159b	49 ff		eor #$ff			eor 	#$FF 						; if so invert the result
-.159d					_CENoFlip:
-.159d	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; write it out
-.15a0	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.15a3	9e 00 06	stz $0600,x			stz 	xsStatus,x 					; its an integer
-.15a6	60		rts				rts
-.15a7					Compare_GreaterEquals:
-.15a7	18		clc				clc
-.15a8	80 01		bra $15ab			bra 	GEMain
-.15aa					Compare_Less:
-.15aa	38		sec				sec
-.15ab					GEMain:
-.15ab	08		php				php 								; carry set flips the result
-.15ac	20 e7 15	jsr $15e7			jsr 	MagnitudeComparison
-.15af	80 e7		bra $1598			bra 	CEWriteResult
-.15b1					Compare_LessEquals:
-.15b1	18		clc				clc
-.15b2	80 01		bra $15b5			bra 	LEMain
-.15b4					Compare_Greater:
-.15b4	38		sec				sec
-.15b5					LEMain:
-.15b5	08		php				php 								; carry set flips the result
-.15b6	20 12 16	jsr $1612			jsr 	SwapStackTop 				; swap the top two over. Not that efficient, probably doesn't matter
-.15b9	20 e7 15	jsr $15e7			jsr 	MagnitudeComparison 		; so the comparison is backwards.
-.15bc	80 da		bra $1598			bra 	CEWriteResult
-.15be					EqualityComparison:
-.15be	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.15c1	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; is this a string ?
-.15c4	50 06		bvc $15cc			bvc 	_NumericType
-.15c6	20 ee 13	jsr $13ee			jsr 	BinaryStringTypeCheck 		; check both are strings
-.15c9	4c 06 17	jmp $1706			jmp 	SyntaxError 							; and do the string handler
-.15cc					_NumericType:
-.15cc	90 03		bcc $15d1			bcc 	_Integer
-.15ce	4c ad 16	jmp $16ad			jmp 	FPEquality
-.15d1					_Integer:
-.15d1	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.15d4	dd 21 06	cmp $0621,x			cmp 	xsIntLow+1,x
-.15d7	d0 0b		bne $15e4			bne 	_NECFail
-.15d9	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.15dc	dd 41 06	cmp $0641,x			cmp 	xsIntHigh+1,x
-.15df	d0 03		bne $15e4			bne 	_NECFail
-.15e1	a9 ff		lda #$ff			lda 	#$FF
-.15e3	60		rts				rts
-.15e4					_NECFail:
-.15e4	a9 00		lda #$00			lda 	#$00
-.15e6	60		rts				rts
-.15e7					MagnitudeComparison:
-.15e7	20 8d 13	jsr $138d			jsr 	DeReferenceBinary 			; convert references to values
-.15ea	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; is this a string ?
-.15ed	50 06		bvc $15f5			bvc 	_NumericType
-.15ef	20 ee 13	jsr $13ee			jsr 	BinaryStringTypeCheck 		; check both are strings
-.15f2	4c 06 17	jmp $1706			jmp 	SyntaxError 							; and do the string handler
-.15f5					_NumericType:
-.15f5	90 03		bcc $15fa			bcc 	_Integer
-.15f7	4c ad 16	jmp $16ad			jmp 	FPMagnitude
-.15fa					_Integer:
-.15fa	bd 20 06	lda $0620,x			lda 	xsIntLow,x
-.15fd	dd 21 06	cmp $0621,x			cmp 	xsIntLow+1,x
-.1600	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
-.1603	fd 41 06	sbc $0641,x			sbc 	xsIntHigh+1,x
-.1606	50 02		bvc $160a			bvc 	_MCNoOverflow
-.1608	49 80		eor #$80			eor 	#$80
-.160a					_MCNoOverflow:
-.160a	30 03		bmi $160f			bmi 	_NECFail
-.160c	a9 ff		lda #$ff			lda 	#$FF
-.160e	60		rts				rts
-.160f					_NECFail:
-.160f	a9 00		lda #$00			lda 	#$00
-.1611	60		rts				rts
-.1612					SwapStackTop:
-.1612	da		phx				phx
-.1613	5a		phy				phy
-.1614	a0 06		ldy #$06			ldy 	#6 							; swap count
-.1616					_SSTLoop:
-.1616	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; the first stack entry, flip it over.
-.1619	48		pha				pha
-.161a	bd 01 06	lda $0601,x			lda 	xsStatus+1,x
-.161d	9d 00 06	sta $0600,x			sta 	xsStatus,x
-.1620	68		pla				pla
-.1621	9d 01 06	sta $0601,x			sta 	xsStatus+1,x
-.1624	8a		txa				txa 								; go forward to the next stack chunk.
-.1625	18		clc				clc
-.1626	69 20		adc #$20			adc 	#stackSize
-.1628	aa		tax				tax
-.1629	88		dey				dey 								; do it for the whole of this stack
-.162a	d0 ea		bne $1616			bne 	_SSTLoop
-.162c	7a		ply				ply
-.162d	fa		plx				plx
-.162e	60		rts				rts
+.1751					Compare_Equals:
+.1751	18		clc				clc
+.1752	80 01		bra $1755			bra 	CEMain
+.1754					Compare_NotEquals:
+.1754	38		sec				sec
+.1755					CEMain:
+.1755	08		php				php 								; carry set flips the result
+.1756	20 7f 17	jsr $177f			jsr 	EqualityComparison
+.1759					CEWriteResult:
+.1759	28		plp				plp  								; get the flip flag
+.175a	90 02		bcc $175e			bcc 	_CENoFlip
+.175c	49 ff		eor #$ff			eor 	#$FF 						; if so invert the result
+.175e					_CENoFlip:
+.175e	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; write it out
+.1761	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.1764	9e 00 06	stz $0600,x			stz 	xsStatus,x 					; its an integer
+.1767	60		rts				rts
+.1768					Compare_GreaterEquals:
+.1768	18		clc				clc
+.1769	80 01		bra $176c			bra 	GEMain
+.176b					Compare_Less:
+.176b	38		sec				sec
+.176c					GEMain:
+.176c	08		php				php 								; carry set flips the result
+.176d	20 a8 17	jsr $17a8			jsr 	MagnitudeComparison
+.1770	80 e7		bra $1759			bra 	CEWriteResult
+.1772					Compare_LessEquals:
+.1772	18		clc				clc
+.1773	80 01		bra $1776			bra 	LEMain
+.1775					Compare_Greater:
+.1775	38		sec				sec
+.1776					LEMain:
+.1776	08		php				php 								; carry set flips the result
+.1777	20 d3 17	jsr $17d3			jsr 	SwapStackTop 				; swap the top two over. Not that efficient, probably doesn't matter
+.177a	20 a8 17	jsr $17a8			jsr 	MagnitudeComparison 		; so the comparison is backwards.
+.177d	80 da		bra $1759			bra 	CEWriteResult
+.177f					EqualityComparison:
+.177f	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.1782	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; is this a string ?
+.1785	50 06		bvc $178d			bvc 	_NumericType
+.1787	20 af 15	jsr $15af			jsr 	BinaryStringTypeCheck 		; check both are strings
+.178a	4c a2 12	jmp $12a2			jmp 	SyntaxError 							; and do the string handler
+.178d					_NumericType:
+.178d	90 03		bcc $1792			bcc 	_Integer
+.178f	4c 95 18	jmp $1895			jmp 	FPEquality
+.1792					_Integer:
+.1792	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.1795	dd 21 06	cmp $0621,x			cmp 	xsIntLow+1,x
+.1798	d0 0b		bne $17a5			bne 	_NECFail
+.179a	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.179d	dd 41 06	cmp $0641,x			cmp 	xsIntHigh+1,x
+.17a0	d0 03		bne $17a5			bne 	_NECFail
+.17a2	a9 ff		lda #$ff			lda 	#$FF
+.17a4	60		rts				rts
+.17a5					_NECFail:
+.17a5	a9 00		lda #$00			lda 	#$00
+.17a7	60		rts				rts
+.17a8					MagnitudeComparison:
+.17a8	20 4e 15	jsr $154e			jsr 	DeReferenceBinary 			; convert references to values
+.17ab	3c 00 06	bit $0600,x			bit 	xsStatus,x 					; is this a string ?
+.17ae	50 06		bvc $17b6			bvc 	_NumericType
+.17b0	20 af 15	jsr $15af			jsr 	BinaryStringTypeCheck 		; check both are strings
+.17b3	4c a2 12	jmp $12a2			jmp 	SyntaxError 							; and do the string handler
+.17b6					_NumericType:
+.17b6	90 03		bcc $17bb			bcc 	_Integer
+.17b8	4c 95 18	jmp $1895			jmp 	FPMagnitude
+.17bb					_Integer:
+.17bb	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.17be	dd 21 06	cmp $0621,x			cmp 	xsIntLow+1,x
+.17c1	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.17c4	fd 41 06	sbc $0641,x			sbc 	xsIntHigh+1,x
+.17c7	50 02		bvc $17cb			bvc 	_MCNoOverflow
+.17c9	49 80		eor #$80			eor 	#$80
+.17cb					_MCNoOverflow:
+.17cb	30 03		bmi $17d0			bmi 	_NECFail
+.17cd	a9 ff		lda #$ff			lda 	#$FF
+.17cf	60		rts				rts
+.17d0					_NECFail:
+.17d0	a9 00		lda #$00			lda 	#$00
+.17d2	60		rts				rts
+.17d3					SwapStackTop:
+.17d3	da		phx				phx
+.17d4	5a		phy				phy
+.17d5	a0 06		ldy #$06			ldy 	#6 							; swap count
+.17d7					_SSTLoop:
+.17d7	bd 00 06	lda $0600,x			lda 	xsStatus,x 					; the first stack entry, flip it over.
+.17da	48		pha				pha
+.17db	bd 01 06	lda $0601,x			lda 	xsStatus+1,x
+.17de	9d 00 06	sta $0600,x			sta 	xsStatus,x
+.17e1	68		pla				pla
+.17e2	9d 01 06	sta $0601,x			sta 	xsStatus+1,x
+.17e5	8a		txa				txa 								; go forward to the next stack chunk.
+.17e6	18		clc				clc
+.17e7	69 20		adc #$20			adc 	#stackSize
+.17e9	aa		tax				tax
+.17ea	88		dey				dey 								; do it for the whole of this stack
+.17eb	d0 ea		bne $17d7			bne 	_SSTLoop
+.17ed	7a		ply				ply
+.17ee	fa		plx				plx
+.17ef	60		rts				rts
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: expression/integer/unary.asm
 
-.162f					Dummy_Binary:
-.162f					Dummy_Hex:
-.162f	20 87 13	jsr $1387			jsr 	EvaluateTermAtX
-.1632	60		rts				rts
-.1633					Parenthesis:
-.1633	20 b9 12	jsr $12b9			jsr 	EvaluateExpressionAtX 		; parenthesised expression
-.1636	20 a2 12	jsr $12a2			jsr 	SyntaxCheckRightBracket 	; check followed by )
-.1639	60		rts				rts
-.163a					AbsoluteValue:
-.163a	20 b9 12	jsr $12b9			jsr 	EvaluateExpressionAtX 		; evaluate the term
-.163d	20 92 13	jsr $1392			jsr 	DeReferenceUnary 			; convert term to value if reference.
-.1640	20 cc 13	jsr $13cc			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
-.1643	90 03		bcc $1648			bcc 	_Integer
-.1645	4c 4f 16	jmp $164f			jmp 	AVFloat
-.1648					_Integer:
-.1648	20 76 15	jsr $1576			jsr 	CheckIntegerNegate 			; use absolute value in divide
-.164b	20 a2 12	jsr $12a2			jsr 	SyntaxCheckRightBracket
-.164e	60		rts				rts
-.164f					AVFloat:
-.164f	20 ad 16	jsr $16ad			jsr 	FPAbs
-.1652	20 a2 12	jsr $12a2			jsr 	SyntaxCheckRightBracket
-.1655	60		rts				rts
-.1656					SignValue:
-.1656	20 b9 12	jsr $12b9			jsr 	EvaluateExpressionAtX 		; evaluate the term
-.1659	20 92 13	jsr $1392			jsr 	DeReferenceUnary 			; convert term to value if reference.
-.165c	20 cc 13	jsr $13cc			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
-.165f	90 03		bcc $1664			bcc 	_Integer
-.1661	4c 84 16	jmp $1684			jmp 	SVFloat
-.1664					_Integer:
-.1664	20 a2 12	jsr $12a2			jsr 	SyntaxCheckRightBracket
-.1667	bd 40 06	lda $0640,x			lda 	xsIntHigh,x 				; Check zero
-.166a	1d 20 06	ora $0620,x			ora 	xsIntLow,x
-.166d	f0 05		beq $1674			beq 	_SVSetLH
-.166f	0a		asl a				asl 	a 							; msb into carry
-.1670	90 09		bcc $167b			bcc 	_SVGreater0 				; if CC then it's positive and non zero
-.1672	a9 ff		lda #$ff			lda 	#$FF 						; -ve so return -1
-.1674					_SVSetLH:
-.1674	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1677	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
-.167a	60		rts				rts
-.167b					_SVGreater0:
-.167b	a9 01		lda #$01			lda 	#1
-.167d	9d 20 06	sta $0620,x			sta 	xsIntLow,x
-.1680	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
-.1683	60		rts				rts
-.1684					SVFloat:
-.1684	20 ad 16	jsr $16ad			jsr 	FPSgn
-.1687	20 a2 12	jsr $12a2			jsr 	SyntaxCheckRightBracket
-.168a	60		rts				rts
-.168b					StringLength:
-.168b	20 b9 12	jsr $12b9			jsr 	EvaluateExpressionAtX 		; evaluate the term
-.168e	20 92 13	jsr $1392			jsr 	DeReferenceUnary 			; convert term to value if reference.
-.1691	20 f3 13	jsr $13f3			jsr 	UnaryStringTypeCheck 		; check string.
-.1694	20 a2 12	jsr $12a2			jsr 	SyntaxCheckRightBracket
-.1697	bd 20 06	lda $0620,x			lda 	xsAddrLow,x 				; put address of string into zTemp1
-.169a	85 02		sta $02				sta 	zTemp1
-.169c	bd 40 06	lda $0640,x			lda 	xsAddrHigh,x
-.169f	85 03		sta $03				sta 	zTemp1+1
-.16a1	b2 02		lda ($02)			lda 	(zTemp1)					; get the length (strings are len prefixed)
-.16a3	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; and return it
-.16a6	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
-.16a9	9e 00 06	stz $0600,x			stz 	xsStatus,x
-.16ac	60		rts				rts
-
-;******  Return to file: files.asm
-
-
-;******  Processing file: expression/float/floatdummy.asm
-
-.16ad					FPAdd:
-.16ad					FPSub:
-.16ad					FPMultiply:
-.16ad					FPDivide:
-.16ad					FPModulus:
-.16ad					FPAbs:
-.16ad					FPSgn:
-.16ad					FPFloatToInteger:
-.16ad					FPIntegerToFloat:
-.16ad					FPEquality:
-.16ad					FPMagnitude:
-.16ad	20 09 17	jsr $1709			jsr 	ErrorHandler
->16b0	46 6c 6f 61 74 20 4e 6f				.text 	"Float Not Implemented",0
->16b8	74 20 49 6d 70 6c 65 6d 65 6e 74 65 64 00
+.17f0					Dummy_Binary:
+.17f0					Dummy_Hex:
+.17f0	20 48 15	jsr $1548			jsr 	EvaluateTermAtX
+.17f3	60		rts				rts
+.17f4					Parenthesis:
+.17f4	20 7a 14	jsr $147a			jsr 	EvaluateExpressionAtX 		; parenthesised expression
+.17f7	20 f9 13	jsr $13f9			jsr 	SyntaxCheckRightBracket 	; check followed by )
+.17fa	60		rts				rts
+.17fb					AbsoluteValue:
+.17fb	20 7a 14	jsr $147a			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.17fe	20 53 15	jsr $1553			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.1801	20 8d 15	jsr $158d			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+.1804	90 03		bcc $1809			bcc 	_Integer
+.1806	4c 10 18	jmp $1810			jmp 	AVFloat
+.1809					_Integer:
+.1809	20 37 17	jsr $1737			jsr 	CheckIntegerNegate 			; use absolute value in divide
+.180c	20 f9 13	jsr $13f9			jsr 	SyntaxCheckRightBracket
+.180f	60		rts				rts
+.1810					AVFloat:
+.1810	20 95 18	jsr $1895			jsr 	FPAbs
+.1813	20 f9 13	jsr $13f9			jsr 	SyntaxCheckRightBracket
+.1816	60		rts				rts
+.1817					SignValue:
+.1817	20 7a 14	jsr $147a			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.181a	20 53 15	jsr $1553			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.181d	20 8d 15	jsr $158d			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+.1820	90 03		bcc $1825			bcc 	_Integer
+.1822	4c 45 18	jmp $1845			jmp 	SVFloat
+.1825					_Integer:
+.1825	20 f9 13	jsr $13f9			jsr 	SyntaxCheckRightBracket
+.1828	bd 40 06	lda $0640,x			lda 	xsIntHigh,x 				; Check zero
+.182b	1d 20 06	ora $0620,x			ora 	xsIntLow,x
+.182e	f0 05		beq $1835			beq 	_SVSetLH
+.1830	0a		asl a				asl 	a 							; msb into carry
+.1831	90 09		bcc $183c			bcc 	_SVGreater0 				; if CC then it's positive and non zero
+.1833	a9 ff		lda #$ff			lda 	#$FF 						; -ve so return -1
+.1835					_SVSetLH:
+.1835	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1838	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.183b	60		rts				rts
+.183c					_SVGreater0:
+.183c	a9 01		lda #$01			lda 	#1
+.183e	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1841	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.1844	60		rts				rts
+.1845					SVFloat:
+.1845	20 95 18	jsr $1895			jsr 	FPSgn
+.1848	20 f9 13	jsr $13f9			jsr 	SyntaxCheckRightBracket
+.184b	60		rts				rts
+.184c					StringLength:
+.184c	20 7a 14	jsr $147a			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.184f	20 53 15	jsr $1553			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.1852	20 b4 15	jsr $15b4			jsr 	UnaryStringTypeCheck 		; check string.
+.1855	20 f9 13	jsr $13f9			jsr 	SyntaxCheckRightBracket
+.1858	bd 20 06	lda $0620,x			lda 	xsAddrLow,x 				; put address of string into zTemp1
+.185b	85 02		sta $02				sta 	zTemp1
+.185d	bd 40 06	lda $0640,x			lda 	xsAddrHigh,x
+.1860	85 03		sta $03				sta 	zTemp1+1
+.1862	b2 02		lda ($02)			lda 	(zTemp1)					; get the length (strings are len prefixed)
+.1864	9d 20 06	sta $0620,x			sta 	xsIntLow,x 					; and return it
+.1867	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.186a	9e 00 06	stz $0600,x			stz 	xsStatus,x
+.186d	60		rts				rts
 
 ;******  Return to file: files.asm
 
 
 ;******  Processing file: variables/variable.asm
 
-.16c6					VariableLookup:
-.16c6	c9 1a		cmp #$1a			cmp 	#26 						; multi character variables.
-.16c8	b0 13		bcs $16dd			bcs 	_VLError
-.16ca	0a		asl a				asl 	a 							; multiply by 5, do not move for float
-.16cb	0a		asl a				asl 	a
-.16cc	71 00		adc ($00),y			adc 	(codePtr),y
-.16ce	c8		iny				iny 								; skip over variable token
-.16cf	9d 20 06	sta $0620,x			sta 	xsAddrLow,x
-.16d2	a9 07		lda #$07			lda 	#variables >> 8
-.16d4	9d 40 06	sta $0640,x			sta 	xsAddrHigh,x
-.16d7	a9 01		lda #$01			lda 	#$01 						; integer reference.
-.16d9	9d 00 06	sta $0600,x			sta 	xsStatus,x
-.16dc	60		rts				rts
-.16dd					_VLError:
-.16dd	20 09 17	jsr $1709			jsr 	ErrorHandler
->16e0	42 61 64 20 56 61 72 69				.text 	"Bad Variable",0
->16e8	61 62 6c 65 00
+.186e					VariableLookup:
+.186e	c9 1a		cmp #$1a			cmp 	#26 						; multi character variables.
+.1870	b0 13		bcs $1885			bcs 	_VLError
+.1872	0a		asl a				asl 	a 							; multiply by 5, do not move for float
+.1873	0a		asl a				asl 	a
+.1874	71 00		adc ($00),y			adc 	(codePtr),y
+.1876	c8		iny				iny 								; skip over variable token
+.1877	9d 20 06	sta $0620,x			sta 	xsAddrLow,x
+.187a	a9 07		lda #$07			lda 	#variables >> 8
+.187c	9d 40 06	sta $0640,x			sta 	xsAddrHigh,x
+.187f	a9 01		lda #$01			lda 	#$01 						; integer reference.
+.1881	9d 00 06	sta $0600,x			sta 	xsStatus,x
+.1884	60		rts				rts
+.1885					_VLError:
+.1885	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>1888	42 61 64 20 56 61 72 69				.text 	"Bad Variable",0
+>1890	61 62 6c 65 00
+
+;******  Return to file: files.asm
+
+
+;******  Processing file: expression/float/floatdummy.asm
+
+.1895					FPAdd:
+.1895					FPSub:
+.1895					FPMultiply:
+.1895					FPDivide:
+.1895					FPModulus:
+.1895					FPAbs:
+.1895					FPSgn:
+.1895					FPFloatToInteger:
+.1895					FPIntegerToFloat:
+.1895					FPEquality:
+.1895					FPMagnitude:
+.1895	20 b2 12	jsr $12b2			jsr 	ErrorHandler
+>1898	46 6c 6f 61 74 20 4e 6f				.text 	"Float Not Implemented",0
+>18a0	74 20 49 6d 70 6c 65 6d 65 6e 74 65 64 00
 
 ;******  Return to file: files.asm
 
 
 ;******  Return to file: basic.asm
 
-.16ed					ColdStart:
-.16ed	a2 ff		ldx #$ff			ldx 	#$FF 						; reset the stack
-.16ef	9a		txs				txs
-.16f0	a9 00		lda #$00			lda 	#(TestProgram) & $FF
-.16f2	85 00		sta $00				sta 	0+(codePtr)
-.16f4	a9 17		lda #$17			lda 	#(TestProgram) >> 8
-.16f6	85 01		sta $01				sta 	1+(codePtr)
-.16f8	a0 00		ldy #$00			ldy 	#0
-.16fa	20 b7 12	jsr $12b7			jsr 	EvaluateExpression
-.16fd	4c ff ff	jmp $ffff			jmp 	$FFFF
-.1700					TestProgram:
-
-;******  Processing file: generated/testcode.inc
-
->1700	01 8f ff e8 03				.byte	$01,$8f,$ff,$e8,$03
-
-;******  Return to file: basic.asm
-
->1705	80						.byte 	$80
-.1706					SyntaxError:
-.1706	a2 5e		ldx #$5e			ldx 	#$5E
->1708	ff						.byte 	$FF
-.1709					ErrorHandler:
->1709	ff						.byte 	$FF
-.170a	a2 ee		ldx #$ee			ldx 	#$EE
+.18ae					ColdStart:
+.18ae	a2 ff		ldx #$ff			ldx 	#$FF 						; reset the stack
+.18b0	9a		txs				txs
+.18b1	20 e4 12	jsr $12e4			jsr 	ExternInitialise
+.18b4	a9 c1		lda #$c1			lda 	#BootMessage & $FF
+.18b6	a0 18		ldy #$18			ldy 	#BootMessage >> 8
+.18b8	20 d7 13	jsr $13d7			jsr 	EXPrintString
+.18bb	4c 32 14	jmp $1432			jmp 	Command_Run
+.18be					WarmStart:
+.18be	4c ff ff	jmp $ffff			jmp 	$FFFF
+.18c1					BootMessage:
+>18c1	2a 2a 2a 2a 20 43 6f 6d				.text 	"**** Commander X16 Basic Alpha 1 ****",13,13
+>18c9	6d 61 6e 64 65 72 20 58 31 36 20 42 61 73 69 63
+>18d9	20 41 6c 70 68 61 20 31 20 2a 2a 2a 2a 0d 0d
+>18e8	35 31 32 4b 20 48 69 67				.text 	"512K High RAM",13,13,0
+>18f0	68 20 52 41 4d 0d 0d 00
+.18f8					BasicProgram:
+>18f8	0e e8 03 ce 90 75 91 62				.binary "generated/bascode.bin"
+>1900	82 ce a6 fe 2a 80 06 e8 03 ce 60 80 00
 
 ;******  End of listing

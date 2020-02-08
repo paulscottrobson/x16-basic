@@ -57,9 +57,9 @@
 	.word	SyntaxError             		; $b5 : endproc
 	.word	SyntaxError             		; $b6 : call
 	.word	SyntaxError             		; $b7 : local
-	.word	SyntaxError             		; $b8 : run
-	.word	SyntaxError             		; $b9 : stop
-	.word	SyntaxError             		; $ba : end
+	.word	Command_RUN             		; $b8 : run
+	.word	Command_STOP            		; $b9 : stop
+	.word	Command_END             		; $ba : end
 	.word	SyntaxError             		; $bb : print
 	.word	SyntaxError             		; $bc : input
 	.word	SyntaxError             		; $bd : when
@@ -79,7 +79,7 @@
 	.word	SyntaxError             		; $cb : gosub
 	.word	SyntaxError             		; $cc : sys
 	.word	SyntaxError             		; $cd : return
-	.word	SyntaxError             		; $ce : assert
+	.word	Command_Assert          		; $ce : assert
 	.word	SyntaxError             		; $cf : on
 	.word	SyntaxError             		; $d0 : open
 	.word	SyntaxError             		; $d1 : close
