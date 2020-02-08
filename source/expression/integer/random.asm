@@ -1,8 +1,8 @@
 ; *****************************************************************************
 ; *****************************************************************************
 ;
-;		Name :		syntax.asm
-;		Purpose :	Syntactic support routines
+;		Name :		random.asm
+;		Purpose :	Random functions
 ;		Author :	Paul Robson (paul@robsons.org.uk)
 ;		Date : 		8th February 2020
 ;
@@ -11,45 +11,40 @@
 
 ; *****************************************************************************
 ;
-;									Check )
+;								Random number 16 bit
 ;
 ; *****************************************************************************
 
-SyntaxCheckRightBracket:
-		lda 	(codePtr),y
-		iny
-		cmp 	#TOK_RPAREN
-		bne 	_SCRBError
+RandomNumber: 	;; random(
+		jsr 	AdvanceRandomSeed 			; bytes seperately as zero problem.
+		sta 	xsIntLow,x
+		jsr 	AdvanceRandomSeed
+		sta 	xsIntHigh,x
+		stz 	xsStatus,x
+		jsr 	SyntaxCheckRightBracket 	; check followed by )
 		rts
-_SCRBError:
-		berror	"Missing )"		
-		
-; *****************************************************************************
-;
-;									Check ,
-;
-; *****************************************************************************
-
-SyntaxCheckComma:
-		lda 	(codePtr),y
-		iny
-		cmp 	#TOK_COMMA
-		bne 	_SCRCError
-		rts
-_SCRCError:
-		berror	"Missing ,"		
 
 ; *****************************************************************************
 ;
-;									Check General
+;						   LFSR Random Number Generator
 ;
 ; *****************************************************************************
 
-SyntaxCheckA:
-		cmp 	(codePtr),y
-		bne 	_SCAError
-		iny
-		rts
-_SCAError:
-		jmp 	SyntaxError
-				
+AdvanceRandomSeed:
+		lda 	randomSeed
+		ora 	randomSeed+1
+		bne 	_RH_NoInit
+		lda 	#$7C
+		sta 	randomSeed
+		lda 	#$A1
+		sta 	randomSeed+1
+_RH_NoInit:
+		lda 	randomSeed
+        lsr		a
+        rol 	randomSeed+1  
+        bcc 	_RH_NoEor
+        eor 	#$B4 
+_RH_NoEor: 
+        sta 	randomSeed
+        eor 	randomSeed+1  
+        rts

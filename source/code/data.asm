@@ -45,6 +45,9 @@ signCount:									; division sign count
 convertPtr:									; buffer position when converting.
 		.byte 	?
 
+randomSeed: 								; 16 bit random value.
+		.word 	?
+
 ; *****************************************************************************
 ;
 ;						  Specific address allocation

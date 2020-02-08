@@ -99,3 +99,35 @@ StringLength: ;; len(
 		stz 	xsStatus,x
 		rts
 
+; *****************************************************************************
+;
+;									Peek/Deek
+;
+; *****************************************************************************
+
+PeekMemory:		;; peek(
+		clc
+		bra 	ReadMemoryMain
+DeekMemory:		;; deek(
+		sec
+ReadMemoryMain:
+		php 								; CS read word CC read byte
+		getparam_n ParameterError 			; get integer parameter						
+		jsr 	SyntaxCheckRightBracket
+		lda 	xsAddrLow,x 				; transfer address
+		sta 	zTemp1
+		lda 	xsAddrHigh,x		
+		sta 	zTemp1+1
+		lda 	(zTemp1) 					; do the LSB
+		sta 	xsIntLow,x
+		stz 	xsIntHigh,x 				; zero MSB
+		stz 	xsStatus,x 					; set the type
+		plp
+		bcc 	_RMMPeek 					; read type
+		phy
+		ldy 	#1
+		lda 	(zTemp1),y
+		sta 	xsIntHigh,x
+		ply
+_RMMPeek:
+		rts		

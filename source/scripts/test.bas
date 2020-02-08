@@ -1,6 +1,7 @@
-1000 REM "First loop !"
-1010 A = 0
-1020 A = A + 1
-1025 ASSERT A < 10000	
-1030 GOTO 1020
-1050 END
+a = random()
+c = random() 
+e = random() 
+f = random() 
+g = random() and 7
+h = random() 
+z = random() 

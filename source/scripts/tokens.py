@@ -79,7 +79,7 @@ class BasicTokens(object):
 //
 [unary]	
 		len( 	rnd( 	asc( 	chr$(	val(	str$(	spc(
-		left$(	mid$(	right$(	abs(	sgn(	int(	
+		left$(	mid$(	right$(	abs(	sgn(	int(	random(
 		deek( 	peek(	vpeek( 	
 		( % $
 //

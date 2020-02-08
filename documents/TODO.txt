@@ -1,6 +1,6 @@
 Todo list (towards Alpha 1)
 ===========================
-- Do other commands GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
+- Do other commands GOSUB RETURN IF/THEN VPOKE VPEEK PRINT
 - Test routines.
 - Simpler running system.
 - Structure stack.
@@ -37,11 +37,13 @@ Alpha 4 :
 
 Alpha 5 :
 	Add REPEAT/IF/WHILE/FOR structures (not CASE), CALL, PROC and ENDPROC	
-
+	Local Stack (for the PROC marker)
+	
 Alpha 6:
 	Add program editing, escape functionality, keyboard I/O operations.
 	Basically programmable.
 
 Alpha 7:
+	Local Variables
 	Garbage collection.
 	Error Message nationalisation.

@@ -28,6 +28,7 @@ TokenVectors:
 		.include 	"commands/let.asm"
 		.include 	"commands/goto.asm"
 		.include 	"commands/miscellany.asm"
+		.include 	"commands/pokedoke.asm"
 		.include 	"commands/run.asm"
 
 		.include 	"expression/evaluate.asm"
@@ -36,6 +37,7 @@ TokenVectors:
 		.include 	"expression/integer/multiply.asm"
 		.include 	"expression/integer/divide.asm"
 		.include 	"expression/integer/icompare.asm"
+		.include 	"expression/integer/random.asm"
 		.include 	"expression/integer/tostring.asm"
 		.include 	"expression/integer/unary.asm"
 

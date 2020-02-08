@@ -37,3 +37,5 @@ This is to allow multiple line IFs (the 'THEN' is used to indicate this is a sin
 8) RND() is reserved for floats for compatibility so a function RANDOM() exists which generates a 16 
 bit random number.
 
+9) DOKE and DEEK are 16 bit versions of POKE and PEEK.
+
