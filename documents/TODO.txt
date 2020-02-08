@@ -1,8 +1,9 @@
 Todo list (towards Alpha 1)
 ===========================
-- Do other commands REM LET GOTO GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM()
+- Do other commands GOTO GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
 - Test routines.
-- Simple running system.
+- Simpler running system.
+- Structure stack.
 
 Add:
 	- string concatenate
@@ -10,6 +11,7 @@ Add:
 	- string magnitude
 	- other unary functions 
 	- escape tests periodically.
+	- assign strings and floats
 
 - int / int => float in floating point.
 
@@ -17,7 +19,7 @@ Add:
 Alpha 1 should support :
 	Expressions (int only)
 	26 integer variables A-Z
-	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM()
+	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
 	(Easy) Direct running.
 	Proper error messages. (END does dump/exit)
 	Some automatic testing of arithmetic/logical/etc. functionality.

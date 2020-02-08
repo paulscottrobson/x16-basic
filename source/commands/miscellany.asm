@@ -23,3 +23,21 @@ Command_Assert: ;; assert
 		beq 	_CAFail
 		rts
 _CAFail:berror 	"Assert"		
+
+; *****************************************************************************
+;
+;					Remark followed by a quoted string perhaps
+;
+; *****************************************************************************
+
+Command_Rem: 	;; rem
+		lda 	(codePtr),y
+		cmp 	#$FB 						; is there a string ?	
+		bne 	_CRExit
+		iny 								; then skip over it.
+		sec
+		tya
+		adc 	(codePtr),y
+		tay
+_CRExit:
+		rts

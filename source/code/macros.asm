@@ -110,7 +110,8 @@ alltypederef .macro
 		bvc 	_NumericType
 		jsr 	BinaryStringTypeCheck 		; check both are strings
 		jmp 	\2 							; and do the string handler
-_NumericType:		
+_NumericType:	
+		jsr 	BinaryNumberTypeCheck 		; see if they are compatible.	
 		bcc 	_Integer
 		jmp 	\1
 _Integer:

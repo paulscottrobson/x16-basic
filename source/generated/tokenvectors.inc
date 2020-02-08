@@ -74,7 +74,7 @@
 	.word	SyntaxError             		; $c6 : poke
 	.word	SyntaxError             		; $c7 : doke
 	.word	SyntaxError             		; $c8 : vpoke
-	.word	SyntaxError             		; $c9 : rem
+	.word	Command_Rem             		; $c9 : rem
 	.word	SyntaxError             		; $ca : goto
 	.word	SyntaxError             		; $cb : gosub
 	.word	SyntaxError             		; $cc : sys

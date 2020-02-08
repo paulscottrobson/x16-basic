@@ -24,3 +24,17 @@ SyntaxCheckRightBracket:
 _SCRBError:
 		berror	"Missing )"		
 		
+; *****************************************************************************
+;
+;									Check General
+;
+; *****************************************************************************
+
+SyntaxCheckA:
+		cmp 	(codePtr),y
+		bne 	_SCAError
+		iny
+		rts
+_SCAError:
+		jmp 	SyntaxError
+				

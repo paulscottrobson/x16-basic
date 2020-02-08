@@ -55,7 +55,8 @@ _CRCallRoutine:
 _CRSyntax:
 		jmp 	SyntaxError
 _CRDefaultLet:		
-		jmp 	Command_LET
+		jsr 	Command_LET
+		bra 	_CRNextCommand
 
 ; *****************************************************************************
 ;

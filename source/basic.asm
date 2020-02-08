@@ -29,7 +29,9 @@ WarmStart:
 
 BootMessage:
 		.text 	"**** Commander X16 Basic Alpha 1 ****",13,13
-		.text 	"512K High RAM",13,13,0
+		.text 	"512K High RAM. "
+		.include "generated/buildinfo.inc"
+		.byte 	13,13,0
 
 BasicProgram:
 		

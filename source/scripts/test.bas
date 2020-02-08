@@ -1,3 +1,7 @@
-assert -21*2
-assert $2A
-assert 0
+REM "Comment - note the new syntax":X = 4
+C = 42
+E = C*3
+Z = C+E	
+A = -42
+stop
+end

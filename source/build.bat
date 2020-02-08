@@ -10,6 +10,7 @@ pushd scripts
 python tokengen.py
 python tokeniser.py
 python baspgm.py
+python buildtrack.py
 popd
 rem
 rem		Assemble BASIC
