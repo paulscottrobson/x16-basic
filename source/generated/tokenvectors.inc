@@ -2,9 +2,9 @@
 ;	Generated automatically.
 ;
 	.word	SyntaxError             		; $80 : {eol}
-	.word	SyntaxError             		; $81 : and
-	.word	SyntaxError             		; $82 : or
-	.word	SyntaxError             		; $83 : xor
+	.word	BinaryAnd               		; $81 : and
+	.word	BinaryOr                		; $82 : or
+	.word	BinaryXor               		; $83 : xor
 	.word	SyntaxError             		; $84 : >
 	.word	SyntaxError             		; $85 : >=
 	.word	SyntaxError             		; $86 : <
@@ -12,7 +12,7 @@
 	.word	SyntaxError             		; $88 : =
 	.word	SyntaxError             		; $89 : <>
 	.word	BinaryAdd               		; $8a : +
-	.word	SyntaxError             		; $8b : -
+	.word	BinarySub               		; $8b : -
 	.word	SyntaxError             		; $8c : *
 	.word	SyntaxError             		; $8d : /
 	.word	SyntaxError             		; $8e : mod

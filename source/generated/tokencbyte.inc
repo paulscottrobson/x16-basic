@@ -2,20 +2,20 @@
 ;	Generated automatically.
 ;
 	.byte	$00		; $80 : {eol}
-	.byte	$10		; $81 : and
-	.byte	$10		; $82 : or
-	.byte	$10		; $83 : xor
-	.byte	$11		; $84 : >
-	.byte	$11		; $85 : >=
-	.byte	$11		; $86 : <
-	.byte	$11		; $87 : <=
-	.byte	$11		; $88 : =
-	.byte	$11		; $89 : <>
-	.byte	$12		; $8a : +
-	.byte	$12		; $8b : -
-	.byte	$13		; $8c : *
-	.byte	$13		; $8d : /
-	.byte	$13		; $8e : mod
+	.byte	$11		; $81 : and
+	.byte	$11		; $82 : or
+	.byte	$11		; $83 : xor
+	.byte	$12		; $84 : >
+	.byte	$12		; $85 : >=
+	.byte	$12		; $86 : <
+	.byte	$12		; $87 : <=
+	.byte	$12		; $88 : =
+	.byte	$12		; $89 : <>
+	.byte	$13		; $8a : +
+	.byte	$13		; $8b : -
+	.byte	$14		; $8c : *
+	.byte	$14		; $8d : /
+	.byte	$14		; $8e : mod
 	.byte	$40		; $8f : len(
 	.byte	$40		; $90 : rnd(
 	.byte	$40		; $91 : asc(

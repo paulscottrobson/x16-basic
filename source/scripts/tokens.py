@@ -55,7 +55,7 @@ class BasicTokens(object):
 			return 0x82
 		elif g == "SYNTAX":
 			return 0x00
-		if g >= "0" and g <= "7" and len(g) == 1:
+		if g >= "1" and g <= "7" and len(g) == 1:
 			return int(g)+0x10
 		assert "Bad group "+g
 	#
@@ -68,10 +68,10 @@ class BasicTokens(object):
 //
 //		Binary operators, lowest first
 //	
-[0] 	and or xor
-[1]		> >= < <= = <>
-[2] 	+ -
-[3] 	* / mod
+[1] 	and or xor
+[2]		> >= < <= = <>
+[3] 	+ -
+[4] 	* / mod
 //
 //		Unary functions
 //

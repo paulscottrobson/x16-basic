@@ -21,7 +21,6 @@ ColdStart:
 		set16 	codePtr,TestProgram 		; set up.
 		ldy 	#0
 		jsr 	EvaluateExpression 
-		stx 	zTemp1 						; save X in zTemp1 and dump/exit
 		jmp 	$FFFF
 		
 TestProgram:
