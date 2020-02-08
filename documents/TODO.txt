@@ -1,4 +1,3 @@
-	- unary functions etc. (don't forget ( # & functions)
-	- comparison binary operators
+	- comparison binary operators number and string with float padding.
 	- basic integer variables.
-	- functions etc.
+	- start on main executor.

@@ -11,6 +11,17 @@
 
 ; *****************************************************************************
 ;
+;					Evaluate a term at stack level X
+;
+; *****************************************************************************
+
+EvaluateTermAtX:
+		lda 	#$1F 						; too high precedence so just term
+		jsr 	EvaluateExpressionAtXPrecA
+		rts
+		
+; *****************************************************************************
+;
 ;					Dereference either 2 stack references, or 1
 ;
 ;	Used when stack contains a reference (normally a variable) and needs its
@@ -61,18 +72,36 @@ _DRNotReference:
 
 ; *****************************************************************************
 ;
-;		Check the top 2 stack values are numbers. Return CS if a float is 
+;		Check the top 1/2 stack values are number(s). Return CS if a float is 
 ;		required (e.g. if one of them is a floating point number), CC if
 ;		can be done using integers.
 ;
 ; *****************************************************************************
 
-NumberTypeCheck:
+UnaryNumberTypeCheck:
+		lda 	xsStatus,x
+		bra 	BNTCMain
+
+BinaryNumberTypeCheck:
 		lda 	xsStatus,x 					; bit 7 set if either float, bit 6 set if either string.
 		ora 	xsStatus+1,x
+BNTCMain:		
 		asl 	a 							; carry set if either float, bit 7 set if either string
 		bmi 	_NTCError 					; so fail if string, we want int
 		rts 						
 _NTCError:
-		berror	"Number Operation"		
+		berror	"Number expected"		
+
+; *****************************************************************************
+;
+;		Unary version of above
+;
+; *****************************************************************************
+
+UnaryStringTypeCheck:
+		bit 	xsStatus,x 					; check if string
+		bvc 	_STCError
+		rts
+_STCError:
+		berror	"String expected"		
 		

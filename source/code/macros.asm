@@ -57,7 +57,7 @@ _NoCarryAdv:
 
 typederef .macro
 		jsr 	DeReferenceBinary 			; convert references to values
-		jsr 	NumberTypeCheck 			; check numeric, returns CC if both integer.
+		jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
 		bcc 	_Integer
 		jmp 	\1
 _Integer:
@@ -69,10 +69,30 @@ _Integer:
 ;
 intderef .macro		
 		jsr 	DeReferenceBinary 			; convert references to values
-		jsr 	NumberTypeCheck 			; check numeric. if float convert to integer
+		jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
 		bcc 	_Integer
 		jsr 	FPFloatToInteger 	
 _Integer:
 		.endm
 
+; *****************************************************************************
+;
+;							Get a single numeric parameter
+;
+; *****************************************************************************
 		
+getparam_n .macro
+		jsr 	EvaluateExpressionAtX 		; evaluate the term
+		jsr 	DeReferenceUnary 			; convert term to value if reference.
+		jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+		bcc 	_Integer
+		jmp 	\1
+_Integer:
+		.endm
+
+getparam_s .macro
+		jsr 	EvaluateExpressionAtX 		; evaluate the term
+		jsr 	DeReferenceUnary 			; convert term to value if reference.
+		jsr 	UnaryStringTypeCheck 		; check string.
+		.endm
+

@@ -151,14 +151,33 @@ _EXAString:
 		sta 	xsStatus,x
 		;
 		tya 								; add the length to the current position
-		clc
+		sec 								; +1 for the length byte itself.
 		adc 	(codePtr),y
 		tay
 		jmp 	_EXAHaveTerm
-
+		;
+		;		Unary Function. A contains its token.
+		;
 _EXAUnaryFunction:				
-		.byte 	$FF
-
+		phx 								; get the table entry to check it is a unary function
+		tax
+		bit 	TokenControlByteTable-$80,x ; if bit 6 is not set, it's not a unary function.
+		bvc 	_EXANotUnaryFunction 		
+		txa 								; now copy the routine address, put token x 2 in.
+		asl 	a
+		tax
+		lda 	TokenVectors,x 				; get address => zTemp2
+		sta 	zTemp2
+		lda 	TokenVectors+1,x
+		sta 	zTemp2+1
+		plx 								; restore stack depth.
+		iny 								; skip unary function token.
+		jsr 	_EXACallZTemp2 				; call the routine	
+		jmp 	_EXAHaveTerm 				; and loop round again.
+		;
+_EXANotUnaryFunction:
+		jmp 	SyntaxError		
 
 _EXACallZTemp2:								; so we can jsr (zTemp2)
 		jmp 	(zTemp2)
+		

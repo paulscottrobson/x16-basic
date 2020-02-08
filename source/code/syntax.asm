@@ -1,21 +1,26 @@
 ; *****************************************************************************
 ; *****************************************************************************
 ;
-;		Name :		floatdummy.asm
-;		Purpose :	Floating Point Stubs
+;		Name :		syntax.asm
+;		Purpose :	Syntactic support routines
 ;		Author :	Paul Robson (paul@robsons.org.uk)
 ;		Date : 		8th February 2020
 ;
 ; *****************************************************************************
 ; *****************************************************************************
 
-FPAdd:
-FPSub:
-FPMultiply:
-FPDivide:
-FPModulus:
-FPAbs:
-FPSgn:
-FPFloatToInteger:
-FPIntegerToFloat:
-		berror 	"Not Implemented"
+; *****************************************************************************
+;
+;									Check )
+;
+; *****************************************************************************
+
+SyntaxCheckRightBracket:
+		lda 	(codePtr),y
+		iny
+		cmp 	#TOK_RPAREN
+		bne 	_SCRBError
+		rts
+_SCRBError:
+		berror	"Missing )"		
+		

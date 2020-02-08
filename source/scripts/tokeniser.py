@@ -57,7 +57,12 @@ class Tokeniser(object):
 			self.tokeniseString(m.group(1))
 			return m.group(2)
 		#			
-		m = re.match("^([a-zA-Z][a-zA-Z0-9\\.]*)(.*)$",s)					# identifier, might be token.
+		m = re.match("^([a-zA-Z][a-zA-Z0-9\\.]*\\$?\\(?)(.*)$",s)			# identifier type token
+		if m is not None and m.group(1).upper() in self.tokens:
+			self.code.append(self.tokens[m.group(1).upper()]["id"])
+			return m.group(2)
+		#
+		m = re.match("^([a-zA-Z][a-zA-Z0-9\\.]*)(.*)$",s)					# identifier
 		if m is not None:
 			self.tokeniseIdentifier(m.group(1).upper())
 			return m.group(2)
@@ -92,15 +97,12 @@ class Tokeniser(object):
 		self.code.append(len(s))											# length
 		self.code += [ord(x) for x in s]									# characters
 	#
-	#		Tokenise identifier or token
+	#		Tokenise identifier
 	#
 	def tokeniseIdentifier(self,s):
-		if s in self.tokens:												# known token ?
-			self.code.append(self.tokens[s]["id"])
-		else: 																# no, do as identifier.
-			s = [self.convertCharacter(c)+0x30 for c in s]					# convert it
-			s[-1] = s[-1] - 0x30											# mark identifier end
-			self.code += s
+		s = [self.convertCharacter(c)+0x30 for c in s]						# convert it
+		s[-1] = s[-1] - 0x30												# mark identifier end
+		self.code += s
 	#
 	#		Convert character to internal format
 	#
@@ -128,7 +130,7 @@ if __name__ == '__main__':
 		Tokeniser().test("ABC >= 4 > 2")
 		Tokeniser().test(" A FORT FOR A.9 ")
 	#
-	s = '"Hello"'
+	s = 'len("Hello")'
 	code = Tokeniser().tokenise(s)
 	h = open(".."+os.sep+"generated"+os.sep+"testcode.inc","w")
 	h.write("\t.byte\t{0}\n\n".format(",".join(["${0:02x}".format(c) for c in code])))

@@ -16,7 +16,7 @@
 	.word	Multiply16x16           		; $8c : *
 	.word	Divide16x16             		; $8d : /
 	.word	Modulus16x16            		; $8e : mod
-	.word	SyntaxError             		; $8f : len(
+	.word	StringLength            		; $8f : len(
 	.word	SyntaxError             		; $90 : rnd(
 	.word	SyntaxError             		; $91 : asc(
 	.word	SyntaxError             		; $92 : chr$(
@@ -26,15 +26,15 @@
 	.word	SyntaxError             		; $96 : left$(
 	.word	SyntaxError             		; $97 : mid$(
 	.word	SyntaxError             		; $98 : right$(
-	.word	SyntaxError             		; $99 : abs(
-	.word	SyntaxError             		; $9a : sgn(
+	.word	AbsoluteValue           		; $99 : abs(
+	.word	SignValue               		; $9a : sgn(
 	.word	SyntaxError             		; $9b : int(
 	.word	SyntaxError             		; $9c : deek(
 	.word	SyntaxError             		; $9d : peek(
 	.word	SyntaxError             		; $9e : vpeek(
-	.word	SyntaxError             		; $9f : (
-	.word	SyntaxError             		; $a0 : %
-	.word	SyntaxError             		; $a1 : $
+	.word	Parenthesis             		; $9f : (
+	.word	Dummy_Binary            		; $a0 : %
+	.word	Dummy_Hex               		; $a1 : $
 	.word	SyntaxError             		; $a2 : if
 	.word	SyntaxError             		; $a3 : repeat
 	.word	SyntaxError             		; $a4 : for
