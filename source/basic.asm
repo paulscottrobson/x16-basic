@@ -32,5 +32,4 @@ BootMessage:
 		.text 	"512K High RAM",13,13,0
 
 BasicProgram:
-		.binary "generated/bascode.bin"
 		

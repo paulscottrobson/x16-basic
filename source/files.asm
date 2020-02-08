@@ -35,6 +35,7 @@ TokenVectors:
 		.include 	"expression/integer/multiply.asm"
 		.include 	"expression/integer/divide.asm"
 		.include 	"expression/integer/icompare.asm"
+		.include 	"expression/integer/tostring.asm"
 		.include 	"expression/integer/unary.asm"
 
 		.include 	"variables/variable.asm"

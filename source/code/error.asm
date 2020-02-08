@@ -48,7 +48,7 @@ _EHNoCarry:
 		lda 	(codePtr),y
 		ply
 		clc
-		;jsr 	PrintYA
+		jsr 	PrintYA
 _EHNoLine:
 		lda 	#13
 		jsr 	ExternPrint

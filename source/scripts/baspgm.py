@@ -39,6 +39,7 @@ class BasicProgram(object):
 		#
 		lineCode = self.tokeniser.tokenise(txt)
 		self.code += [ len(lineCode)+4,self.nextLine & 0xFF,self.nextLine >> 8] + lineCode + [0x80]
+		self.nextLine += self.lineStep
 	#
 	#		Output the final file.
 	#

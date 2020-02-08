@@ -42,6 +42,9 @@ zTemp4:
 signCount:									; division sign count
 		.byte 	?
 
+convertPtr:									; buffer position when converting.
+		.byte 	?
+
 ; *****************************************************************************
 ;
 ;						  Specific address allocation

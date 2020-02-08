@@ -2,7 +2,7 @@
 rem
 rem		Delete old files
 rem
-del /Q dump.bin basic.prg basic.lst >NUL
+del /Q dump.bin basic_nocode.prg basic.prg basic.lst >NUL
 rem
 rem		Generate token tables and demonstration code.
 rem
@@ -14,8 +14,12 @@ popd
 rem
 rem		Assemble BASIC
 rem
-64tass -q -c basic.asm -o basic.prg -L basic.lst -l basic.lbl
+64tass -q -c basic.asm -o basic_nocode.prg -L basic.lst -l basic.lbl
 if errorlevel 1 goto exit
+rem
+rem		Append converted code binary to basic executable.
+rem
+copy /B basic_nocode.prg +generated\bascode.bin basic.prg
 rem
 rem		Run on emulator. Path may need amending.
 rem

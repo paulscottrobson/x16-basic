@@ -22,7 +22,16 @@ Modulus16x16:	;; mod
 		lda 	zTemp1+1
 		sta 	xsIntHigh,x
 		rts
+;
+;		This is used for integer -> string conversion.
+;
+UnsignedIntegerDivide:		
+		stz 	SignCount 					; Count of signs.
+		bra 	DivideMain
 
+;
+;		Divide 1st by 2nd. Note this *must* put the remainder in zTemp1. toString uses it.
+;
 IntegerDivide:
 		lda 	xsIntLow+1,x 				; check for division by zero.
 		ora 	xsIntHigh+1,x
@@ -32,16 +41,17 @@ IntegerDivide:
 		;		Reset the interim values
 		;
 _BFDOkay:
-		stz 	zTemp1 						; Q/Dividend/Left in +0
-		stz 	zTemp1+1 					; M/Divisor/Right in +1
 		stz 	SignCount 					; Count of signs.
 		;
 		;		Remove and count signs from the integers.
 		;
-		jsr 	CheckIntegerNegate 			; negate 1st (and bump sign count)
-		inx
-		jsr 	CheckIntegerNegate 			; negate 2nd (and bump sign count)
-		dex
+;		jsr 	CheckIntegerNegate 			; negate 1st (and bump sign count)
+;		inx
+;		jsr 	CheckIntegerNegate 			; negate 2nd (and bump sign count)
+;		dex
+DivideMain:
+		stz 	zTemp1 						; Q/Dividend/Left in +0
+		stz 	zTemp1+1 					; M/Divisor/Right in +1
 		phy 								; Y is the counter, save position
 		;
 		;		Main division loop

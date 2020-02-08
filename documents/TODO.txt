@@ -1,11 +1,10 @@
 Todo list (towards Alpha 1)
 ===========================
-- Error Messages (line number out)
 - Do other commands REM LET GOTO GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM()
 - Test routines.
+- Simple running system.
 
 Add:
-	- line number display on error.
 	- string concatenate
 	- string equality
 	- string magnitude
