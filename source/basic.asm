@@ -28,8 +28,9 @@ WarmStart:
 		jmp 	$FFFF		
 
 BootMessage:
-		.text 	"**** Commander X16 Basic Alpha 1 ****",13,13
-		.text 	"512K High RAM. "
+		.text 	"**** Commander X16 Basic ****",13,13
+		.text 	"512K High RAM.",13,13
+		.text 	"Alpha 1. "
 		.include "generated/buildinfo.inc"
 		.byte 	13,13,0
 

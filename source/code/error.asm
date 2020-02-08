@@ -19,7 +19,9 @@ SyntaxError:
 		berror 	"Syntax Error"
 TypeMismatch:
 		berror 	"Type Mismatch"
-
+ParameterError:
+		berror 	"Parameter"
+		
 ; *****************************************************************************
 ;
 ;							  Handle specific errors

@@ -1,6 +1,6 @@
 Todo list (towards Alpha 1)
 ===========================
-- Do other commands GOTO GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
+- Do other commands GOSUB RETURN IF/THEN POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
 - Test routines.
 - Simpler running system.
 - Structure stack.

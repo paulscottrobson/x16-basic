@@ -75,7 +75,7 @@
 	.word	SyntaxError             		; $c7 : doke
 	.word	SyntaxError             		; $c8 : vpoke
 	.word	Command_Rem             		; $c9 : rem
-	.word	SyntaxError             		; $ca : goto
+	.word	Command_GOTO            		; $ca : goto
 	.word	SyntaxError             		; $cb : gosub
 	.word	SyntaxError             		; $cc : sys
 	.word	SyntaxError             		; $cd : return

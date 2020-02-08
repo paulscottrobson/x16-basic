@@ -15,6 +15,7 @@ from tokeniser import *
 class BasicProgram(object):
 	def __init__(self):
 		self.code = []
+		self.lastLine = 0
 		self.nextLine = 1000
 		self.lineStep = 10
 		self.tokeniser = Tokeniser()
@@ -33,12 +34,13 @@ class BasicProgram(object):
 		m = re.match("^(\d+)\\s+(.*)$",txt)
 		if m is not None:
 			n = int(m.group(1))
-			assert n >= self.nextLine,"Line sequence "+txt
+			assert n > self.lastLine,"Line sequence "+txt
 			self.nextLine = n
 			txt = m.group(2).strip()
 		#
 		lineCode = self.tokeniser.tokenise(txt)
 		self.code += [ len(lineCode)+4,self.nextLine & 0xFF,self.nextLine >> 8] + lineCode + [0x80]
+		self.lastLine = self.nextLine
 		self.nextLine += self.lineStep
 	#
 	#		Output the final file.

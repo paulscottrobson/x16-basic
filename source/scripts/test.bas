@@ -1,7 +1,6 @@
-REM "Comment - note the new syntax":X = 4
-C = 42
-E = C*3
-Z = C+E	
-A = -42
-stop
-end
+1000 REM "First loop !"
+1010 A = 0
+1020 A = A + 1
+1025 ASSERT A < 10000	
+1030 GOTO 1020
+1050 END

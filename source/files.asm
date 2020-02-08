@@ -26,6 +26,7 @@ TokenVectors:
 		.include 	"code/syntax.asm"
 		
 		.include 	"commands/let.asm"
+		.include 	"commands/goto.asm"
 		.include 	"commands/miscellany.asm"
 		.include 	"commands/run.asm"
 
