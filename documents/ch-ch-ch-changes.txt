@@ -1,0 +1,39 @@
+Changes
+=======
+The interpreter currently runs in RAM from $1000. However, it *is* designed to be ROMable.
+
+At present obviously much is not implemented ! There is an "Alpha plan" in TODO.txt which gives
+some idea what does and doesn't work at any given stage. Anything "Alpha 2" stuff listed under
+Alpha 2 should work.
+
+Some things may never be, but they will be things that largely don't matter. Some things will 
+depend on how the new kernel works. It may operate differently.
+
+Line editing is due to appear relatively late on (Alpha 6 at the time of writing). 
+
+Initially the BASIC is designed to use Low RAM ($0000-$9EFF) as storage, though this is not
+fixed in stone. Options such as placing variables in $A000-$BFFF will likely appear.
+
+1) At present the default is integer. The final naming scheme will have optional variable 
+types % # and $ , with the option to set the default.
+
+2) REM statements now require comments to be in quotes. DATA statements will require text 
+elements to be in quotes as well. REM "This is a comment". 
+
+3) Lines cannot be longer than 251 tokens, which doesn't really matter as you can't put more than 
+80 characters in a line anyway because of the screen editor.
+
+4) Spacing is not stored but may be required. You can't write FORT=1TO10 any more. (You shouldn't
+anyway). It will actually parse it as [FORT] [=] [1] [TO10]
+
+5) There are currently only 26 integer variables A-Z. These are and will be permanent (though if
+the default type is floats then the will be 26 floating point variables).
+
+6) Floats are down the end of the list of things to implement but the hooks are already in there.
+
+7) IF <test> GOTO <line> does not work and won't. You can still do IF .. THEN GOTO or IF ... THEN <line>
+This is to allow multiple line IFs (the 'THEN' is used to indicate this is a single line IF)
+
+8) RND() is reserved for floats for compatibility so a function RANDOM() exists which generates a 16 
+bit random number.
+

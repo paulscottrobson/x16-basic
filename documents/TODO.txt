@@ -44,3 +44,4 @@ Alpha 6:
 
 Alpha 7:
 	Garbage collection.
+	Error Message nationalisation.
