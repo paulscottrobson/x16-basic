@@ -78,7 +78,7 @@ _BFDNext:									; do 32 times.
 		;
 		lsr 	SignCount 					; if sign count odd,
 		bcc 	_BFDUnsigned 				; then the result is signed
-		jsr		IntegerNegateAlways 		; negate the result
+		jsr		IntegerNegate 				; negate the result
 _BFDUnsigned:		
 		rts
 
@@ -90,9 +90,9 @@ _BFDUnsigned:
 
 CheckIntegerNegate:
 		lda 	xsIntHigh,x 				; is it -ve = MSB set ?
-		bmi 	IntegerNegateAlways 		; if so negate it
+		bmi 	IntegerNegate 				; if so negate it
 		rts
-IntegerNegateAlways:
+IntegerNegate:
 		inc 	SignCount 					; bump the count of signs
 		sec 								; negate
 		lda 	#0

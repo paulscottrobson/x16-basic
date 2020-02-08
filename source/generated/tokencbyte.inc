@@ -1,7 +1,7 @@
 ;
 ;	Generated automatically.
 ;
-	.byte	$00		; $80 : {eol}
+	.byte	$00		; $80 : (eol)
 	.byte	$11		; $81 : and
 	.byte	$11		; $82 : or
 	.byte	$11		; $83 : xor
@@ -72,5 +72,7 @@
 	.byte	$81		; $c4 : rem
 	.byte	$81		; $c5 : goto
 	.byte	$81		; $c6 : gosub
-	.byte	$00		; $c7 : )
-	.byte	$00		; $c8 : :
+	.byte	$81		; $c7 : sys
+	.byte	$81		; $c8 : return
+	.byte	$00		; $c9 : )
+	.byte	$00		; $ca : :

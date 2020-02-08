@@ -31,5 +31,5 @@ SyntaxError:
 		ldx 	#$5E			
 		.byte 	$FF
 ErrorHandler:	
-		ldx 	#$EE			
 		.byte 	$FF		
+		ldx 	#$EE			

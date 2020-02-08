@@ -1,5 +1,5 @@
 @echo off
-del /Q dump.bin basic.prg basic.lst
+del /Q dump.bin basic.prg basic.lst >NUL
 pushd scripts
 python tokengen.py
 python tokeniser.py

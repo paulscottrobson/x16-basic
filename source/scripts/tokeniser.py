@@ -81,7 +81,7 @@ class Tokeniser(object):
 			self.code.append(0xFE)
 			self.code.append(n)
 		else:																# integer constant
-			self.code.append(0xFE)
+			self.code.append(0xFF)
 			self.code.append(n & 0xFF)
 			self.code.append(n >> 8)
 	#
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 		Tokeniser().test("ABC >= 4 > 2")
 		Tokeniser().test(" A FORT FOR A.9 ")
 	#
-	s = "31 mod 7"
+	s = '"Hello"'
 	code = Tokeniser().tokenise(s)
 	h = open(".."+os.sep+"generated"+os.sep+"testcode.inc","w")
 	h.write("\t.byte\t{0}\n\n".format(",".join(["${0:02x}".format(c) for c in code])))

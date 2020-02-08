@@ -1,7 +1,7 @@
 ;
 ;	Generated automatically.
 ;
-	.word	SyntaxError             		; $80 : {eol}
+	.word	SyntaxError             		; $80 : (eol)
 	.word	BinaryAnd               		; $81 : and
 	.word	BinaryOr                		; $82 : or
 	.word	BinaryXor               		; $83 : xor
@@ -72,5 +72,7 @@
 	.word	SyntaxError             		; $c4 : rem
 	.word	SyntaxError             		; $c5 : goto
 	.word	SyntaxError             		; $c6 : gosub
-	.word	SyntaxError             		; $c7 : )
-	.word	SyntaxError             		; $c8 : :
+	.word	SyntaxError             		; $c7 : sys
+	.word	SyntaxError             		; $c8 : return
+	.word	SyntaxError             		; $c9 : )
+	.word	SyntaxError             		; $ca : :

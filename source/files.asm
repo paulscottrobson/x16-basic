@@ -15,7 +15,7 @@ TokenControlByteTable:
 		.include 	"generated/tokencbyte.inc"		
 TokenVectors:
 		.include 	"generated/tokenvectors.inc"
-
+		.include 	"generated/tokenconst.inc"
 
 		.include 	"expression/evaluate.asm"
 		.include 	"expression/exprutils.asm"
@@ -24,3 +24,5 @@ TokenVectors:
 		.include 	"expression/integer/divide.asm"
 
 		.include 	"expression/float/floatdummy.asm"
+
+		.include 	"variables/variable.asm"

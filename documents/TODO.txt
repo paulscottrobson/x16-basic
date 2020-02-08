@@ -1,6 +1,4 @@
-	- dummy variable code
-	- unary functions/other constants etc.
+	- unary functions etc. (don't forget ( # & functions)
 	- comparison binary operators
 	- basic integer variables.
-	- basic string expressions
-
+	- functions etc.

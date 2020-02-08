@@ -12,7 +12,7 @@
 import re,os,sys
 
 def read(lbl,offset):
-	return binFile[labels[lbl.upper()]+offset]
+	return binFile[labels[lbl.upper()]+(offset & 0xFFFF)]
 #
 #		Read dump file
 #
@@ -20,7 +20,7 @@ binFile = [x for x in open(".."+os.sep+"dump.bin","rb").read(-1)]
 #
 #		Get label values from assembler file.
 #
-labels = {}
+labels = { "":0 }
 for l in [x for x in open(".."+os.sep+"basic.lbl").readlines() if x.find("=") >= 0]:
 	m = re.match("^(.*)\\=\\s*\\$(.*)$",l)
 	assert m is not None,"Can't process "+l
@@ -37,3 +37,6 @@ for lv in range(0,4):
 		"float" if (status & 0x80) else "integer",
 		"string" if (status & 0x40) else "number",
 		"reference" if (status & 0x01) else "value",n,n & 0xFFFF))
+	if (status & 0x40) != 0:
+		s = "".join([chr(read("",i+1+n)) for i in range(0,read("",n))])
+		print('\t\t"{0}"'.format(s))

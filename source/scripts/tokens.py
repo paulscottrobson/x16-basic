@@ -23,7 +23,7 @@ class BasicTokens(object):
 			t = (" ".join(t)).split()										# individual tokens
 			current = None 													# current control byte value
 			tokenID = 0x81
-			tokens = { "{EOL}":{ "control":0,"id":0x80 }}					# add EOL as default
+			tokens = { "(EOL)":{ "control":0,"id":0x80 }}					# add EOL as default
 			for kw in t:
 				if kw.startswith("[") or kw.endswith("]"):					# switch control byte
 					current = self.getControl(kw[1:-1])
@@ -89,7 +89,7 @@ class BasicTokens(object):
 		then endif until next endwhile endcase
 [cmd]
 		to step defproc endproc proc local let run stop end print input when default
-		option list load save new old poke doke vpoke rem goto gosub
+		option list load save new old poke doke vpoke rem goto gosub sys return
 [syntax]
 		)	:	
 

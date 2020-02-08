@@ -92,12 +92,73 @@ _EXABinaryOp:
 		plx 								; restore stack depth.
 		jsr 	_EXACallZTemp2 				; call the routine	
 		bra 	_EXAHaveTerm 				; and loop round again.
-
+		;
+		;		Variable reference comes here.
+		;
 _EXAVariable:
+		jsr 	VariableLookup 				; look up the variable value perhaps creating it.
+		bra 	_EXAHaveTerm 				; and carry on with the expression
+		;
+		;		Token / Reference where term is expected here.
+		;
+_EXAKeywordData:
+		cmp 	#TOK_MINUS 					; special case as - is unary and binary operator.
+		bne 	_EXANotNegate
+		iny
+		jsr 	EvaluateExpressionAtX 		; the term
+		jsr 	IntegerNegate 				; negate it
+		bra 	_EXAHaveTerm 				; and loop back.
+		;
+_EXANotNegate:
+		cmp 	#$F8 						; $80-$F8 are unary functions
+		bcc 	_EXAUnaryFunction
+		cmp 	#$FB 						; $FB is a string.
+		beq 	_EXAString
+		;
+		;		Now handle $FE (byte constant) $FF (int constant)
+		;
+		stz 	xsStatus,x 					; it is now either $FE (short int) or $FF (long int)
+		stz 	xsIntHigh,x
+		pha 								; save identifier
+		iny 								; do the low byte
+		lda 	(codePtr),y
+		sta 	xsIntLow,x
+		iny
+		pla 								; get identifier
+		cmp 	#$FE  						; if short then done.
+		beq 	_EXAHaveTerm
+		cmp 	#$FF 						; should be $FF
+		bne 	_EXACrash
+		lda 	(codePtr),y 				; copy high byte
+		sta 	xsIntHigh,x
+		iny
+		bra 	_EXAHaveTerm
+_EXACrash:									; internal error should not happen.
+		berror 	"#X"
+		;
+		;		String
+		;
+_EXAString:
+		iny 								; point to string length, which is the string start.
+		tya 								; work out the physical address of the string
+		clc
+		adc 	codePtr
+		sta 	xsAddrLow,x
+		lda 	codePtr+1
+		adc 	#0
+		sta 	xsAddrHigh,x
+		lda 	#$40 						; set the type to string
+		sta 	xsStatus,x
+		;
+		tya 								; add the length to the current position
+		clc
+		adc 	(codePtr),y
+		tay
+		jmp 	_EXAHaveTerm
+
+_EXAUnaryFunction:				
 		.byte 	$FF
 
-_EXAKeywordData:
-		.byte 	$FF
 
 _EXACallZTemp2:								; so we can jsr (zTemp2)
 		jmp 	(zTemp2)

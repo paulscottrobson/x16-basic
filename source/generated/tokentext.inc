@@ -1,7 +1,7 @@
 ;
 ;	Generated automatically.
 ;
-	.byte	$05,$7b,$45,$4f,$4c,$fd                  ; $80 : {eol}
+	.byte	$05,$28,$45,$4f,$4c,$a9                  ; $80 : (eol)
 	.byte	$03,$41,$4e,$c4                          ; $81 : and
 	.byte	$02,$4f,$d2                              ; $82 : or
 	.byte	$03,$58,$4f,$d2                          ; $83 : xor
@@ -72,6 +72,8 @@
 	.byte	$03,$52,$45,$cd                          ; $c4 : rem
 	.byte	$04,$47,$4f,$54,$cf                      ; $c5 : goto
 	.byte	$05,$47,$4f,$53,$55,$c2                  ; $c6 : gosub
-	.byte	$01,$a9                                  ; $c7 : )
-	.byte	$01,$ba                                  ; $c8 : :
+	.byte	$03,$53,$59,$d3                          ; $c7 : sys
+	.byte	$06,$52,$45,$54,$55,$52,$ce              ; $c8 : return
+	.byte	$01,$a9                                  ; $c9 : )
+	.byte	$01,$ba                                  ; $ca : :
 	.byte	$00
