@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.54.1900 listing file
 ; 64tass -q -c -o basic.prg -L basic.lst -l basic.lbl basic.asm
-; Sat Feb 08 06:25:43 2020
+; Sat Feb 08 06:35:15 2020
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -39,7 +39,7 @@
 
 ;******  Return to file: basic.asm
 
-.6000	4c 9b 63	jmp $639b			jmp 	ColdStart
+.6000	4c dc 63	jmp $63dc			jmp 	ColdStart
 
 ;******  Processing file: files.asm
 
@@ -209,79 +209,79 @@
 
 ;******  Processing file: generated/tokenvectors.inc
 
->61a9	b2 63					.word	SyntaxError             		; $80 : {eol}
+>61a9	f3 63					.word	SyntaxError             		; $80 : {eol}
 >61ab	2e 63					.word	BinaryAnd               		; $81 : and
 >61ad	4c 63					.word	BinaryOr                		; $82 : or
 >61af	6a 63					.word	BinaryXor               		; $83 : xor
->61b1	b2 63					.word	SyntaxError             		; $84 : >
->61b3	b2 63					.word	SyntaxError             		; $85 : >=
->61b5	b2 63					.word	SyntaxError             		; $86 : <
->61b7	b2 63					.word	SyntaxError             		; $87 : <=
->61b9	b2 63					.word	SyntaxError             		; $88 : =
->61bb	b2 63					.word	SyntaxError             		; $89 : <>
+>61b1	f3 63					.word	SyntaxError             		; $84 : >
+>61b3	f3 63					.word	SyntaxError             		; $85 : >=
+>61b5	f3 63					.word	SyntaxError             		; $86 : <
+>61b7	f3 63					.word	SyntaxError             		; $87 : <=
+>61b9	f3 63					.word	SyntaxError             		; $88 : =
+>61bb	f3 63					.word	SyntaxError             		; $89 : <>
 >61bd	f0 62					.word	BinaryAdd               		; $8a : +
 >61bf	0f 63					.word	BinarySub               		; $8b : -
->61c1	b2 63					.word	SyntaxError             		; $8c : *
->61c3	b2 63					.word	SyntaxError             		; $8d : /
->61c5	b2 63					.word	SyntaxError             		; $8e : mod
->61c7	b2 63					.word	SyntaxError             		; $8f : len(
->61c9	b2 63					.word	SyntaxError             		; $90 : rnd(
->61cb	b2 63					.word	SyntaxError             		; $91 : asc(
->61cd	b2 63					.word	SyntaxError             		; $92 : chr$(
->61cf	b2 63					.word	SyntaxError             		; $93 : val(
->61d1	b2 63					.word	SyntaxError             		; $94 : str$(
->61d3	b2 63					.word	SyntaxError             		; $95 : spc(
->61d5	b2 63					.word	SyntaxError             		; $96 : left$(
->61d7	b2 63					.word	SyntaxError             		; $97 : mid$(
->61d9	b2 63					.word	SyntaxError             		; $98 : right$(
->61db	b2 63					.word	SyntaxError             		; $99 : abs(
->61dd	b2 63					.word	SyntaxError             		; $9a : sgn(
->61df	b2 63					.word	SyntaxError             		; $9b : int(
->61e1	b2 63					.word	SyntaxError             		; $9c : deek(
->61e3	b2 63					.word	SyntaxError             		; $9d : peek(
->61e5	b2 63					.word	SyntaxError             		; $9e : vpeek(
->61e7	b2 63					.word	SyntaxError             		; $9f : (
->61e9	b2 63					.word	SyntaxError             		; $a0 : %
->61eb	b2 63					.word	SyntaxError             		; $a1 : $
->61ed	b2 63					.word	SyntaxError             		; $a2 : if
->61ef	b2 63					.word	SyntaxError             		; $a3 : repeat
->61f1	b2 63					.word	SyntaxError             		; $a4 : for
->61f3	b2 63					.word	SyntaxError             		; $a5 : while
->61f5	b2 63					.word	SyntaxError             		; $a6 : case
->61f7	b2 63					.word	SyntaxError             		; $a7 : then
->61f9	b2 63					.word	SyntaxError             		; $a8 : endif
->61fb	b2 63					.word	SyntaxError             		; $a9 : until
->61fd	b2 63					.word	SyntaxError             		; $aa : next
->61ff	b2 63					.word	SyntaxError             		; $ab : endwhile
->6201	b2 63					.word	SyntaxError             		; $ac : endcase
->6203	b2 63					.word	SyntaxError             		; $ad : to
->6205	b2 63					.word	SyntaxError             		; $ae : step
->6207	b2 63					.word	SyntaxError             		; $af : defproc
->6209	b2 63					.word	SyntaxError             		; $b0 : endproc
->620b	b2 63					.word	SyntaxError             		; $b1 : proc
->620d	b2 63					.word	SyntaxError             		; $b2 : local
->620f	b2 63					.word	SyntaxError             		; $b3 : let
->6211	b2 63					.word	SyntaxError             		; $b4 : run
->6213	b2 63					.word	SyntaxError             		; $b5 : stop
->6215	b2 63					.word	SyntaxError             		; $b6 : end
->6217	b2 63					.word	SyntaxError             		; $b7 : print
->6219	b2 63					.word	SyntaxError             		; $b8 : input
->621b	b2 63					.word	SyntaxError             		; $b9 : when
->621d	b2 63					.word	SyntaxError             		; $ba : default
->621f	b2 63					.word	SyntaxError             		; $bb : option
->6221	b2 63					.word	SyntaxError             		; $bc : list
->6223	b2 63					.word	SyntaxError             		; $bd : load
->6225	b2 63					.word	SyntaxError             		; $be : save
->6227	b2 63					.word	SyntaxError             		; $bf : new
->6229	b2 63					.word	SyntaxError             		; $c0 : old
->622b	b2 63					.word	SyntaxError             		; $c1 : poke
->622d	b2 63					.word	SyntaxError             		; $c2 : doke
->622f	b2 63					.word	SyntaxError             		; $c3 : vpoke
->6231	b2 63					.word	SyntaxError             		; $c4 : rem
->6233	b2 63					.word	SyntaxError             		; $c5 : goto
->6235	b2 63					.word	SyntaxError             		; $c6 : gosub
->6237	b2 63					.word	SyntaxError             		; $c7 : )
->6239	b2 63					.word	SyntaxError             		; $c8 : :
+>61c1	88 63					.word	Multiply16x16           		; $8c : *
+>61c3	f3 63					.word	SyntaxError             		; $8d : /
+>61c5	f3 63					.word	SyntaxError             		; $8e : mod
+>61c7	f3 63					.word	SyntaxError             		; $8f : len(
+>61c9	f3 63					.word	SyntaxError             		; $90 : rnd(
+>61cb	f3 63					.word	SyntaxError             		; $91 : asc(
+>61cd	f3 63					.word	SyntaxError             		; $92 : chr$(
+>61cf	f3 63					.word	SyntaxError             		; $93 : val(
+>61d1	f3 63					.word	SyntaxError             		; $94 : str$(
+>61d3	f3 63					.word	SyntaxError             		; $95 : spc(
+>61d5	f3 63					.word	SyntaxError             		; $96 : left$(
+>61d7	f3 63					.word	SyntaxError             		; $97 : mid$(
+>61d9	f3 63					.word	SyntaxError             		; $98 : right$(
+>61db	f3 63					.word	SyntaxError             		; $99 : abs(
+>61dd	f3 63					.word	SyntaxError             		; $9a : sgn(
+>61df	f3 63					.word	SyntaxError             		; $9b : int(
+>61e1	f3 63					.word	SyntaxError             		; $9c : deek(
+>61e3	f3 63					.word	SyntaxError             		; $9d : peek(
+>61e5	f3 63					.word	SyntaxError             		; $9e : vpeek(
+>61e7	f3 63					.word	SyntaxError             		; $9f : (
+>61e9	f3 63					.word	SyntaxError             		; $a0 : %
+>61eb	f3 63					.word	SyntaxError             		; $a1 : $
+>61ed	f3 63					.word	SyntaxError             		; $a2 : if
+>61ef	f3 63					.word	SyntaxError             		; $a3 : repeat
+>61f1	f3 63					.word	SyntaxError             		; $a4 : for
+>61f3	f3 63					.word	SyntaxError             		; $a5 : while
+>61f5	f3 63					.word	SyntaxError             		; $a6 : case
+>61f7	f3 63					.word	SyntaxError             		; $a7 : then
+>61f9	f3 63					.word	SyntaxError             		; $a8 : endif
+>61fb	f3 63					.word	SyntaxError             		; $a9 : until
+>61fd	f3 63					.word	SyntaxError             		; $aa : next
+>61ff	f3 63					.word	SyntaxError             		; $ab : endwhile
+>6201	f3 63					.word	SyntaxError             		; $ac : endcase
+>6203	f3 63					.word	SyntaxError             		; $ad : to
+>6205	f3 63					.word	SyntaxError             		; $ae : step
+>6207	f3 63					.word	SyntaxError             		; $af : defproc
+>6209	f3 63					.word	SyntaxError             		; $b0 : endproc
+>620b	f3 63					.word	SyntaxError             		; $b1 : proc
+>620d	f3 63					.word	SyntaxError             		; $b2 : local
+>620f	f3 63					.word	SyntaxError             		; $b3 : let
+>6211	f3 63					.word	SyntaxError             		; $b4 : run
+>6213	f3 63					.word	SyntaxError             		; $b5 : stop
+>6215	f3 63					.word	SyntaxError             		; $b6 : end
+>6217	f3 63					.word	SyntaxError             		; $b7 : print
+>6219	f3 63					.word	SyntaxError             		; $b8 : input
+>621b	f3 63					.word	SyntaxError             		; $b9 : when
+>621d	f3 63					.word	SyntaxError             		; $ba : default
+>621f	f3 63					.word	SyntaxError             		; $bb : option
+>6221	f3 63					.word	SyntaxError             		; $bc : list
+>6223	f3 63					.word	SyntaxError             		; $bd : load
+>6225	f3 63					.word	SyntaxError             		; $be : save
+>6227	f3 63					.word	SyntaxError             		; $bf : new
+>6229	f3 63					.word	SyntaxError             		; $c0 : old
+>622b	f3 63					.word	SyntaxError             		; $c1 : poke
+>622d	f3 63					.word	SyntaxError             		; $c2 : doke
+>622f	f3 63					.word	SyntaxError             		; $c3 : vpoke
+>6231	f3 63					.word	SyntaxError             		; $c4 : rem
+>6233	f3 63					.word	SyntaxError             		; $c5 : goto
+>6235	f3 63					.word	SyntaxError             		; $c6 : gosub
+>6237	f3 63					.word	SyntaxError             		; $c7 : )
+>6239	f3 63					.word	SyntaxError             		; $c8 : :
 
 ;******  Return to file: files.asm
 
@@ -394,7 +394,7 @@
 .62d9	30 01		bmi $62dc			bmi 	_NTCError 					; so fail if string, we want int
 .62db	60		rts				rts
 .62dc					_NTCError:
-.62dc	20 b5 63	jsr $63b5			jsr 	ErrorHandler
+.62dc	20 f6 63	jsr $63f6			jsr 	ErrorHandler
 >62df	4e 75 6d 62 65 72 20 4f				.text 	"Number Operation",0
 >62e7	70 65 72 61 74 69 6f 6e 00
 
@@ -407,7 +407,7 @@
 .62f0	20 93 62	jsr $6293			jsr 	DeReferenceBinary 			; convert references to values
 .62f3	20 d2 62	jsr $62d2			jsr 	NumberTypeCheck 			; check numeric, returns CC if both integer.
 .62f6	90 03		bcc $62fb			bcc 	_Integer
-.62f8	4c 88 63	jmp $6388			jmp 	FPAdd
+.62f8	4c c9 63	jmp $63c9			jmp 	FPAdd
 .62fb					_Integer:
 .62fb	18		clc				clc
 .62fc	bd 20 06	lda $0620,x			lda 	xsIntLow,x
@@ -421,7 +421,7 @@
 .630f	20 93 62	jsr $6293			jsr 	DeReferenceBinary 			; convert references to values
 .6312	20 d2 62	jsr $62d2			jsr 	NumberTypeCheck 			; check numeric, returns CC if both integer.
 .6315	90 03		bcc $631a			bcc 	_Integer
-.6317	4c 88 63	jmp $6388			jmp 	FPSub
+.6317	4c c9 63	jmp $63c9			jmp 	FPSub
 .631a					_Integer:
 .631a	38		sec				sec
 .631b	bd 20 06	lda $0620,x			lda 	xsIntLow,x
@@ -435,7 +435,7 @@
 .632e	20 93 62	jsr $6293			jsr 	DeReferenceBinary 			; convert references to values
 .6331	20 d2 62	jsr $62d2			jsr 	NumberTypeCheck 			; check numeric. if float convert to integer
 .6334	90 03		bcc $6339			bcc 	_Integer
-.6336	20 88 63	jsr $6388			jsr 	FPFloatToInteger
+.6336	20 c9 63	jsr $63c9			jsr 	FPFloatToInteger
 .6339					_Integer:
 .6339	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .633c	3d 21 06	and $0621,x			and 	xsIntLow+1,x
@@ -448,7 +448,7 @@
 .634c	20 93 62	jsr $6293			jsr 	DeReferenceBinary 			; convert references to values
 .634f	20 d2 62	jsr $62d2			jsr 	NumberTypeCheck 			; check numeric. if float convert to integer
 .6352	90 03		bcc $6357			bcc 	_Integer
-.6354	20 88 63	jsr $6388			jsr 	FPFloatToInteger
+.6354	20 c9 63	jsr $63c9			jsr 	FPFloatToInteger
 .6357					_Integer:
 .6357	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .635a	1d 21 06	ora $0621,x			ora 	xsIntLow+1,x
@@ -461,7 +461,7 @@
 .636a	20 93 62	jsr $6293			jsr 	DeReferenceBinary 			; convert references to values
 .636d	20 d2 62	jsr $62d2			jsr 	NumberTypeCheck 			; check numeric. if float convert to integer
 .6370	90 03		bcc $6375			bcc 	_Integer
-.6372	20 88 63	jsr $6388			jsr 	FPFloatToInteger
+.6372	20 c9 63	jsr $63c9			jsr 	FPFloatToInteger
 .6375					_Integer:
 .6375	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .6378	5d 21 06	eor $0621,x			eor 	xsIntLow+1,x
@@ -474,46 +474,82 @@
 ;******  Return to file: files.asm
 
 
+;******  Processing file: expression/integer/multiply.asm
+
+.6388					Multiply16x16:
+.6388	20 93 62	jsr $6293			jsr 	DeReferenceBinary 			; convert references to values
+.638b	20 d2 62	jsr $62d2			jsr 	NumberTypeCheck 			; check numeric, returns CC if both integer.
+.638e	90 03		bcc $6393			bcc 	_Integer
+.6390	4c c9 63	jmp $63c9			jmp 	FPMultiply
+.6393					_Integer:
+.6393	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; 1st value to zTemp1
+.6396	85 04		sta $04				sta 	zTemp2
+.6398	bd 40 06	lda $0640,x			lda		xsIntHigh,x
+.639b	85 05		sta $05				sta 	zTemp2+1
+.639d	9e 20 06	stz $0620,x			stz 	xsIntLow,x 					; zero 1st on stack
+.63a0	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.63a3					_MultLoop:
+.63a3	46 05		lsr $05				lsr 	zTemp2+1 					; ror zTemp2 into C
+.63a5	66 04		ror $04				ror 	zTemp2
+.63a7	90 13		bcc $63bc			bcc 	_MultNoAdd
+.63a9	18		clc				clc 								; add 2nd to 1st.
+.63aa	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.63ad	7d 21 06	adc $0621,x			adc 	xsIntLow+1,x
+.63b0	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.63b3	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.63b6	7d 41 06	adc $0641,x			adc 	xsIntHigh+1,x
+.63b9	9d 40 06	sta $0640,x			sta 	xsIntHigh,x
+.63bc					_MultNoAdd:
+.63bc	1e 21 06	asl $0621,x			asl 	xsIntLow+1,x 				; shift 2nd left
+.63bf	3e 41 06	rol $0641,x			rol 	xsIntHigh+1,x
+.63c2	a5 04		lda $04				lda 	zTemp2	 					; until multiplier is zero
+.63c4	05 05		ora $05				ora 	zTemp2+1
+.63c6	d0 db		bne $63a3			bne 	_MultLoop
+.63c8	60		rts				rts
+
+;******  Return to file: files.asm
+
+
 ;******  Processing file: expression/float/floatdummy.asm
 
-.6388					FPAdd:
-.6388					FPSub:
-.6388					FPMultiply:
-.6388					FPDivide:
-.6388					FPFloatToInteger:
-.6388	20 b5 63	jsr $63b5			jsr 	ErrorHandler
->638b	4e 6f 74 20 49 6d 70 6c				.text 	"Not Implemented",0
->6393	65 6d 65 6e 74 65 64 00
+.63c9					FPAdd:
+.63c9					FPSub:
+.63c9					FPMultiply:
+.63c9					FPDivide:
+.63c9					FPFloatToInteger:
+.63c9	20 f6 63	jsr $63f6			jsr 	ErrorHandler
+>63cc	4e 6f 74 20 49 6d 70 6c				.text 	"Not Implemented",0
+>63d4	65 6d 65 6e 74 65 64 00
 
 ;******  Return to file: files.asm
 
 
 ;******  Return to file: basic.asm
 
-.639b					ColdStart:
-.639b	a2 ff		ldx #$ff			ldx 	#$FF 						; reset the stack
-.639d	9a		txs				txs
-.639e	a9 ae		lda #$ae			lda 	#(TestProgram) & $FF
-.63a0	85 00		sta $00				sta 	0+(codePtr)
-.63a2	a9 63		lda #$63			lda 	#(TestProgram) >> 8
-.63a4	85 01		sta $01				sta 	1+(codePtr)
-.63a6	a0 00		ldy #$00			ldy 	#0
-.63a8	20 3b 62	jsr $623b			jsr 	EvaluateExpression
-.63ab	4c ff ff	jmp $ffff			jmp 	$FFFF
-.63ae					TestProgram:
+.63dc					ColdStart:
+.63dc	a2 ff		ldx #$ff			ldx 	#$FF 						; reset the stack
+.63de	9a		txs				txs
+.63df	a9 ef		lda #$ef			lda 	#(TestProgram) & $FF
+.63e1	85 00		sta $00				sta 	0+(codePtr)
+.63e3	a9 63		lda #$63			lda 	#(TestProgram) >> 8
+.63e5	85 01		sta $01				sta 	1+(codePtr)
+.63e7	a0 00		ldy #$00			ldy 	#0
+.63e9	20 3b 62	jsr $623b			jsr 	EvaluateExpression
+.63ec	4c ff ff	jmp $ffff			jmp 	$FFFF
+.63ef					TestProgram:
 
 ;******  Processing file: generated/testcode.inc
 
->63ae	7e 81 6d				.byte	$7e,$81,$6d
+>63ef	74 8c 74				.byte	$74,$8c,$74
 
 ;******  Return to file: basic.asm
 
->63b1	80						.byte 	$80
-.63b2					SyntaxError:
-.63b2	a2 5e		ldx #$5e			ldx 	#$5E
->63b4	ff						.byte 	$FF
-.63b5					ErrorHandler:
-.63b5	a2 ee		ldx #$ee			ldx 	#$EE
->63b7	ff						.byte 	$FF
+>63f2	80						.byte 	$80
+.63f3					SyntaxError:
+.63f3	a2 5e		ldx #$5e			ldx 	#$5E
+>63f5	ff						.byte 	$FF
+.63f6					ErrorHandler:
+.63f6	a2 ee		ldx #$ee			ldx 	#$EE
+>63f8	ff						.byte 	$FF
 
 ;******  End of listing

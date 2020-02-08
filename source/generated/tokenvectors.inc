@@ -13,7 +13,7 @@
 	.word	SyntaxError             		; $89 : <>
 	.word	BinaryAdd               		; $8a : +
 	.word	BinarySub               		; $8b : -
-	.word	SyntaxError             		; $8c : *
+	.word	Multiply16x16           		; $8c : *
 	.word	SyntaxError             		; $8d : /
 	.word	SyntaxError             		; $8e : mod
 	.word	SyntaxError             		; $8f : len(

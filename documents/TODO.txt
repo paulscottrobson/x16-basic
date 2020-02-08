@@ -1,4 +1,3 @@
-	- multiply and check precedence works.
 	- complete arithmetic
 	- unary functions etc.
 	- basic integer variables.
