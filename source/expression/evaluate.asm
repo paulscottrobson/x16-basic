@@ -112,7 +112,7 @@ _EXAKeywordData:
 _EXANotNegate:
 		cmp 	#$F8 						; $80-$F8 are unary functions
 		bcc 	_EXAUnaryFunction
-		cmp 	#$FB 						; $FB is a string.
+		cmp 	#TOK_STRING_OBJ 			; $FB is a string.
 		beq 	_EXAString
 		;
 		;		Now handle $FE (byte constant) $FF (int constant)
@@ -125,9 +125,9 @@ _EXANotNegate:
 		sta 	xsIntLow,x
 		iny
 		pla 								; get identifier
-		cmp 	#$FE  						; if short then done.
+		cmp 	#TOK_BYTE_OBJ  				; if short then done.
 		beq 	_EXAHaveTerm
-		cmp 	#$FF 						; should be $FF
+		cmp 	#TOK_WORD_OBJ 				; should be $FF
 		bne 	_EXACrash
 		lda 	(codePtr),y 				; copy high byte
 		sta 	xsIntHigh,x

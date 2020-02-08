@@ -16,12 +16,12 @@
 ; ******************************************************************************
 
 ExternInitialise:
-		lda 	#144 						; set colour
-		jsr 	$FFD2
-		lda 	#$01
-		jsr 	$FFD2
-		lda 	#14							; lower case
-		jsr 	$FFD2		
+;		lda 	#144 						; set colour
+;		jsr 	$FFD2
+;		lda 	#$01
+;		jsr 	$FFD2
+;		lda 	#14							; lower case
+;		jsr 	$FFD2		
 		lda 	#147 						; clear screen
 		jsr 	$FFD2
 		lda 	#COL_WHITE 					; white text.

@@ -1,6 +1,6 @@
 Todo list (towards Alpha 1)
 ===========================
-- Do other commands GOSUB RETURN IF/THEN VPOKE VPEEK PRINT
+- Do other commands IF/THEN VPOKE VPEEK PRINT
 - Test routines.
 - Simpler running system.
 

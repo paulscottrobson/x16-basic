@@ -77,9 +77,9 @@
 	.word	SyntaxError             		; $c9 : vpoke
 	.word	Command_Rem             		; $ca : rem
 	.word	Command_GOTO            		; $cb : goto
-	.word	SyntaxError             		; $cc : gosub
+	.word	Command_Gosub           		; $cc : gosub
 	.word	SyntaxError             		; $cd : sys
-	.word	SyntaxError             		; $ce : return
+	.word	Command_Return          		; $ce : return
 	.word	Command_Assert          		; $cf : assert
 	.word	SyntaxError             		; $d0 : on
 	.word	SyntaxError             		; $d1 : open

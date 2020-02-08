@@ -27,8 +27,9 @@ for l in [x for x in open(".."+os.sep+"basic.lbl").readlines() if x.find("=") >=
 	m = re.match("^(.*)\\=\\s*(.*)$",l)
 	assert m is not None,"Can't process "+l
 	s = m.group(2).strip()
-	s = int(s[1:],16) if s.startswith("$") else int(s)
-	labels[m.group(1).upper().strip()] = s
+	if s.find('"') < 0:
+		s = int(s[1:],16) if s.startswith("$") else int(s)
+		labels[m.group(1).upper().strip()] = s
 #
 #		Display four levels of stack.
 #

@@ -1,8 +1,8 @@
 ; *****************************************************************************
 ; *****************************************************************************
 ;
-;		Name :		miscellany.asm
-;		Purpose :	X16-Basic Miscellaneous
+;		Name :		gosub.asm
+;		Purpose :	X16-Basic Gosub & Return
 ;		Author :	Paul Robson (paul@robsons.org.uk)
 ;		Date : 		8th February 2020
 ;
@@ -11,33 +11,28 @@
 
 ; *****************************************************************************
 ;
-;								Assert command
+;								GOSUB <linenumber>
 ;
 ; *****************************************************************************
 
-Command_Assert: ;; assert
-		ldx 	#0 							; get a single parameter
-		getparam_n SyntaxError  			; not a float.
-		lda 	xsIntLow,x 					; check it is non-zero		
-		ora 	xsIntHigh,x
-		beq 	_CAFail
+Command_Gosub:	;; gosub
+		jsr 	EvaluateExpression 			; get the line number.
+		jsr 	StructPushPos 				; save position
+		lda 	#SMARK_GOSUB 				; push a GOSUB marker
+		jsr 	StructPushA
+		jsr 	TransferControlToStack		; branch to there
 		rts
-_CAFail:berror 	"Assert"		
 
 ; *****************************************************************************
 ;
-;					Remark followed by a quoted string perhaps
+;									RETURN
 ;
 ; *****************************************************************************
 
-Command_Rem: 	;; rem
-		lda 	(codePtr),y
-		cmp 	#TOK_STRING_OBJ 			; is there a string ?	
-		bne 	_CRExit
-		iny 								; then skip over it.
-		sec
-		tya
-		adc 	(codePtr),y
-		tay
-_CRExit:
+Command_Return: ;; return
+		checkStructureStack SMARK_GOSUB,"No Gosub"
+		lda 	#1 							; restore return address
+		jsr 	StructGetPos
+		lda 	#4 							; pop the address and marker
+		jsr 	StructPopABytes
 		rts

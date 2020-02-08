@@ -50,6 +50,7 @@ StructPushPos:
 		lda 	structSP 					; make space for 3 bytes
 		sec
 		sbc 	#3
+		beq 	SPUnderflow
 		bcc 	SPUnderflow 				; borrowed, so underflowed.
 		sta 	structSP
 		tax 								; X points to space
@@ -64,11 +65,14 @@ StructPushPos:
 
 ; *****************************************************************************
 ;
-;					Restore Y and codePtr of stack at offset X
+;					Restore Y and codePtr of stack at offset A
 ;
 ; *****************************************************************************
 
 StructGetPos:
+		clc 								; add offset to stack pointer.
+		adc 	structSP
+		tax
 		lda 	structStack,x 				; Y offset
 		tay
 		lda 	structStack+1,x

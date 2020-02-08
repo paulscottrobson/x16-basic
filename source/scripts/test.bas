@@ -1,7 +1,9 @@
-a = random()
-c = random() 
-e = random() 
-f = random() 
-g = random() and 7
-h = random() 
-z = random() 
+1000 A = 1
+1010 GOSUB 2000
+1013 GOSUB 2000
+1020 STOP
+2000 GOSUB 3000
+2010 GOSUB 3000
+3000 A = A + 1000
+3010 RETURN
+

@@ -125,7 +125,7 @@ _Integer:
 
 checkStructureStack .macro
 		lda 	#\1 						; thing to check against
-		jsr 	StructureCheckTOS 			; is it on top ?
+		jsr 	StructCheckTOS 				; is it on top ?
 		bcc 	_Ok
 		berror 	\2 							; if not display error message
 _Ok:
