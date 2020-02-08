@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.54.1900 listing file
 ; 64tass -q -c -o basic_nocode.prg -L basic.lst -l basic.lbl basic.asm
-; Sat Feb 08 22:08:02 2020
+; Sat Feb 08 22:12:19 2020
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -1799,9 +1799,9 @@
 
 ;******  Processing file: generated/buildinfo.inc
 
->1bbe	42 75 69 6c 64 3a 32 30			.text	"Build:204 (08-Feb-20 22:08)"
->1bc6	34 20 28 30 38 2d 46 65 62 2d 32 30 20 32 32 3a
->1bd6	30 38 29
+>1bbe	42 75 69 6c 64 3a 32 31			.text	"Build:210 (08-Feb-20 22:12)"
+>1bc6	30 20 28 30 38 2d 46 65 62 2d 32 30 20 32 32 3a
+>1bd6	31 32 29
 
 ;******  Return to file: basic.asm
 
