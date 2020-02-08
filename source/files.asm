@@ -21,5 +21,6 @@ TokenVectors:
 		.include 	"expression/exprutils.asm"
 		.include 	"expression/integer/arithmetic.asm"
 		.include 	"expression/integer/multiply.asm"
+		.include 	"expression/integer/divide.asm"
 
 		.include 	"expression/float/floatdummy.asm"

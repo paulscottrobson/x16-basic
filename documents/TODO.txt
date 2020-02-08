@@ -1,5 +1,6 @@
-	- complete arithmetic
-	- unary functions etc.
+	- dummy variable code
+	- unary functions/other constants etc.
+	- comparison binary operators
 	- basic integer variables.
 	- basic string expressions
 

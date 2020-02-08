@@ -39,6 +39,15 @@ zTemp4:
 ;
 ; *****************************************************************************
 
+signCount:									; division sign count
+		.byte 	?
+
+; *****************************************************************************
+;
+;						  Specific address allocation
+;
+; *****************************************************************************
+
 xsStatus = $600								; expression stack.
 xsAddrLow = $620 							; these values are shared depending on type.
 xsAddrHigh = $640

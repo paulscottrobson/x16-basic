@@ -24,7 +24,7 @@ EvaluateExpression:
 ;
 ; *****************************************************************************
 
-EvalutateExpressionAtX:
+EvaluateExpressionAtX:
 		lda 	#$10 						; this is the lowest precedence.
 
 ; *****************************************************************************

@@ -13,5 +13,7 @@ FPAdd:
 FPSub:
 FPMultiply:
 FPDivide:
+FPModulus:
 FPFloatToInteger:
+FPIntegerToFloat:
 		berror 	"Not Implemented"

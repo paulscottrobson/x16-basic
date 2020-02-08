@@ -14,8 +14,8 @@
 	.word	BinaryAdd               		; $8a : +
 	.word	BinarySub               		; $8b : -
 	.word	Multiply16x16           		; $8c : *
-	.word	SyntaxError             		; $8d : /
-	.word	SyntaxError             		; $8e : mod
+	.word	Divide16x16             		; $8d : /
+	.word	Modulus16x16            		; $8e : mod
 	.word	SyntaxError             		; $8f : len(
 	.word	SyntaxError             		; $90 : rnd(
 	.word	SyntaxError             		; $91 : asc(
