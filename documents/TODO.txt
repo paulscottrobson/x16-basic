@@ -1,3 +1,33 @@
-	- comparison binary operators number and string with float padding.
-	- basic integer variables.
-	- start on main executor.
+Add to the dispatchers:
+	- string concatenate
+	- string equality
+	- string magnitude
+	- other unary functions 
+		rnd( in integer and float mode ???? maybe have random() which returns 16 bit integer ?
+
+- int / int => float in floating point.
+
+Alpha 1 should support :
+	Expressions (int only)
+	26 integer variables A-Z
+	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM
+	(Easy) Direct running.
+	Proper error messages. (END does dump/exit)
+	Some automatic testing of arithmetic/logical/etc. functionality.
+
+Alpha 2 :
+	Add string memory allocation from top down.
+	Add string functions, comparison operators, concatenators
+
+Alpha 3 :
+	Add other unary functions
+
+Alpha 4 :
+	Add DIM variables and arrays from bottom up, hash tables etc.
+	Add autodefaulttyping system.
+
+Alpha 5 :
+	Add REPEAT/IF/WHILE/FOR structures (not CASE), CALL, PROC and ENDPROC	
+
+Alpha 6:
+	Add program editing, escape functionality, keyboard I/O operations.

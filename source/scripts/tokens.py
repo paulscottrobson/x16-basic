@@ -66,6 +66,8 @@ class BasicTokens(object):
 //
 //		****	WARNING : CHANGING ORDERS WILL KILL BINARY COMPATIBILITY 	****
 //
+[syntax]
+		)	:	, 	;	#
 //		Binary operators, lowest first
 //	
 [1] 	and or xor
@@ -88,10 +90,9 @@ class BasicTokens(object):
 [cmd-]	 
 		then endif until next endwhile endcase
 [cmd]
-		to step defproc endproc proc local let run stop end print input when default
-		option list load save new old poke doke vpoke rem goto gosub sys return
-[syntax]
-		)	:	
+		to step proc endproc call local run stop end print input when default let
+		option list load save new old poke doke vpoke rem goto gosub sys return assert
+		on open close dir dim read data restore
 
 """
 

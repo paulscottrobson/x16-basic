@@ -56,7 +56,7 @@ for k in keywords:
 	s = k.replace("(","LPAREN").replace(")","RPAREN").replace(":","COLON").replace("=","EQUAL")
 	s = s.replace(">","GREATER").replace("<","LESS").replace("+","PLUS").replace("-","MINUS")
 	s = s.replace("*","STAR").replace("/","SLASH").replace("$","DOLLAR").replace("#","HASH")
-	s = s.replace("%","PERCENT").replace("","").replace("","").replace("","")
+	s = s.replace("%","PERCENT").replace(",","COMMA").replace(";","SEMICOLON").replace("","")
 	s = s.replace("","").replace("","").replace("","").replace("","")
 	assert re.match("^[a-zA-Z]+$",s) is not None,"Bad "+s
 	h.write("TOK_{0} = ${1:02x}\n".format(s.upper(),tokens[k]["id"]))

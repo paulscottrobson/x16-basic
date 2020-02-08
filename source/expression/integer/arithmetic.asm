@@ -16,7 +16,7 @@
 ; *****************************************************************************
 
 BinaryAdd:	;; 	+
-		typederef 	FPAdd
+		alltypederef FPAdd,SyntaxError
 		clc
 		lda 	xsIntLow,x
 		adc 	xsIntLow+1,x

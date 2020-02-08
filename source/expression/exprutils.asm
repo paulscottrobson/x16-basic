@@ -98,10 +98,13 @@ _NTCError:
 ;
 ; *****************************************************************************
 
+BinaryStringTypeCheck:
+		bit 	xsStatus+1,x
+		bvc 	STCError
 UnaryStringTypeCheck:
 		bit 	xsStatus,x 					; check if string
-		bvc 	_STCError
+		bvc 	STCError
 		rts
-_STCError:
+STCError:
 		berror	"String expected"		
 		

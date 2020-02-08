@@ -105,7 +105,7 @@ _EXAKeywordData:
 		cmp 	#TOK_MINUS 					; special case as - is unary and binary operator.
 		bne 	_EXANotNegate
 		iny
-		jsr 	EvaluateExpressionAtX 		; the term
+		jsr 	EvaluateTermAtX 			; the term
 		jsr 	IntegerNegate 				; negate it
 		bra 	_EXAHaveTerm 				; and loop back.
 		;

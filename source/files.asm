@@ -24,6 +24,7 @@ TokenVectors:
 		.include 	"expression/integer/arithmetic.asm"
 		.include 	"expression/integer/multiply.asm"
 		.include 	"expression/integer/divide.asm"
+		.include 	"expression/integer/icompare.asm"
 		.include 	"expression/integer/unary.asm"
 
 		.include 	"expression/float/floatdummy.asm"

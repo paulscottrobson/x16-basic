@@ -18,4 +18,6 @@ FPAbs:
 FPSgn:
 FPFloatToInteger:
 FPIntegerToFloat:
-		berror 	"Not Implemented"
+FPEquality:	
+FPMagnitude:
+		berror 	"Float Not Implemented"

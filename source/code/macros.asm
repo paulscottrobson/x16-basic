@@ -49,6 +49,7 @@ advance	.macro
 _NoCarryAdv:
 		.endm				
 
+
 ; *****************************************************************************
 ;
 ;						TypeDereference and Number Check
@@ -96,3 +97,22 @@ getparam_s .macro
 		jsr 	UnaryStringTypeCheck 		; check string.
 		.endm
 
+; *****************************************************************************
+;
+;				Binary operators supported in int, float and string
+;							(+ and comparison operators)
+;
+; *****************************************************************************
+
+alltypederef .macro
+		jsr 	DeReferenceBinary 			; convert references to values		
+		bit 	xsStatus,x 					; is this a string ?
+		bvc 	_NumericType
+		jsr 	BinaryStringTypeCheck 		; check both are strings
+		jmp 	\2 							; and do the string handler
+_NumericType:		
+		bcc 	_Integer
+		jmp 	\1
+_Integer:
+		.endm
+		

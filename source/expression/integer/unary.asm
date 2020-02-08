@@ -87,7 +87,6 @@ SVFloat:									; FP version of SGN()
 ; *****************************************************************************
 
 StringLength: ;; len(
-		.byte 	$FF
 		getparam_s 							; get string parameter
 		jsr 	SyntaxCheckRightBracket
 		lda 	xsAddrLow,x 				; put address of string into zTemp1

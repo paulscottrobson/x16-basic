@@ -12,7 +12,7 @@
 		.include 	"code/data.asm"
 		.include 	"code/macros.asm"
 
-		* =	$6000
+		* =	$1000
 		jmp 	ColdStart
 		.include "files.asm" 				; minimises address change hopefully.
 ColdStart:		

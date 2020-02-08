@@ -48,16 +48,19 @@ signCount:									; division sign count
 ;
 ; *****************************************************************************
 
-xsStatus = $600								; expression stack.
-xsAddrLow = $620 							; these values are shared depending on type.
-xsAddrHigh = $640
+xsStatus = $600								; expression stack (must all fit in one page)
+stackSize = $20 							; stack elements allowed (max 256/6)
+
+xsAddrLow = xsStatus+stackSize 				; these values are shared depending on type.
+xsAddrHigh = xsStatus+stackSize*2
 
 xsIntLow = xsAddrLow
 xsIntHigh = xsAddrHigh
 
 xsMantissa3 = xsAddrLow
 xsMantissa2 = xsAddrHigh
-xsMantissa1 = $660
-xsMantissa0 = $680
-xsExponent = $6A0
+xsMantissa1 = xsStatus+stackSize*3
+xsMantissa0 = xsStatus+stackSize*4
+xsExponent = xsStatus+stackSize*5
 
+variables = $700							; 26 variables A-Z. Must be on a page boundary.
