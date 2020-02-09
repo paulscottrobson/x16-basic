@@ -1,0 +1,12 @@
+Current State : Alpha 1
+=======================
+
+Fragile - Handle with care !
+
+What is currently working : 
+
+	Expressions (int only)
+	26 integer variables A-Z
+	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
+	Proper error messages. (END does dump/exit)
+	Sandbox.

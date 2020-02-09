@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.54.1900 listing file
 ; 64tass -q -c -o basic_nocode.prg -L basic.lst -l basic.lbl basic.asm
-; Sun Feb 09 06:45:50 2020
+; Sun Feb 09 07:56:38 2020
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -46,6 +46,8 @@
 =$fe					TOK_BYTE_OBJ = $FE
 =$ff					TOK_WORD_OBJ = $FF
 ="G"					SMARK_GOSUB = 'G'
+=$9f20					VeraAddressPort = $9F20
+=$9f23					VeraDataPort = $9F23
 =0					COL_BLACK = 0
 =1					COL_RED = 1
 =2					COL_GREEN = 2
@@ -64,7 +66,7 @@
 
 ;******  Return to file: basic.asm
 
-.1000	4c db 1b	jmp $1bdb			jmp 	ColdStart
+.1000	4c 3d 1c	jmp $1c3d			jmp 	ColdStart
 
 ;******  Processing file: files.asm
 
@@ -313,7 +315,7 @@
 >1258	44 1a					.word	RandomNumber            		; $a7 : random(
 >125a	66 1b					.word	DeekMemory              		; $a8 : deek(
 >125c	63 1b					.word	PeekMemory              		; $a9 : peek(
->125e	c0 12					.word	SyntaxError             		; $aa : vpeek(
+>125e	df 1b					.word	Unary_VPEEK             		; $aa : vpeek(
 >1260	a8 15					.word	IfCommand               		; $ab : if
 >1262	c0 12					.word	SyntaxError             		; $ac : repeat
 >1264	c0 12					.word	SyntaxError             		; $ad : for
@@ -347,7 +349,7 @@
 >129c	c0 12					.word	SyntaxError             		; $c9 : old
 >129e	30 16					.word	Command_Poke            		; $ca : poke
 >12a0	33 16					.word	Command_Doke            		; $cb : doke
->12a2	c0 12					.word	SyntaxError             		; $cc : vpoke
+>12a2	c2 1b					.word	Command_VPOKE           		; $cc : vpoke
 >12a4	23 16					.word	Command_Rem             		; $cd : rem
 >12a6	52 15					.word	Command_GOTO            		; $ce : goto
 >12a8	25 15					.word	Command_Gosub           		; $cf : gosub
@@ -506,7 +508,7 @@
 .1314	a9 0d		lda #$0d			lda 	#13
 .1316	20 40 13	jsr $1340			jsr 	ExternPrint
 .1319	80 fe		bra $1319	_h1:	bra 	_h1
-.131b	4c eb 1b	jmp $1beb			jmp 	WarmStart
+.131b	4c 4d 1c	jmp $1c4d			jmp 	WarmStart
 .131e					_EHMsg2:
 >131e	20 61 74 20 00					.text 	" at ",0
 
@@ -862,7 +864,7 @@
 .1564	85 03		sta $03				sta 	zTemp1
 .1566	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
 .1569	85 04		sta $04				sta 	zTemp1+1
-.156b	a9 46		lda #$46			lda 	#(BasicProgram) & $FF
+.156b	a9 a6		lda #$a6			lda 	#(BasicProgram) & $FF
 .156d	85 00		sta $00				sta 	0+(codePtr)
 .156f	a9 1c		lda #$1c			lda 	#(BasicProgram) >> 8
 .1571	85 01		sta $01				sta 	1+(codePtr)
@@ -907,7 +909,7 @@
 .15ae	2c 00 06	bit $0600			bit 	xsStatus 					; check type
 .15b1	70 2d		bvs $15e0			bvs 	_IFCType 					; string, error
 .15b3	10 03		bpl $15b8			bpl 	_IFCInteger 				; if float
-.15b5	20 c2 1b	jsr $1bc2			jsr 	FPFloatToInteger  			; convert to integer
+.15b5	20 24 1c	jsr $1c24			jsr 	FPFloatToInteger  			; convert to integer
 .15b8					_IFCInteger:
 .15b8	b1 00		lda ($00),y			lda 	(codePtr),y 				; what follows ?
 .15ba	c9 b0		cmp #$b0			cmp 	#TOK_THEN 					; if it is not then it is multiline IF
@@ -1027,7 +1029,7 @@
 
 .167c					Command_RUN:
 .167c	20 29 14	jsr $1429			jsr 	StructReset 				; reset the structure stack.
-.167f	a9 46		lda #$46			lda 	#(BasicProgram) & $FF
+.167f	a9 a6		lda #$a6			lda 	#(BasicProgram) & $FF
 .1681	85 00		sta $00				sta 	0+(codePtr)
 .1683	a9 1c		lda #$1c			lda 	#(BasicProgram) >> 8
 .1685	85 01		sta $01				sta 	1+(codePtr)
@@ -1067,7 +1069,7 @@
 .16b7	20 c6 14	jsr $14c6			jsr 	Command_LET
 .16ba	80 d2		bra $168e			bra 	_CRNextCommand
 .16bc					Command_END:
-.16bc	4c eb 1b	jmp $1beb			jmp 	WarmStart
+.16bc	4c 4d 1c	jmp $1c4d			jmp 	WarmStart
 .16bf					Command_STOP:
 .16bf	20 ee 12	jsr $12ee			jsr 	ErrorHandler
 >16c2	53 74 6f 70 00					.text 	"Stop",0
@@ -1284,7 +1286,7 @@
 .182a					_NumericType:
 .182a	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; see if they are compatible.
 .182d	90 03		bcc $1832			bcc 	_Integer
-.182f	4c c2 1b	jmp $1bc2			jmp 	FPAdd
+.182f	4c 24 1c	jmp $1c24			jmp 	FPAdd
 .1832					_Integer:
 .1832	18		clc				clc
 .1833	bd 20 06	lda $0620,x			lda 	xsIntLow,x
@@ -1298,7 +1300,7 @@
 .1846	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .1849	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
 .184c	90 03		bcc $1851			bcc 	_Integer
-.184e	4c c2 1b	jmp $1bc2			jmp 	FPSub
+.184e	4c 24 1c	jmp $1c24			jmp 	FPSub
 .1851					_Integer:
 .1851	38		sec				sec
 .1852	bd 20 06	lda $0620,x			lda 	xsIntLow,x
@@ -1312,7 +1314,7 @@
 .1865	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .1868	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
 .186b	90 03		bcc $1870			bcc 	_Integer
-.186d	20 c2 1b	jsr $1bc2			jsr 	FPFloatToInteger
+.186d	20 24 1c	jsr $1c24			jsr 	FPFloatToInteger
 .1870					_Integer:
 .1870	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .1873	3d 21 06	and $0621,x			and 	xsIntLow+1,x
@@ -1325,7 +1327,7 @@
 .1883	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .1886	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
 .1889	90 03		bcc $188e			bcc 	_Integer
-.188b	20 c2 1b	jsr $1bc2			jsr 	FPFloatToInteger
+.188b	20 24 1c	jsr $1c24			jsr 	FPFloatToInteger
 .188e					_Integer:
 .188e	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .1891	1d 21 06	ora $0621,x			ora 	xsIntLow+1,x
@@ -1338,7 +1340,7 @@
 .18a1	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .18a4	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric. if float convert to integer
 .18a7	90 03		bcc $18ac			bcc 	_Integer
-.18a9	20 c2 1b	jsr $1bc2			jsr 	FPFloatToInteger
+.18a9	20 24 1c	jsr $1c24			jsr 	FPFloatToInteger
 .18ac					_Integer:
 .18ac	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .18af	5d 21 06	eor $0621,x			eor 	xsIntLow+1,x
@@ -1357,7 +1359,7 @@
 .18bf	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .18c2	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
 .18c5	90 03		bcc $18ca			bcc 	_Integer
-.18c7	4c c2 1b	jmp $1bc2			jmp 	FPMultiply
+.18c7	4c 24 1c	jmp $1c24			jmp 	FPMultiply
 .18ca					_Integer:
 .18ca	bd 20 06	lda $0620,x			lda 	xsIntLow,x 					; 1st value to zTemp1
 .18cd	85 05		sta $05				sta 	zTemp2
@@ -1393,7 +1395,7 @@
 .1900	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .1903	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
 .1906	90 03		bcc $190b			bcc 	_Integer
-.1908	4c c2 1b	jmp $1bc2			jmp 	FPDivide
+.1908	4c 24 1c	jmp $1c24			jmp 	FPDivide
 .190b					_Integer:
 .190b	20 2c 19	jsr $192c			jsr 	IntegerDivide
 .190e	60		rts				rts
@@ -1401,7 +1403,7 @@
 .190f	20 9d 17	jsr $179d			jsr 	DeReferenceBinary 			; convert references to values
 .1912	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; check numeric, returns CC if both integer.
 .1915	90 03		bcc $191a			bcc 	_Integer
-.1917	4c c2 1b	jmp $1bc2			jmp 	FPModulus
+.1917	4c 24 1c	jmp $1c24			jmp 	FPModulus
 .191a					_Integer:
 .191a	20 2c 19	jsr $192c			jsr 	IntegerDivide
 .191d	a5 03		lda $03				lda 	zTemp1
@@ -1521,7 +1523,7 @@
 .19db					_NumericType:
 .19db	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; see if they are compatible.
 .19de	90 03		bcc $19e3			bcc 	_Integer
-.19e0	4c c2 1b	jmp $1bc2			jmp 	FPEquality
+.19e0	4c 24 1c	jmp $1c24			jmp 	FPEquality
 .19e3					_Integer:
 .19e3	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .19e6	dd 21 06	cmp $0621,x			cmp 	xsIntLow+1,x
@@ -1543,7 +1545,7 @@
 .1a07					_NumericType:
 .1a07	20 e1 17	jsr $17e1			jsr 	BinaryNumberTypeCheck 		; see if they are compatible.
 .1a0a	90 03		bcc $1a0f			bcc 	_Integer
-.1a0c	4c c2 1b	jmp $1bc2			jmp 	FPMagnitude
+.1a0c	4c 24 1c	jmp $1c24			jmp 	FPMagnitude
 .1a0f					_Integer:
 .1a0f	bd 20 06	lda $0620,x			lda 	xsIntLow,x
 .1a12	dd 21 06	cmp $0621,x			cmp 	xsIntLow+1,x
@@ -1710,7 +1712,7 @@
 .1b01	20 93 14	jsr $1493			jsr 	SyntaxCheckRightBracket
 .1b04	60		rts				rts
 .1b05					AVFloat:
-.1b05	20 c2 1b	jsr $1bc2			jsr 	FPAbs
+.1b05	20 24 1c	jsr $1c24			jsr 	FPAbs
 .1b08	20 93 14	jsr $1493			jsr 	SyntaxCheckRightBracket
 .1b0b	60		rts				rts
 .1b0c					SignValue:
@@ -1737,7 +1739,7 @@
 .1b36	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
 .1b39	60		rts				rts
 .1b3a					SVFloat:
-.1b3a	20 c2 1b	jsr $1bc2			jsr 	FPSgn
+.1b3a	20 24 1c	jsr $1c24			jsr 	FPSgn
 .1b3d	20 93 14	jsr $1493			jsr 	SyntaxCheckRightBracket
 .1b40	60		rts				rts
 .1b41					StringLength:
@@ -1812,56 +1814,104 @@
 ;******  Return to file: files.asm
 
 
+;******  Processing file: x16-specific/vpeekpoke.asm
+
+.1bc2					Command_VPOKE:
+.1bc2	a2 00		ldx #$00			ldx 	#0 							; get final parameter
+.1bc4	20 f2 1b	jsr $1bf2			jsr 	LoadVRAMAddress 			; do page,address
+.1bc7	20 a8 14	jsr $14a8			jsr 	SyntaxCheckComma 			; comma
+.1bca	20 c9 16	jsr $16c9			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.1bcd	20 a2 17	jsr $17a2			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.1bd0	20 dc 17	jsr $17dc			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+.1bd3	90 03		bcc $1bd8			bcc 	_Integer
+.1bd5	4c d0 12	jmp $12d0			jmp 	TypeMismatch
+.1bd8					_Integer:
+.1bd8	ad 20 06	lda $0620			lda 	xsIntLow 					; get low byte and write to Vera
+.1bdb	8d 23 9f	sta $9f23			sta 	VeraDataPort
+.1bde	60		rts				rts
+.1bdf					Unary_VPEEK:
+.1bdf	20 f2 1b	jsr $1bf2			jsr 	LoadVRAMAddress 			; do page,address
+.1be2	20 93 14	jsr $1493			jsr 	SyntaxCheckRightBracket		; do right bracket
+.1be5	ad 23 9f	lda $9f23			lda 	VeraDataPort 				; return read data
+.1be8	9d 20 06	sta $0620,x			sta 	xsIntLow,x
+.1beb	9e 40 06	stz $0640,x			stz 	xsIntHigh,x
+.1bee	9e 00 06	stz $0600,x			stz 	xsStatus,x
+.1bf1	60		rts				rts
+.1bf2					LoadVRAMAddress:
+.1bf2	20 c9 16	jsr $16c9			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.1bf5	20 a2 17	jsr $17a2			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.1bf8	20 dc 17	jsr $17dc			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+.1bfb	90 03		bcc $1c00			bcc 	_Integer
+.1bfd	4c d0 12	jmp $12d0			jmp 	TypeMismatch
+.1c00					_Integer:
+.1c00	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.1c03	8d 22 9f	sta $9f22			sta 	VeraAddressPort+2
+.1c06	20 a8 14	jsr $14a8			jsr 	SyntaxCheckComma 			; comma
+.1c09	20 c9 16	jsr $16c9			jsr 	EvaluateExpressionAtX 		; evaluate the term
+.1c0c	20 a2 17	jsr $17a2			jsr 	DeReferenceUnary 			; convert term to value if reference.
+.1c0f	20 dc 17	jsr $17dc			jsr 	UnaryNumberTypeCheck 		; check numeric, returns CC if integer.
+.1c12	90 03		bcc $1c17			bcc 	_Integer
+.1c14	4c d0 12	jmp $12d0			jmp 	TypeMismatch
+.1c17					_Integer:
+.1c17	bd 20 06	lda $0620,x			lda 	xsIntLow,x
+.1c1a	8d 20 9f	sta $9f20			sta 	VeraAddressPort+0
+.1c1d	bd 40 06	lda $0640,x			lda 	xsIntHigh,x
+.1c20	8d 21 9f	sta $9f21			sta 	VeraAddressPort+1
+.1c23	60		rts				rts
+
+;******  Return to file: files.asm
+
+
 ;******  Processing file: expression/float/floatdummy.asm
 
-.1bc2					FPAdd:
-.1bc2					FPSub:
-.1bc2					FPMultiply:
-.1bc2					FPDivide:
-.1bc2					FPModulus:
-.1bc2					FPAbs:
-.1bc2					FPSgn:
-.1bc2					FPFloatToInteger:
-.1bc2					FPIntegerToFloat:
-.1bc2					FPEquality:
-.1bc2					FPMagnitude:
-.1bc2	20 ee 12	jsr $12ee			jsr 	ErrorHandler
->1bc5	46 6c 6f 61 74 20 4e 6f				.text 	"Float Not Implemented",0
->1bcd	74 20 49 6d 70 6c 65 6d 65 6e 74 65 64 00
+.1c24					FPAdd:
+.1c24					FPSub:
+.1c24					FPMultiply:
+.1c24					FPDivide:
+.1c24					FPModulus:
+.1c24					FPAbs:
+.1c24					FPSgn:
+.1c24					FPFloatToInteger:
+.1c24					FPIntegerToFloat:
+.1c24					FPEquality:
+.1c24					FPMagnitude:
+.1c24	20 ee 12	jsr $12ee			jsr 	ErrorHandler
+>1c27	46 6c 6f 61 74 20 4e 6f				.text 	"Float Not Implemented",0
+>1c2f	74 20 49 6d 70 6c 65 6d 65 6e 74 65 64 00
 
 ;******  Return to file: files.asm
 
 
 ;******  Return to file: basic.asm
 
-.1bdb					ColdStart:
-.1bdb	a2 ff		ldx #$ff			ldx 	#$FF 						; reset the stack
-.1bdd	9a		txs				txs
-.1bde	20 23 13	jsr $1323			jsr 	ExternInitialise
-.1be1	a9 ee		lda #$ee			lda 	#BootMessage & $FF
-.1be3	a0 1b		ldy #$1b			ldy 	#BootMessage >> 8
-.1be5	20 07 14	jsr $1407			jsr 	EXPrintString
-.1be8	4c 7c 16	jmp $167c			jmp 	Command_Run
-.1beb					WarmStart:
-.1beb	4c ff ff	jmp $ffff			jmp 	$FFFF
-.1bee					BootMessage:
->1bee	2a 2a 2a 2a 20 43 6f 6d				.text 	"**** Commander X16 Basic ****",13,13
->1bf6	6d 61 6e 64 65 72 20 58 31 36 20 42 61 73 69 63
->1c06	20 2a 2a 2a 2a 0d 0d
->1c0d	35 31 32 4b 20 48 69 67				.text 	"512K High RAM.",13,13
->1c15	68 20 52 41 4d 2e 0d 0d
->1c1d	50 72 65 2d 41 6c 70 68				.text 	"Pre-Alpha. "
->1c25	61 2e 20
+.1c3d					ColdStart:
+.1c3d	a2 ff		ldx #$ff			ldx 	#$FF 						; reset the stack
+.1c3f	9a		txs				txs
+.1c40	20 23 13	jsr $1323			jsr 	ExternInitialise
+.1c43	a9 50		lda #$50			lda 	#BootMessage & $FF
+.1c45	a0 1c		ldy #$1c			ldy 	#BootMessage >> 8
+.1c47	20 07 14	jsr $1407			jsr 	EXPrintString
+.1c4a	4c 7c 16	jmp $167c			jmp 	Command_Run
+.1c4d					WarmStart:
+.1c4d	4c ff ff	jmp $ffff			jmp 	$FFFF
+.1c50					BootMessage:
+>1c50	2a 2a 2a 2a 20 43 6f 6d				.text 	"**** Commander X16 Basic ****",13,13
+>1c58	6d 61 6e 64 65 72 20 58 31 36 20 42 61 73 69 63
+>1c68	20 2a 2a 2a 2a 0d 0d
+>1c6f	35 31 32 4b 20 48 69 67				.text 	"512K High RAM.",13,13
+>1c77	68 20 52 41 4d 2e 0d 0d
+>1c7f	41 6c 70 68 61 20 31 2e				.text 	"Alpha 1. "
+>1c87	20
 
 ;******  Processing file: generated/buildinfo.inc
 
->1c28	42 75 69 6c 64 3a 32 33			.text	"Build:230 (09-Feb-20 06:45)"
->1c30	30 20 28 30 39 2d 46 65 62 2d 32 30 20 30 36 3a
->1c40	34 35 29
+>1c88	42 75 69 6c 64 3a 32 36			.text	"Build:262 (09-Feb-20 07:56)"
+>1c90	32 20 28 30 39 2d 46 65 62 2d 32 30 20 30 37 3a
+>1ca0	35 36 29
 
 ;******  Return to file: basic.asm
 
->1c43	0d 0d 00					.byte 	13,13,0
-.1c46					BasicProgram:
+>1ca3	0d 0d 00					.byte 	13,13,0
+.1ca6					BasicProgram:
 
 ;******  End of listing

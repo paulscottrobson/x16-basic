@@ -92,6 +92,9 @@ TOK_WORD_OBJ = $FF
 
 SMARK_GOSUB = 'G'
 
+VeraAddressPort = $9F20
+VeraDataPort = $9F23
+
 ; *****************************************************************************
 ;
 ;										Colours.

@@ -46,5 +46,7 @@ TokenVectors:
 
 		.include 	"variables/variable.asm"
 		
+		.include 	"x16-specific/vpeekpoke.asm"		
+		
 		.include 	"expression/float/floatdummy.asm"
 

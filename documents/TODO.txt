@@ -1,6 +1,11 @@
-Todo list (towards Alpha 1)
+Todo list (towards Alpha 2)
 ===========================
-- Do other commands VPOKE VPEEK
+
+- Required integer parameter and retrofit.
+- String memory allocation / HIMEM
+- Print and SYS
+- Testing
+- String comparison and concatenation
 
 Fixes/Addins not obvious:
 	- string concatenate
@@ -11,16 +16,9 @@ Fixes/Addins not obvious:
 
 =================================================================================================
 
-Alpha 1 should support :
-	Expressions (int only)
-	26 integer variables A-Z
-	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
-	(Easy) Direct running.
-	Proper error messages. (END does dump/exit)
-
 Alpha 2 :
 	Add string memory allocation from top down.
-	Add string functions, comparison operators, concatenators
+	Add comparison operators, concatenators
 	Add PRINT and SYS
 	Some automatic testing of arithmetic/logical/etc. functionality.
 
@@ -44,3 +42,4 @@ Alpha 7:
 	Local Variables
 	Garbage collection.
 	Error Message nationalisation.
+

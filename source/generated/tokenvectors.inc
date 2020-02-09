@@ -43,7 +43,7 @@
 	.word	RandomNumber            		; $a7 : random(
 	.word	DeekMemory              		; $a8 : deek(
 	.word	PeekMemory              		; $a9 : peek(
-	.word	SyntaxError             		; $aa : vpeek(
+	.word	Unary_VPEEK             		; $aa : vpeek(
 	.word	IfCommand               		; $ab : if
 	.word	SyntaxError             		; $ac : repeat
 	.word	SyntaxError             		; $ad : for
@@ -77,7 +77,7 @@
 	.word	SyntaxError             		; $c9 : old
 	.word	Command_Poke            		; $ca : poke
 	.word	Command_Doke            		; $cb : doke
-	.word	SyntaxError             		; $cc : vpoke
+	.word	Command_VPOKE           		; $cc : vpoke
 	.word	Command_Rem             		; $cd : rem
 	.word	Command_GOTO            		; $ce : goto
 	.word	Command_Gosub           		; $cf : gosub
