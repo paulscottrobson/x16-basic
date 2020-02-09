@@ -7,9 +7,11 @@ rem
 rem		Generate token tables and demonstration code.
 rem
 pushd scripts
+del /Q basconv.zip >NUL
+zip -q basconv.zip __main__.py tokens.py tokeniser.py baspgm.py
 python tokengen.py
 python tokeniser.py
-python baspgm.py
+python basconv.zip test.bas ..\generated\bascode.bin
 python buildtrack.py
 popd
 rem
@@ -17,6 +19,11 @@ rem		Assemble BASIC
 rem
 64tass -q -c basic.asm -o basic_nocode.prg -L basic.lst -l basic.lbl
 if errorlevel 1 goto exit
+rem
+rem		Copy things to sandbox/testing
+rem
+copy scripts\basconv.zip ..\sandbox >NUL
+copy basic_nocode.prg ..\sandbox >NUL
 rem
 rem		Append converted code binary to basic executable.
 rem

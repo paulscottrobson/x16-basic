@@ -2,18 +2,16 @@ Todo list (towards Alpha 1)
 ===========================
 - Do other commands IF/THEN VPOKE VPEEK PRINT
 - Test routines.
-- Simpler running system.
 
-Add:
+Fixes/Addins not obvious:
 	- string concatenate
 	- string equality
 	- string magnitude
-	- other unary functions 
-	- escape tests periodically.
 	- assign strings and floats
 	- int / int => float in floating point.
 
 =================================================================================================
+
 Alpha 1 should support :
 	Expressions (int only)
 	26 integer variables A-Z
