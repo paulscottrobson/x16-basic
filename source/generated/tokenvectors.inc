@@ -44,7 +44,7 @@
 	.word	DeekMemory              		; $a8 : deek(
 	.word	PeekMemory              		; $a9 : peek(
 	.word	SyntaxError             		; $aa : vpeek(
-	.word	SyntaxError             		; $ab : if
+	.word	IfCommand               		; $ab : if
 	.word	SyntaxError             		; $ac : repeat
 	.word	SyntaxError             		; $ad : for
 	.word	SyntaxError             		; $ae : while

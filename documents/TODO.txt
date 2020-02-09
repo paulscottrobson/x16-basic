@@ -1,7 +1,6 @@
 Todo list (towards Alpha 1)
 ===========================
-- Do other commands IF/THEN VPOKE VPEEK PRINT
-- Test routines.
+- Do other commands VPOKE VPEEK
 
 Fixes/Addins not obvious:
 	- string concatenate
@@ -18,11 +17,12 @@ Alpha 1 should support :
 	REM LET GOTO GOSUB RETURN IF...THEN END STOP ASSERT POKE/DOKE PEEK/DEEK VPOKE VPEEK RANDOM() PRINT
 	(Easy) Direct running.
 	Proper error messages. (END does dump/exit)
-	Some automatic testing of arithmetic/logical/etc. functionality.
 
 Alpha 2 :
 	Add string memory allocation from top down.
 	Add string functions, comparison operators, concatenators
+	Add PRINT and SYS
+	Some automatic testing of arithmetic/logical/etc. functionality.
 
 Alpha 3 :
 	Add other unary functions
@@ -37,6 +37,7 @@ Alpha 5 :
 	
 Alpha 6:
 	Add program editing, escape functionality, keyboard I/O operations.
+	Add LIST NEW OLD INPUT SAVE LOAD READ DATA RESTORE SYS 
 	Basically programmable.
 
 Alpha 7:

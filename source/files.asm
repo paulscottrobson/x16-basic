@@ -29,6 +29,7 @@ TokenVectors:
 		.include 	"commands/let.asm"
 		.include 	"commands/gosub.asm"
 		.include 	"commands/goto.asm"
+		.include 	"commands/if.asm"
 		.include 	"commands/miscellany.asm"
 		.include 	"commands/pokedoke.asm"
 		.include 	"commands/run.asm"
