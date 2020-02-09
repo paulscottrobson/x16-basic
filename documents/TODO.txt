@@ -11,8 +11,7 @@ Add:
 	- other unary functions 
 	- escape tests periodically.
 	- assign strings and floats
-
-- int / int => float in floating point.
+	- int / int => float in floating point.
 
 =================================================================================================
 Alpha 1 should support :

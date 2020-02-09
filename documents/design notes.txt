@@ -1,9 +1,9 @@
 
 Tokenisation
 ============
-00-2F		Terminator for identifiers
-30-5F		Body for identifiers
-60-7F 		Short constants 0-31
+00-2F		Identifier characters
+30-3F		Unused
+40-7F 		Short constants 0-63
 80-F7		Tokens ($80 = EOL, also includes "")
 F8-F9		Token shifts (total possible tokens 358 ; following must be 81-F7, possible cascade)
 FA			Reserved

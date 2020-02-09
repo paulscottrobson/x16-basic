@@ -38,11 +38,11 @@ EvaluateExpressionAtXPrecA:
 
 		lda 	(codePtr),y 				; get the first term.
 		bmi 	_EXAKeywordData 			; is it keyword, or data.
-		cmp 	#$60 						; is it a variable
+		cmp 	#$40 						; is it a variable (0-3F) 
 		bcc 	_EXAVariable
 		;
 		iny 								; skip over the short constant
-		and 	#$1F 						; short constant $00-$1F
+		and 	#$3F 						; short constant $00-$3F
 		sta 	xsIntLow,x 					; and put as an integer
 		stz 	xsIntHigh,x
 		stz 	xsStatus,x 					; integer, number, not a reference.

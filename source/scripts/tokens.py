@@ -63,11 +63,24 @@ class BasicTokens(object):
 	#
 	def get(self):
 		return """
-//
+
+//		************************************************************************
 //		****	WARNING : CHANGING ORDERS WILL KILL BINARY COMPATIBILITY 	****
+//		************************************************************************
+
+//
+//		Type markers come first. These are in pairs ; integer , string, float and default array
+//
+[unary] % [syntax] %(
+[unary] $ [syntax] $(
+[syntax] # [syntax] #(
+[unary] (
+//
+//		Other common syntax markers.
 //
 [syntax]
-		)	:	, 	;	#
+		)	:	, 	;	
+//
 //		Binary operators, lowest first
 //	
 [1] 	and or xor
@@ -80,8 +93,7 @@ class BasicTokens(object):
 [unary]	
 		len( 	rnd( 	asc( 	chr$(	val(	str$(	spc(
 		left$(	mid$(	right$(	abs(	sgn(	int(	random(
-		deek( 	peek(	vpeek( 	
-		( % $
+		deek( 	peek(	vpeek( 			
 //
 //		Structure Up/Down
 //		

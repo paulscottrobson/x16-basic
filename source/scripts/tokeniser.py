@@ -80,8 +80,8 @@ class Tokeniser(object):
 	#
 	def tokeniseConstant(self,n):
 		n = n & 0xFFFF														# force intro range.
-		if n < 32: 															# short constant
-			self.code.append(n+0x60)
+		if n < 64: 															# short constant
+			self.code.append(n+0x40)
 		elif n < 256:														# byte constant
 			self.code.append(0xFE)
 			self.code.append(n)
@@ -100,8 +100,7 @@ class Tokeniser(object):
 	#		Tokenise identifier
 	#
 	def tokeniseIdentifier(self,s):
-		s = [self.convertCharacter(c)+0x30 for c in s]						# convert it
-		s[-1] = s[-1] - 0x30												# mark identifier end
+		s = [self.convertCharacter(c) for c in s]							# convert it
 		self.code += s
 	#
 	#		Convert character to internal format
